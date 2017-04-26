@@ -1,16 +1,17 @@
 #ifndef MTNWORKER_H
 #define MTNWORKER_H
 
-#include <QQueue>
+//#include <QQueue>
 #include <QTreeWidgetItem>
+#include <QThreadPool>
 
 class MtnWorker
 {
 
-    QQueue<QTreeWidgetItem*> fronta;
+//    QQueue<QTreeWidgetItem*> fronta;
 
 public:
-    MtnWorker();
+//    MtnWorker();
     void enqueue(QTreeWidgetItem* item);
 };
 

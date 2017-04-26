@@ -1,12 +1,8 @@
 #include "mtnworker.h"
-
-MtnWorker::MtnWorker()
-{
-
-}
+#include "mtnjob.h"
 
 void MtnWorker::enqueue(QTreeWidgetItem *item)
 {
 //    fronta.enqueue(item);
-    item->setText(2, "spracovane");
+    QThreadPool::globalInstance()->start(new MtnJob(item));
 }

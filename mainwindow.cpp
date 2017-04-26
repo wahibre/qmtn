@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 {
     ui->setupUi(this);
+    ui->imageViewer->setTree(ui->treeWidget);
 
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv";
 
@@ -37,7 +38,7 @@ void MainWindow::dropEvent(QDropEvent *event)
                 itmDir = fileInfoToDirItem(fi);
             else return;
 
-        if(itmDir->childCount()>0)
+        if(itmDir && itmDir->childCount()>0)
             ui->treeWidget->addTopLevelItem(itmDir);
     }
 }
@@ -50,22 +51,30 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 QTreeWidgetItem* MainWindow::dirInfoToDirItem(QDir directory)
 {
-    QTreeWidgetItem *iDir = new QTreeWidgetItem();
+    QTreeWidgetItem *iChildDir, *iDir = new QTreeWidgetItem();
     iDir->setText(0, directory.dirName());
     iDir->setIcon(0, QIcon::fromTheme("folder"));
 
-    //Priecinky
+    //Folders
     foreach (QFileInfo fi, directory.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
-        iDir->addChild(dirInfoToDirItem(QDir(fi.absoluteFilePath())));
+    {
+        iChildDir = dirInfoToDirItem(QDir(fi.absoluteFilePath()));
+        if(iChildDir)
+        iDir->addChild(iChildDir);
+    }
 
-    //Subory
+    //Files
     foreach(QFileInfo entry, directory.entryInfoList(QDir::Files, QDir::Name))
     {
         if(isVideoFile(entry))
             iDir->addChild(fileInfoToFileItem(entry));
     }
 
-    return iDir;
+    if(iDir->childCount()>0)
+        return iDir;
+
+    delete iDir;
+    return NULL;
 }
 
 QTreeWidgetItem* MainWindow::fileInfoToDirItem(QFileInfo file)
@@ -73,6 +82,8 @@ QTreeWidgetItem* MainWindow::fileInfoToDirItem(QFileInfo file)
     QTreeWidgetItem *iDir = new QTreeWidgetItem();
     iDir->setText(0, file.dir().dirName());
     iDir->setIcon(0, QIcon::fromTheme("folder"));
+//    iDir->setIcon(0, QIcon::fromTheme("image-loading"));
+//    iDir->setIcon(0, QIcon::fromTheme("image-missing"));
 
     if(isVideoFile(file))
     {
@@ -86,7 +97,8 @@ QTreeWidgetItem *MainWindow::fileInfoToFileItem(QFileInfo file)
 {
     QTreeWidgetItem *iFile = new QTreeWidgetItem();
 
-    iFile->setIcon(0, QIcon::fromTheme("video-x-generic"));
+//    iFile->setIcon(0, QIcon::fromTheme("video-x-generic"));
+    iFile->setIcon(0, QIcon::fromTheme("image-loading"));
     iFile->setText(0, file.fileName());
     iFile->setText(1, file.absoluteFilePath());
     worker.enqueue(iFile);

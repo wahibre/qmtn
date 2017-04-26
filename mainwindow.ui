@@ -25,14 +25,14 @@
       </property>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Files</string>
+        <string>Video Files</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QTreeWidget" name="treeWidget">
           <column>
            <property name="text">
-            <string notr="true">Video files</string>
+            <string notr="true">File Name</string>
            </property>
           </column>
           <column>
@@ -55,7 +55,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="ImageItemView" name="imageViewer">
           <property name="text">
            <string>Nothing selected...</string>
           </property>
@@ -119,6 +119,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ImageItemView</class>
+   <extends>QLabel</extends>
+   <header>imageitemview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

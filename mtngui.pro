@@ -14,9 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mtnworker.cpp
+    mtnworker.cpp \
+    mtnjob.cpp \
+    imageitemview.cpp
 
 HEADERS  += mainwindow.h \
-    mtnworker.h
+    mtnworker.h \
+    mtnjob.h \
+    imageitemview.h
 
 FORMS    += mainwindow.ui
