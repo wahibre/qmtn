@@ -4,6 +4,7 @@
 #include <QFileInfo>
 
 #include "mainwindow.h"
+#include "settingsdialog.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -114,4 +115,9 @@ bool MainWindow::isVideoFile(QFileInfo file)
     QMimeDatabase mimedb;
     QMimeType mType = mimedb.mimeTypeForFile(entry, QMimeDatabase::MatchContent);
     */
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    (new SettingsDialog(this))->exec();
 }

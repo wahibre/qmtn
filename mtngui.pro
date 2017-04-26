@@ -16,11 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mtnworker.cpp \
     mtnjob.cpp \
-    imageitemview.cpp
+    imageitemview.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
     mtnjob.h \
-    imageitemview.h
+    imageitemview.h \
+    settingsdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settingsdialog.ui

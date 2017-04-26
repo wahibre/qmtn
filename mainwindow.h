@@ -22,6 +22,9 @@ public:
     ~MainWindow();
 
 
+private slots:
+    void on_action_Settings_triggered();
+
 private:
     Ui::MainWindow *ui;
     QTreeWidgetItem* dirInfoToDirItem(QDir directory);
