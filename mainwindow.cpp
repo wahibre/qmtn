@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->imageViewer->setTree(ui->treeWidget);
+    ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
+    ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
 
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv";
 
@@ -119,5 +121,10 @@ bool MainWindow::isVideoFile(QFileInfo file)
 
 void MainWindow::on_action_Settings_triggered()
 {
-    (new SettingsDialog(this))->exec();
+    SettingsDialog *dial = new SettingsDialog(this, worker.data());
+
+    if(dial->exec() == QDialog::Accepted)
+    {
+        worker.setData(dial->settingsData());
+    }
 }

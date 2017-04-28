@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
-    <height>689</height>
+    <width>462</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>660</y>
+     <y>570</y>
      <width>431</width>
      <height>23</height>
     </rect>
@@ -47,9 +47,19 @@
    <property name="title">
     <string>Setting name</string>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item alignment="Qt::AlignTop">
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>default</string>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -57,9 +67,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>230</y>
-     <width>441</width>
-     <height>411</height>
+     <y>310</y>
+     <width>444</width>
+     <height>229</height>
     </rect>
    </property>
    <property name="title">
@@ -68,8 +78,8 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>90</y>
+      <x>10</x>
+      <y>80</y>
       <width>411</width>
       <height>80</height>
      </rect>
@@ -80,7 +90,7 @@
     <property name="checkable">
      <bool>true</bool>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget1">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -150,7 +160,7 @@
     <property name="checkable">
      <bool>true</bool>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget2">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -262,7 +272,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidget3">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -299,14 +309,11 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
-       </item>
       </layout>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidget4">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -332,10 +339,11 @@
      </item>
     </layout>
    </widget>
-   <zorder>layoutWidget</zorder>
-   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget3</zorder>
+   <zorder>layoutWidget4</zorder>
    <zorder>groupBox_4</zorder>
    <zorder>groupBox_5</zorder>
+   <zorder>groupBox_2</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -343,114 +351,282 @@
      <x>10</x>
      <y>80</y>
      <width>441</width>
-     <height>142</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="title">
     <string>Output</string>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Width (px)</string>
+       <layout class="QFormLayout" name="formLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-       </widget>
+        <item row="0" column="0">
+         <widget class="QLabel" name="columnsLabel_4">
+          <property name="text">
+           <string>Columns:</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbColumns</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="sbColumns">
+          <property name="toolTip">
+           <string>-c 3 : # of column</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="rowsLabel_3">
+          <property name="text">
+           <string>Rows:</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbRows</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="sbRows">
+          <property name="toolTip">
+           <string>-r 0 : # of rows; &gt;0:override -s</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="widthPxLabel_3">
+          <property name="text">
+           <string>Width (px):</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbWidth</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="sbWidth">
+          <property name="toolTip">
+           <string>-w 1024 : width of output image; 0:column * movie width</string>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="gapLabel">
+          <property name="text">
+           <string>Gap (px):</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbGap</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="sbGap">
+          <property name="toolTip">
+           <string>-g 0 : gap between each shot</string>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="overwriteLabel">
+          <property name="text">
+           <string>Overwrite:</string>
+          </property>
+          <property name="buddy">
+           <cstring>overwriteCheckBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="overwriteCheckBox"/>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3"/>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="1" column="0">
+         <widget class="QLabel" name="edgeDetectLabel">
+          <property name="text">
+           <string>Edge Detect:</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbEdgeDetect</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="blankSkipLabel">
+          <property name="text">
+           <string>Blank skip (%):</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbBlankSkip</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="sbQuality">
+          <property name="toolTip">
+           <string>-j 90 : jpeg quality</string>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="qualityLabel">
+          <property name="text">
+           <string>Quality (%):</string>
+          </property>
+          <property name="buddy">
+           <cstring>sbQuality</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="sbBlankSkip">
+          <property name="toolTip">
+           <string>-b 0.80 : skip if % blank is higher; 0:skip all 1:skip really blank &gt;1:off</string>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="sbEdgeDetect">
+          <property name="toolTip">
+           <string>-D 12 : edge detection; 0:off &gt;0:on; higher detects more; try -D4 -D6 or -D8</string>
+          </property>
+          <property name="maximum">
+           <number>12</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="displayIntegerBase">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="qualityLabel_2">
+          <property name="text">
+           <string>Suffix:</string>
+          </property>
+          <property name="buddy">
+           <cstring>eSuffix</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="eSuffix">
+          <property name="toolTip">
+           <string>-o _s.jpg : output suffix</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Rows</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox_2"/>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout_6">
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Edge Detect</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox_7"/>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout_7">
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Blank skip (%)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox_6"/>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="3">
-     <layout class="QVBoxLayout" name="verticalLayout_5">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Gap (px)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox_4"/>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0">
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Columns</string>
+         <string>Output:</string>
+        </property>
+        <property name="buddy">
+         <cstring>eOutputDir</cstring>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox"/>
+       <widget class="QLineEdit" name="eOutputDir">
+        <property name="toolTip">
+         <string>-O directory : save output files in the specified directory</string>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Use Source File Directory</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
-     </layout>
-    </item>
-    <item row="1" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
-       <widget class="QLabel" name="label_5">
+       <widget class="QPushButton" name="btnOutputDir">
+        <property name="minimumSize">
+         <size>
+          <width>31</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>31</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Select Output Directory</string>
+        </property>
         <property name="text">
-         <string>Quality (%)</string>
+         <string>...</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox_5"/>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>sbColumns</tabstop>
+  <tabstop>sbRows</tabstop>
+  <tabstop>sbWidth</tabstop>
+  <tabstop>sbEdgeDetect</tabstop>
+  <tabstop>sbBlankSkip</tabstop>
+  <tabstop>sbQuality</tabstop>
+  <tabstop>eOutputDir</tabstop>
+  <tabstop>btnOutputDir</tabstop>
+  <tabstop>fontComboBox_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>groupBox_4</tabstop>
+  <tabstop>groupBox_5</tabstop>
+  <tabstop>spinBox_8</tabstop>
+  <tabstop>fontComboBox</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>spinBox_9</tabstop>
+  <tabstop>comboBox_2</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -14,7 +14,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Movie Thumbnailer</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -37,12 +37,12 @@
           </column>
           <column>
            <property name="text">
-            <string>cesta</string>
+            <string>Path</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>log</string>
+            <string>Log</string>
            </property>
           </column>
          </widget>
@@ -51,16 +51,13 @@
       </widget>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Image</string>
+        <string>Log</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="ImageItemView" name="imageViewer">
-          <property name="text">
-           <string>Nothing selected...</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -107,12 +104,16 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_Quit"/>
    <addaction name="action_Settings"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Settings">
    <property name="text">
     <string>&amp;Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
   <action name="action_Quit">
@@ -128,7 +129,7 @@
  <customwidgets>
   <customwidget>
    <class>ImageItemView</class>
-   <extends>QLabel</extends>
+   <extends>QPlainTextEdit</extends>
    <header>imageitemview.h</header>
   </customwidget>
  </customwidgets>
