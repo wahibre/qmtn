@@ -2,6 +2,7 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QFileInfo>
+#include <QSettings>
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
@@ -13,13 +14,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
 {
     ui->setupUi(this);
+    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(LAST_TAG));
+
     ui->imageViewer->setTree(ui->treeWidget);
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
     ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
 
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv";
 
-    connect(ui->action_Quit, &QAction::triggered, qApp, &QApplication::quit);
+    connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
+
+    QSettings s;
+    restoreGeometry(s.value("mainform/geometry").toByteArray());
+    restoreState(s.value("mainform/state").toByteArray());
+
 }
 
 MainWindow::~MainWindow()
@@ -50,6 +58,16 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QSettings s;
+
+    s.setValue("mainform/geometry", saveGeometry());
+    s.setValue("mainform/state", saveState());
+
+    QMainWindow::closeEvent(event);
 }
 
 QTreeWidgetItem* MainWindow::dirInfoToDirItem(QDir directory)

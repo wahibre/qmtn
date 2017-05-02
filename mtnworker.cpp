@@ -1,6 +1,7 @@
 #include "mtnworker.h"
 #include "mtnjob.h"
 #include <QSettings>
+#include <QDir>
 
 MtnWorker::MtnWorker()
 {
@@ -59,8 +60,40 @@ void MtnWorker::setData(SettingsData newData)
     settingsData = newData;
 }
 
+QString MtnWorker::outputFile(const QString inputfilename)
+{
+    QString filename;
+    QDir directory;
+
+    if (inputfilename.isEmpty())
+        return QString();
+
+    if(settingsData.output_directory.isEmpty())
+    {
+        directory = QFileInfo(inputfilename).dir();
+    }
+    else
+    {
+        directory = QDir(settingsData.output_directory);
+    }
+
+    if(settingsData.suffix.isEmpty())
+    {
+        QFileInfo f = QFileInfo(inputfilename);
+        filename = f.baseName() + "_s.jpg";
+    }
+    else
+    {
+        QFileInfo f = QFileInfo(inputfilename);
+        filename = f.baseName() + settingsData.suffix;
+    }
+
+    return QFileInfo(directory, filename).absoluteFilePath();
+
+}
+
 void MtnWorker::enqueue(QTreeWidgetItem *item)
 {
-    QThreadPool::globalInstance()->start(new MtnJob(item, settingsData));
+    QThreadPool::globalInstance()->start(new MtnJob(item, settingsData, outputFile(item->text(1))));
 }
 

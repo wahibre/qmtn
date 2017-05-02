@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = mtngui
 TEMPLATE = app
+DEFINES += LAST_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 
 
 SOURCES += main.cpp\
@@ -17,13 +18,15 @@ SOURCES += main.cpp\
     mtnworker.cpp \
     mtnjob.cpp \
     imageitemview.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    datamodel.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
     mtnjob.h \
     imageitemview.h \
-    settingsdialog.h
+    settingsdialog.h \
+    datamodel.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui

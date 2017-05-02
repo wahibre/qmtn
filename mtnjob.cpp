@@ -3,10 +3,11 @@
 #include<QDir>
 #include<QCoreApplication>
 
-MtnJob::MtnJob(QTreeWidgetItem *itm, SettingsData settingsData):
+MtnJob::MtnJob(QTreeWidgetItem *itm, SettingsData settingsData, QString outputfilename):
     QRunnable(),
     m_item(itm),
-    m_sett(settingsData)
+    m_sett(settingsData),
+    m_outputfilename(outputfilename)
 {
 
 }
@@ -39,9 +40,10 @@ void MtnJob::run()
         {
             QString vystup(mtn.readAll());
 //            m_item->setText(2, QString(vystup));
-            m_item->setData(2, Qt::DisplayRole, QString(vystup));
+            m_item->setData(2, Qt::DisplayRole, vystup.trimmed());
+            m_item->setText(3, m_outputfilename);
             m_item->setIcon(0, QIcon::fromTheme("video-x-generic"));
-//            m_item->treeWidget()->updateGeometry();
+//            m_item->view->viewport()->update();
         }
         else
             m_item->setText(2, QString("Error: %1").arg(mtn.errorString()));

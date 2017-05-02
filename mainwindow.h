@@ -35,6 +35,10 @@ private:
     bool isVideoFile(QFileInfo file);
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // MAINWINDOW_H

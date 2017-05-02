@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Rusty Pipe");
     QCoreApplication::setApplicationName("Movie Thumbnailer");
 //    QCoreApplication::setApplicationVersion(VERZIA);
+    QCoreApplication::setQuitLockEnabled(true);
+
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
     MainWindow w;

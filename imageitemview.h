@@ -1,11 +1,11 @@
 #ifndef IMAGEITEMVIEW_H
 #define IMAGEITEMVIEW_H
 
-//#include<QLabel>
-#include<QPlainTextEdit>
+//#include<QPlainTextEdit>
+#include <QLabel>
 #include<QTreeView>
 
-class ImageItemView : public QPlainTextEdit
+class ImageItemView : public QLabel
 {
     QTreeView *m_tree;
 public:

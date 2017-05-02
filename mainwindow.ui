@@ -45,6 +45,11 @@
             <string>Log</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>obr</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>
@@ -56,8 +61,20 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="ImageItemView" name="imageViewer">
-          <property name="readOnly">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
            <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -129,7 +146,7 @@
  <customwidgets>
   <customwidget>
    <class>ImageItemView</class>
-   <extends>QPlainTextEdit</extends>
+   <extends>QLabel</extends>
    <header>imageitemview.h</header>
   </customwidget>
  </customwidgets>

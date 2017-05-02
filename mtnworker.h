@@ -40,6 +40,7 @@ public:
 
     SettingsData data();
     void setData(SettingsData newData);
+    QString outputFile(QString inputfilename);
 
     void enqueue(QTreeWidgetItem* item);
 };
