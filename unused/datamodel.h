@@ -3,9 +3,7 @@
 
 #include <QStandardItemModel>
 
-
-//TODO own datamodel
-
+//TODO zbytocne, vyhodit
 class DataModel : public QStandardItemModel
 {
 public:

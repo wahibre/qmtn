@@ -56,7 +56,8 @@ SettingsData SettingsDialog::settingsData()
 
 void SettingsDialog::on_btnOutputDir_clicked()
 {
-    QString newDir = QFileDialog::getExistingDirectory(this, "Output directory", QString(), QFileDialog::ShowDirsOnly);
+
+    QString newDir = QFileDialog::getExistingDirectory(this, "Output directory", ui->eOutputDir->text(), QFileDialog::ShowDirsOnly);
     if(!newDir.isEmpty())
         ui->eOutputDir->setText(newDir);
 }

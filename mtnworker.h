@@ -3,6 +3,9 @@
 
 #include <QTreeWidgetItem>
 #include <QThreadPool>
+#include <QStandardItem>
+
+#include "settingsdata.h"
 
 #define REG_OUTPUT_DIRECTORY    "output_directory"
 #define REG_COLUMNS             "columns"
@@ -14,17 +17,6 @@
 #define REG_SUFFIX              "suffix"
 #define REG_GAP                 "gap"
 #define REG_OVERWRITE           "overwrite"
-
-
-struct SettingsData
-{
-    QString output_directory, suffix;
-    int columns,rows,width, edge_detect, quality, gap;
-    double blank_skip;
-    bool overwrite;
-};
-
-
 
 
 class MtnWorker
@@ -42,7 +34,7 @@ public:
     void setData(SettingsData newData);
     QString outputFile(QString inputfilename);
 
-    void enqueue(QTreeWidgetItem* item);
+    void enqueue(QStandardItem* parent, int row);
 };
 
 #endif // MTNWORKER_H

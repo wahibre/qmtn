@@ -1,19 +1,18 @@
 #ifndef IMAGEITEMVIEW_H
 #define IMAGEITEMVIEW_H
 
-//#include<QPlainTextEdit>
 #include <QLabel>
-#include<QTreeView>
+#include <QTreeView>
 
 class ImageItemView : public QLabel
 {
-    QTreeView *m_tree;
+    QItemSelectionModel *m_model;
 public:
     ImageItemView(QWidget *parent = Q_NULLPTR);
-    void setTree(QTreeView *tree);
+    void setModel(QItemSelectionModel *model);
 
 public slots:
-    void changeItem(const QModelIndex &current, const QModelIndex &);
+    void currentChanged(const QModelIndex &current, const QModelIndex &);
 };
 
 #endif // IMAGEITEMVIEW_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>555</width>
-    <height>314</height>
+    <width>244</width>
+    <height>269</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -23,42 +23,62 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="gbVideoFiles">
        <property name="title">
         <string>Video Files</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
         <item>
-         <widget class="QTreeWidget" name="treeWidget">
-          <column>
-           <property name="text">
-            <string notr="true">File Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Path</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Log</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>obr</string>
-           </property>
-          </column>
+         <widget class="QTreeView" name="treeView">
+          <property name="animated">
+           <bool>true</bool>
+          </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="placeholderLabel">
+          <property name="text">
+           <string>Drag &amp; drop files here</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="gbImageViewer">
        <property name="title">
         <string>Log</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
         <item>
          <widget class="ImageItemView" name="imageViewer">
           <property name="sizePolicy">
@@ -89,7 +109,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>555</width>
+     <width>244</width>
      <height>20</height>
     </rect>
    </property>
@@ -105,8 +125,15 @@
     </property>
     <addaction name="action_Quit"/>
    </widget>
+   <widget class="QMenu" name="menu_About">
+    <property name="title">
+     <string>&amp;About</string>
+    </property>
+    <addaction name="actionAboutQt"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
+   <addaction name="menu_About"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
@@ -124,7 +151,6 @@
    <addaction name="action_Quit"/>
    <addaction name="action_Settings"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Settings">
    <property name="text">
     <string>&amp;Settings</string>
@@ -139,6 +165,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About &amp;Qt</string>
    </property>
   </action>
  </widget>

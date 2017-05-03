@@ -3,55 +3,56 @@
 #include<QDir>
 #include<QCoreApplication>
 
-MtnJob::MtnJob(QTreeWidgetItem *itm, SettingsData settingsData, QString outputfilename):
+/******************************************************************************************************/
+MtnJob::MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QString outputfilename):
     QRunnable(),
-    m_item(itm),
+    m_stditem(parent),
+    m_row(row),
     m_sett(settingsData),
     m_outputfilename(outputfilename)
 {
 
 }
 
+/******************************************************************************************************/
 void MtnJob::run()
 {
-    QThread::currentThread()->sleep(3);
 
-    m_item->setText(2, "In progress...");    
+#ifdef QT_DEBUG
+    QThread::currentThread()->sleep(3);
+#endif
 
     QProcess mtn;
 #ifdef WIN32
     mtn.setProgram("mtn.exe");
 #else
-    mtn.setProgram("/opt/mtn");
+    mtn.setProgram("/opt/mtn"); //TODO add mtn to PATH or find it
 #endif
     QStringList args = createArguments();
-    args << m_item->text(1);                        //    file_or_dir
+    args << m_stditem->child(m_row, 1)->text();
 
-    //TODO prehodit na QCoreApplication::applicationDirPath()
-    //mtn.setWorkingDirectory(QDir::currentPath());
     mtn.setWorkingDirectory(QCoreApplication::applicationDirPath());
     mtn.setProcessChannelMode(QProcess::MergedChannels);
     mtn.setArguments(args);
     mtn.start();
 
-    if(mtn.waitForStarted(10000))
+    if(mtn.waitForStarted(WAIT_STARTTIMEOUT))
     {
-        if(mtn.waitForFinished(10000))
+        if(mtn.waitForFinished(WAIT_FINISHTIMEOUT))
         {
             QString vystup(mtn.readAll());
-//            m_item->setText(2, QString(vystup));
-            m_item->setData(2, Qt::DisplayRole, vystup.trimmed());
-            m_item->setText(3, m_outputfilename);
-            m_item->setIcon(0, QIcon::fromTheme("video-x-generic"));
-//            m_item->view->viewport()->update();
+
+            m_stditem->child(m_row, 0)->setIcon(ICON_VIDEO);
+            m_stditem->child(m_row, 2)->setText(vystup.trimmed());
+            m_stditem->child(m_row, 3)->setText(m_outputfilename);
         }
         else
-            m_item->setText(2, QString("Error: %1").arg(mtn.errorString()));
+            m_stditem->child(m_row, 2)->setText(QString("Error: %1").arg(mtn.errorString()));
     }
     else
-        m_item->setText(2, QString("Error startig: %1").arg(mtn.errorString()));
+        m_stditem->child(m_row, 2)->setText(QString("Error startig: %1").arg(mtn.errorString()));
 }
-
+/******************************************************************************************************/
 QStringList MtnJob::createArguments()
 {
     QStringList args;
@@ -90,10 +91,11 @@ QStringList MtnJob::createArguments()
                                                     //    -t : time stamp off
                                                     //    -T text : add text above output image
                                                     //    -v : verbose mode (debug)
-    if(!m_sett.overwrite)
+    if(m_sett.overwrite)
         args << "-W";                               //    -W : dont overwrite existing files, i.e. update mode
                                                     //    -z : always use seek mode
                                                     //    -Z : always use non-seek mode -- slower but more accurate timing
 
     return args;
 }
+/******************************************************************************************************/

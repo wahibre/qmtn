@@ -2,19 +2,34 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>615</height>
+    <width>490</width>
+    <height>612</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>490</width>
+    <height>612</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>490</width>
+    <height>612</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings</string>
   </property>
   <property name="sizeGripEnabled">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -40,7 +55,7 @@
     <rect>
      <x>9</x>
      <y>9</y>
-     <width>441</width>
+     <width>471</width>
      <height>65</height>
     </rect>
    </property>
@@ -68,7 +83,7 @@
     <rect>
      <x>10</x>
      <y>310</y>
-     <width>444</width>
+     <width>471</width>
      <height>229</height>
     </rect>
    </property>
@@ -343,14 +358,13 @@
    <zorder>layoutWidget4</zorder>
    <zorder>groupBox_4</zorder>
    <zorder>groupBox_5</zorder>
-   <zorder>groupBox_2</zorder>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>80</y>
-     <width>441</width>
+     <width>471</width>
      <height>221</height>
     </rect>
    </property>
@@ -445,7 +459,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="overwriteLabel">
           <property name="text">
-           <string>Overwrite:</string>
+           <string>Don't overwrite:</string>
           </property>
           <property name="buddy">
            <cstring>overwriteCheckBox</cstring>
@@ -453,7 +467,14 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QCheckBox" name="overwriteCheckBox"/>
+         <widget class="QCheckBox" name="overwriteCheckBox">
+          <property name="toolTip">
+           <string>-W : dont overwrite existing files, i.e. update mode</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -605,27 +626,30 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>lineEdit</tabstop>
   <tabstop>sbColumns</tabstop>
-  <tabstop>sbRows</tabstop>
-  <tabstop>sbWidth</tabstop>
   <tabstop>sbEdgeDetect</tabstop>
+  <tabstop>sbRows</tabstop>
   <tabstop>sbBlankSkip</tabstop>
+  <tabstop>sbWidth</tabstop>
   <tabstop>sbQuality</tabstop>
+  <tabstop>sbGap</tabstop>
+  <tabstop>eSuffix</tabstop>
+  <tabstop>overwriteCheckBox</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
-  <tabstop>fontComboBox_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_4</tabstop>
+  <tabstop>spinBox_9</tabstop>
+  <tabstop>comboBox_2</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>comboBox</tabstop>
-  <tabstop>groupBox_4</tabstop>
   <tabstop>groupBox_5</tabstop>
   <tabstop>spinBox_8</tabstop>
   <tabstop>fontComboBox</tabstop>
+  <tabstop>pushButton_3</tabstop>
   <tabstop>pushButton_2</tabstop>
-  <tabstop>spinBox_9</tabstop>
-  <tabstop>comboBox_2</tabstop>
+  <tabstop>groupBox_4</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>fontComboBox_2</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -18,15 +18,14 @@ SOURCES += main.cpp\
     mtnworker.cpp \
     mtnjob.cpp \
     imageitemview.cpp \
-    settingsdialog.cpp \
-    datamodel.cpp
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
     mtnjob.h \
     imageitemview.h \
     settingsdialog.h \
-    datamodel.h
+    settingsdata.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui

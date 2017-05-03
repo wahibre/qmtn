@@ -4,16 +4,22 @@
 #include <QRunnable>
 #include <QTreeWidgetItem>
 #include <QThread>
+#include <QStandardItem>
+
 #include "mtnworker.h"
+
+#define WAIT_STARTTIMEOUT   10000
+#define WAIT_FINISHTIMEOUT  20000
 
 class MtnJob : public QRunnable
 {
-    QTreeWidgetItem *m_item;
+    QStandardItem *m_stditem;
+    int m_row;
     SettingsData m_sett;
     QString m_outputfilename;
 
 public:
-    MtnJob(QTreeWidgetItem *itm, SettingsData settingsData, QString outputfilename);
+    MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QString outputfilename);
 private:
     void run() Q_DECL_OVERRIDE;
     QStringList createArguments();

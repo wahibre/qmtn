@@ -3,6 +3,7 @@
 #include <QMimeDatabase>
 #include <QFileInfo>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
@@ -16,7 +17,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(LAST_TAG));
 
-    ui->imageViewer->setTree(ui->treeWidget);
+    datamodel = new QStandardItemModel(this);
+    datamodel->setColumnCount(4);
+
+    ui->treeView->hide();
+    ui->treeView->setModel(datamodel);
+    ui->treeView->header()->hideSection(1);
+    ui->treeView->header()->hideSection(2);
+    ui->treeView->header()->hideSection(3);
+
+    ui->imageViewer->setModel(ui->treeView->selectionModel());
+
+    //TODO add alternative for WIN Icon from theme
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
     ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
 
@@ -27,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
     restoreState(s.value("mainform/state").toByteArray());
+    ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
 
 }
 
@@ -35,23 +48,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::dropEvent(QDropEvent *event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    foreach (QUrl files, event->mimeData()->urls())
-    {
-        QFileInfo fi(files.toLocalFile());
-        QTreeWidgetItem *itmDir=NULL;
+    QSettings s;
 
-        if(fi.isDir())
-            itmDir = dirInfoToDirItem(QDir(fi.absoluteFilePath()));
-        else
-            if(fi.isFile())
-                itmDir = fileInfoToDirItem(fi);
-            else return;
+    s.setValue("mainform/geometry", saveGeometry());
+    s.setValue("mainform/state", saveState());
+    s.setValue("mainform/splitter", ui->splitter->saveState());
 
-        if(itmDir && itmDir->childCount()>0)
-            ui->treeWidget->addTopLevelItem(itmDir);
-    }
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -60,70 +65,97 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
         event->acceptProposedAction();
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::dropEvent(QDropEvent *event)
+
 {
-    QSettings s;
+    QStandardItem *iDir;
 
-    s.setValue("mainform/geometry", saveGeometry());
-    s.setValue("mainform/state", saveState());
+    // All droped files
+    foreach (QUrl files, event->mimeData()->urls())
+    {
+        iDir=NULL;
+        QFileInfo fi(files.toLocalFile());
 
-    QMainWindow::closeEvent(event);
+        if(fi.isDir())
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()));
+        else
+            if(fi.isFile())
+                iDir = fileInfo2DirItem(fi);
+            else
+                continue;
+
+        if(iDir && iDir->hasChildren())
+        {
+            datamodel->appendRow(iDir);
+            ui->placeholderLabel->hide();
+            ui->treeView->show();
+        }
+    }
+
 }
-
-QTreeWidgetItem* MainWindow::dirInfoToDirItem(QDir directory)
+QStandardItem* MainWindow::dir2DirItem(QDir dir)
 {
-    QTreeWidgetItem *iChildDir, *iDir = new QTreeWidgetItem();
-    iDir->setText(0, directory.dirName());
-    iDir->setIcon(0, QIcon::fromTheme("folder"));
+    QStandardItem *iChildDir, *iDir;
+    QList<QStandardItem*> iChildren;
+
+    iDir = new QStandardItem(ICON_FOLDER, dir.dirName()); iDir->setEditable(false);
 
     //Folders
-    foreach (QFileInfo fi, directory.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
+    foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
     {
-        iChildDir = dirInfoToDirItem(QDir(fi.absoluteFilePath()));
+        iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()));
         if(iChildDir)
-        iDir->addChild(iChildDir);
+            iChildren.append(iChildDir);
     }
+    iDir->appendRows(iChildren);
+    iChildren.clear();
 
     //Files
-    foreach(QFileInfo entry, directory.entryInfoList(QDir::Files, QDir::Name))
+    foreach(QFileInfo entry, dir.entryInfoList(QDir::Files, QDir::Name))
+        fileInfo2FileItem(entry, iDir);
+
+    if(!iDir->hasChildren())
     {
-        if(isVideoFile(entry))
-            iDir->addChild(fileInfoToFileItem(entry));
+        delete iDir;
+        iDir=0;
     }
 
-    if(iDir->childCount()>0)
-        return iDir;
-
-    delete iDir;
-    return NULL;
-}
-
-QTreeWidgetItem* MainWindow::fileInfoToDirItem(QFileInfo file)
-{
-    QTreeWidgetItem *iDir = new QTreeWidgetItem();
-    iDir->setText(0, file.dir().dirName());
-    iDir->setIcon(0, QIcon::fromTheme("folder"));
-//    iDir->setIcon(0, QIcon::fromTheme("image-loading"));
-//    iDir->setIcon(0, QIcon::fromTheme("image-missing"));
-
-    if(isVideoFile(file))
-    {
-        QTreeWidgetItem *iFile = fileInfoToFileItem(file);
-        iDir->addChild(iFile);
-    }
     return iDir;
 }
 
-QTreeWidgetItem *MainWindow::fileInfoToFileItem(QFileInfo file)
+QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
-    QTreeWidgetItem *iFile = new QTreeWidgetItem();
+    QStandardItem *iDir;
 
-//    iFile->setIcon(0, QIcon::fromTheme("video-x-generic"));
-    iFile->setIcon(0, QIcon::fromTheme("image-loading"));
-    iFile->setText(0, file.fileName());
-    iFile->setText(1, file.absoluteFilePath());
-    worker.enqueue(iFile);
-    return iFile;
+    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName()); iDir->setEditable(false);
+    fileInfo2FileItem(file, iDir);
+
+    return iDir;
+}
+
+/**
+ * @return true if fileitem created, othewise false
+ */
+bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
+{
+    QStandardItem *iFile, *iAbsFile, *iLog, *iOutputFile;
+
+    if(isVideoFile(file))
+    {
+        iFile = new QStandardItem(ICON_LOADING, file.fileName());   iFile->setEditable(false);
+        iAbsFile = new QStandardItem(file.absoluteFilePath());      iAbsFile->setEditable(false);
+        iLog = new QStandardItem();                                 iLog->setEditable(false);
+        iOutputFile = new QStandardItem();                          iOutputFile->setEditable(false);
+
+        QList<QStandardItem*> cols;
+        cols << iFile << iAbsFile << iLog << iOutputFile;
+        parent->appendRow(cols);
+
+        worker.enqueue(parent, parent->rowCount()-1);
+
+        return true;
+    }
+    return false;
 }
 
 bool MainWindow::isVideoFile(QFileInfo file)
@@ -145,4 +177,9 @@ void MainWindow::on_action_Settings_triggered()
     {
         worker.setData(dial->settingsData());
     }
+}
+
+void MainWindow::on_actionAboutQt_triggered()
+{
+    QMessageBox::aboutQt(this, "About Qt");
 }

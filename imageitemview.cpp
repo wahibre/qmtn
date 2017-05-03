@@ -7,19 +7,18 @@ ImageItemView::ImageItemView(QWidget *parent): QLabel(parent)
 
 }
 
-void ImageItemView::setTree(QTreeView *tree)
+void ImageItemView::setModel(QItemSelectionModel *model)
 {
-    if(tree)
+    if(model)
     {
-        m_tree = tree;
-//        connect(m_tree->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ImageItemView::changeItem);
-        connect(m_tree->selectionModel(), &QItemSelectionModel::currentChanged, this, &ImageItemView::changeItem);
+        m_model = model;
+        connect(m_model, &QItemSelectionModel::currentChanged, this, &ImageItemView::currentChanged);
     }
 }
 
-void ImageItemView::changeItem(const QModelIndex &current, const QModelIndex &/*previous*/)
+void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
-//    setText(current.sibling(current.row(), 2).data().toString());
+    //TODO add cache
     QString imagepath, log;
 
     imagepath = current.sibling(current.row(), 3).data().toString();
@@ -31,11 +30,8 @@ void ImageItemView::changeItem(const QModelIndex &current, const QModelIndex &/*
         pix.load(imagepath);
 
         this->setPixmap(pix);
-//        setText(imagepath);
-
     }
     else
         this->setText(log);
-
 }
 

@@ -1,5 +1,6 @@
-#include "mtnworker.h"
 #include "mtnjob.h"
+#include "mtnworker.h"
+
 #include <QSettings>
 #include <QDir>
 
@@ -92,8 +93,12 @@ QString MtnWorker::outputFile(const QString inputfilename)
 
 }
 
-void MtnWorker::enqueue(QTreeWidgetItem *item)
+void MtnWorker::enqueue(QStandardItem* parent, int row)
 {
-    QThreadPool::globalInstance()->start(new MtnJob(item, settingsData, outputFile(item->text(1))));
+    if(parent->child(row))
+    {
+        QString outfil = outputFile(parent->child(row)->text());
+        QThreadPool::globalInstance()->start(new MtnJob(parent, row, settingsData, outfil));
+    }
 }
 
