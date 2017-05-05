@@ -23,6 +23,7 @@ public:
 private:
     void run() Q_DECL_OVERRIDE;
     QStringList createArguments();
+    QString color2hex(QColor color);
 };
 
 #endif // MTNJOB_H

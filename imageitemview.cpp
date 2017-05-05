@@ -2,6 +2,11 @@
 #include <QFileInfo>
 #include <QPicture>
 
+QString ImageItemView::imagePath() const
+{
+    return imagepath;
+}
+
 ImageItemView::ImageItemView(QWidget *parent): QLabel(parent)
 {
 
@@ -19,19 +24,20 @@ void ImageItemView::setModel(QItemSelectionModel *model)
 void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
     //TODO add cache
-    QString imagepath, log;
+//    QString log;
 
     imagepath = current.sibling(current.row(), 3).data().toString();
-    log = current.sibling(current.row(), 2).data().toString();
+//    log = current.sibling(current.row(), 2).data().toString();
 
     if(QFileInfo::exists(imagepath))
     {
         QPixmap pix;
         pix.load(imagepath);
-
         this->setPixmap(pix);
     }
     else
-        this->setText(log);
+    {
+        this->setText("Preview not available");
+         imagepath.clear();
+    }
 }
-

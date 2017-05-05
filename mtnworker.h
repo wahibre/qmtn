@@ -15,9 +15,17 @@
 #define REG_BLANK               "blank_skip"
 #define REG_QUALITY             "quality"
 #define REG_SUFFIX              "suffix"
+#define REG_TITLE               "title"
 #define REG_GAP                 "gap"
 #define REG_OVERWRITE           "overwrite"
-
+#define REG_SKIPBEGIN           "skip_begin"
+#define REG_SKIPEND             "skip_end"
+#define REG_FOREGROUND          "foregound"
+#define REG_BACKGROUND          "background"
+#define REG_TIMECOLOR           "timecolor"
+#define REG_TIMESHADOW          "shadow"
+#define REG_INFOTEXT            "infotext"
+#define REG_TIMESTAMP           "timestamp"
 
 class MtnWorker
 {

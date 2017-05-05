@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->header()->hideSection(3);
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
+    ui->imageViewer->addAction(ui->actionShowImage);
 
     //TODO add alternative for WIN Icon from theme
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
@@ -35,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv";
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
@@ -46,6 +49,14 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
+{
+    QString log;
+
+    log = current.sibling(current.row(), 2).data().toString();
+    ui->logText->setPlainText(log);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -182,4 +193,9 @@ void MainWindow::on_action_Settings_triggered()
 void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox::aboutQt(this, "About Qt");
+}
+
+void MainWindow::on_actionShowImage_triggered()
+{
+    QDesktopServices::openUrl(ui->imageViewer->imagePath());
 }

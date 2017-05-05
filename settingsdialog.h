@@ -15,12 +15,18 @@ class SettingsDialog : public QDialog
     Ui::Dialog *ui;
     SettingsData m_data;
 
+    void getUserColor(QColor &c);
+    void setBackGroundColor(QPushButton *button, QColor color);
 public:
     explicit SettingsDialog(QWidget *parent, SettingsData data);
     ~SettingsDialog();
     SettingsData settingsData();
 private slots:
     void on_btnOutputDir_clicked();
+    void on_btnBackground_clicked();
+    void on_btnForeground_clicked();
+    void on_btnTimeColor_clicked();
+    void on_btnTimeShadow_clicked();
 };
 
 #endif // SETTINGSDIALOG2_H

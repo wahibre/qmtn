@@ -3,10 +3,12 @@
 #include <QFileDialog>
 #include <QCompleter>
 #include <QDirModel>
+#include <QColorDialog>
 
 SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     QDialog(parent),
-    ui(new Ui::Dialog)
+    ui(new Ui::Dialog),
+    m_data(data)
 {
     ui->setupUi(this);
 
@@ -26,7 +28,18 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     ui->sbEdgeDetect->setValue( data.edge_detect);
     ui->sbBlankSkip->setValue(  data.blank_skip);
     ui->sbQuality->setValue(    data.quality);
+    ui->sbSkipBegin->setValue(  data.skip_begin);
+    ui->sbSkipEnd->setValue(    data.skip_end);
     ui->eSuffix->setText(       data.suffix);
+
+    ui->eTitle->setText(        data.title);
+    ui->groupInfotext->setChecked(data.infotext);
+    ui->groupTimestamp->setChecked(data.timestamp);
+
+    setBackGroundColor(ui->btnBackground, data.background);
+    setBackGroundColor(ui->btnForeground, data.foreground);
+    setBackGroundColor(ui->btnTimeColor, data.timecolor);
+    setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -36,22 +49,31 @@ SettingsDialog::~SettingsDialog()
 
 SettingsData SettingsDialog::settingsData()
 {
-    SettingsData m_data;
+    SettingsData data = m_data;
 
-    m_data.output_directory = ui->eOutputDir->text();
-    m_data.columns          = ui->sbColumns->value();
-    m_data.rows             = ui->sbRows->value();
-    m_data.width            = ui->sbWidth->value();
-    m_data.gap              = ui->sbGap->value();
-    m_data.overwrite        = ui->overwriteCheckBox->isChecked();
+    data.output_directory = ui->eOutputDir->text();
+    data.columns          = ui->sbColumns->value();
+    data.rows             = ui->sbRows->value();
+    data.width            = ui->sbWidth->value();
+    data.gap              = ui->sbGap->value();
+    data.overwrite        = ui->overwriteCheckBox->isChecked();
 
-    m_data.edge_detect      = ui->sbEdgeDetect->value();
-    m_data.blank_skip       = ui->sbBlankSkip->value();
-    m_data.quality          = ui->sbQuality->value();
-    m_data.suffix           = ui->eSuffix->text();
+    data.edge_detect      = ui->sbEdgeDetect->value();
+    data.blank_skip       = ui->sbBlankSkip->value();
+    data.quality          = ui->sbQuality->value();
+    data.skip_begin       = ui->sbSkipBegin->value();
+    data.skip_end         = ui->sbSkipEnd->value();
+    data.suffix           = ui->eSuffix->text();
 
+    data.title            = ui->eTitle->text();
+    data.infotext         = ui->groupInfotext->isChecked();
+    data.timestamp        = ui->groupTimestamp->isChecked();
 
-    return m_data;
+    //m_data.background     in on_btnBackground_clicked()
+    //m_data.foregound      in on_btnForeground_clicked()
+    //m_data.timecolor      in on_btnTimeColor_clicked();
+    //m_data.timeshadow     in on_btnTimeShadow_clicked();
+    return data;
 }
 
 void SettingsDialog::on_btnOutputDir_clicked()
@@ -60,4 +82,46 @@ void SettingsDialog::on_btnOutputDir_clicked()
     QString newDir = QFileDialog::getExistingDirectory(this, "Output directory", ui->eOutputDir->text(), QFileDialog::ShowDirsOnly);
     if(!newDir.isEmpty())
         ui->eOutputDir->setText(newDir);
+}
+
+void SettingsDialog::getUserColor(QColor &c)
+{
+    QColor cTmp;
+
+    if(c.isValid())
+        cTmp = QColor(c);
+
+    cTmp = QColorDialog::getColor(cTmp, this);
+
+    if(cTmp.isValid())
+        c = cTmp;
+}
+
+void SettingsDialog::setBackGroundColor(QPushButton *button, QColor color)
+{
+    button->setStyleSheet(QString("background-color: %1").arg(color.name()));
+}
+
+void SettingsDialog::on_btnBackground_clicked()
+{
+    getUserColor(m_data.background);
+    setBackGroundColor(ui->btnBackground, m_data.background);
+}
+
+void SettingsDialog::on_btnForeground_clicked()
+{
+    getUserColor(m_data.foreground);
+    setBackGroundColor(ui->btnForeground, m_data.foreground);
+}
+
+void SettingsDialog::on_btnTimeColor_clicked()
+{
+    getUserColor(m_data.timecolor);
+    setBackGroundColor(ui->btnTimeColor, m_data.timecolor);
+}
+
+void SettingsDialog::on_btnTimeShadow_clicked()
+{
+    getUserColor(m_data.timeshadow);
+    setBackGroundColor(ui->btnTimeShadow, m_data.timeshadow);
 }

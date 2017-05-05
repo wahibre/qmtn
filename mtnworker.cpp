@@ -25,12 +25,22 @@ void MtnWorker::dataLoad()
     settingsData.width          = s.value(REG_WIDTH,     920    ).toInt();
     settingsData.gap            = s.value(REG_GAP,       3      ).toInt();
     settingsData.overwrite      = s.value(REG_OVERWRITE, true   ).toBool();
+    settingsData.suffix         = s.value(REG_SUFFIX            ).toString();
 
     settingsData.edge_detect    = s.value(REG_EDGE,      12     ).toInt();
     settingsData.blank_skip     = s.value(REG_BLANK,     0.80   ).toDouble();
     settingsData.quality        = s.value(REG_QUALITY,   90     ).toInt();
-    settingsData.suffix         = s.value(REG_SUFFIX            ).toString();
+    settingsData.skip_begin     = s.value(REG_SKIPBEGIN, 0.0    ).toReal();
+    settingsData.skip_end       = s.value(REG_SKIPEND,   0.0    ).toReal();
 
+    settingsData.title          = s.value(REG_TITLE             ).toString();
+    settingsData.infotext       = s.value(REG_INFOTEXT,  true   ).toBool();
+    settingsData.timestamp      = s.value(REG_TIMESTAMP, true   ).toBool();
+
+    settingsData.background.setNamedColor(s.value(REG_BACKGROUND,   QColor(Qt::black)).toString());
+    settingsData.foreground.setNamedColor(s.value(REG_FOREGROUND,   QColor(Qt::white)).toString());
+    settingsData.timecolor.setNamedColor(s.value(REG_TIMECOLOR,     QColor(Qt::black)).toString());
+    settingsData.timeshadow.setNamedColor(s.value(REG_TIMESHADOW,   QColor(Qt::gray)) .toString());
 }
 
 void MtnWorker::dataSave()
@@ -44,11 +54,22 @@ void MtnWorker::dataSave()
     s.setValue(REG_WIDTH,           settingsData.width);
     s.setValue(REG_GAP,             settingsData.gap);
     s.setValue(REG_OVERWRITE,       settingsData.overwrite);
+    s.setValue(REG_SUFFIX,          settingsData.suffix);
 
     s.setValue(REG_EDGE,            settingsData.edge_detect);
-    s.setValue(REG_BLANK,           settingsData.blank_skip);
     s.setValue(REG_QUALITY,         settingsData.quality);
-    s.setValue(REG_SUFFIX,          settingsData.suffix);
+    s.setValue(REG_BLANK,           settingsData.blank_skip);
+    s.setValue(REG_SKIPBEGIN,       settingsData.skip_begin);
+    s.setValue(REG_SKIPEND,         settingsData.skip_end);
+
+    s.setValue(REG_TITLE,           settingsData.title);
+    s.setValue(REG_INFOTEXT,        settingsData.infotext);
+    s.setValue(REG_TIMESTAMP,       settingsData.timestamp);
+
+    s.setValue(REG_BACKGROUND,      settingsData.background.name());
+    s.setValue(REG_FOREGROUND,      settingsData.foreground.name());
+    s.setValue(REG_TIMECOLOR,       settingsData.timecolor.name());
+    s.setValue(REG_TIMESHADOW,      settingsData.timeshadow.name());
 }
 
 SettingsData MtnWorker::data()
