@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
+    connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
@@ -58,6 +59,37 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
     log = current.sibling(current.row(), 2).data().toString();
     ui->logText->setPlainText(log);
 }
+
+void MainWindow::treeContextMenuRequest(const QPoint &pos)
+{
+    auto treeContextMenu = new QMenu(this);
+
+    treeContextMenu->addAction(ICON_FOLDER, "Open Directory", this, SLOT(openDirectory()));
+    treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
+}
+
+void MainWindow::openDirectory()
+{
+    //TODO Open directory for directory item
+    if(datamodel->rowCount()>0)
+    {
+        auto s = ui->treeView->currentIndex().sibling(
+                    ui->treeView->currentIndex().row(),
+                    1
+                    ).data().toString();
+
+        QFileInfo f(s);
+        if(f.exists())
+        {
+            if(f.isDir())
+                QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteFilePath()));
+            else
+                if(f.isFile())
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
+        }
+    }
+}
+
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -104,12 +136,14 @@ void MainWindow::dropEvent(QDropEvent *event)
     }
 
 }
+
 QStandardItem* MainWindow::dir2DirItem(QDir dir)
 {
     QStandardItem *iChildDir, *iDir;
     QList<QStandardItem*> iChildren;
 
-    iDir = new QStandardItem(ICON_FOLDER, dir.dirName()); iDir->setEditable(false);
+    iDir = new QStandardItem(ICON_FOLDER, dir.dirName());
+    iDir->setEditable(false);
 
     //Folders
     foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
@@ -138,7 +172,8 @@ QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
     QStandardItem *iDir;
 
-    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName()); iDir->setEditable(false);
+    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName());
+    iDir->setEditable(false);
     fileInfo2FileItem(file, iDir);
 
     return iDir;
@@ -197,5 +232,5 @@ void MainWindow::on_actionAboutQt_triggered()
 
 void MainWindow::on_actionShowImage_triggered()
 {
-    QDesktopServices::openUrl(ui->imageViewer->imagePath());
+    QDesktopServices::openUrl(QUrl::fromLocalFile(ui->imageViewer->imagePath()));
 }

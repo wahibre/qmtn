@@ -102,12 +102,12 @@ QString MtnWorker::outputFile(const QString inputfilename)
     if(settingsData.suffix.isEmpty())
     {
         QFileInfo f = QFileInfo(inputfilename);
-        filename = f.baseName() + "_s.jpg";
+        filename = f.completeBaseName() + "_s.jpg";
     }
     else
     {
         QFileInfo f = QFileInfo(inputfilename);
-        filename = f.baseName() + settingsData.suffix;
+        filename = f.completeBaseName() + settingsData.suffix;
     }
 
     return QFileInfo(directory, filename).absoluteFilePath();

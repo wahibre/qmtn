@@ -26,6 +26,8 @@ public:
 
 private slots:    
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
+    void treeContextMenuRequest(const QPoint &pos);
+    void openDirectory();
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();
     void on_actionShowImage_triggered();
