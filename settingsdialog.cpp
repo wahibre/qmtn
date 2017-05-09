@@ -15,7 +15,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     QCompleter *completer = new QCompleter(this);
     completer->setModel(new QDirModel(completer));
 
-    //TODO add validator
     ui->eOutputDir->setText(data.output_directory);
     ui->eOutputDir->setCompleter(completer);
 
@@ -38,8 +37,10 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
 
     setBackGroundColor(ui->btnBackground, data.background);
     setBackGroundColor(ui->btnForeground, data.foreground);
-    setBackGroundColor(ui->btnTimeColor, data.timecolor);
+    setBackGroundColor(ui->btnTimeColor,  data.timecolor);
     setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
+
+    connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -124,4 +125,22 @@ void SettingsDialog::on_btnTimeShadow_clicked()
 {
     getUserColor(m_data.timeshadow);
     setBackGroundColor(ui->btnTimeShadow, m_data.timeshadow);
+}
+
+void SettingsDialog::settingsTextChanged(const QString &text)
+{
+    QFont f = QApplication::font(ui->cbSettingsName);
+
+    if(text.isEmpty())
+    {
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        f.setBold(true);
+        ui->cbSettingsName->setFont(f);
+    }
+    else
+    {
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+        f.setBold(false);
+        ui->cbSettingsName->setFont(f);
+    }
 }

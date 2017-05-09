@@ -10,6 +10,7 @@ class Dialog;
 
 class SettingsDialog : public QDialog
 {
+    //TODO implement others settings
     Q_OBJECT
 
     Ui::Dialog *ui;
@@ -27,6 +28,7 @@ private slots:
     void on_btnForeground_clicked();
     void on_btnTimeColor_clicked();
     void on_btnTimeShadow_clicked();
+    void settingsTextChanged(const QString &text);
 };
 
 #endif // SETTINGSDIALOG2_H

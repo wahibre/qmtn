@@ -18,15 +18,11 @@ MtnJob::MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QStrin
 void MtnJob::run()
 {
 
-//#ifdef QT_DEBUG
-//    QThread::currentThread()->sleep(3);
-//#endif
-
     QProcess mtn;
 #ifdef WIN32
     mtn.setProgram("mtn.exe");
 #else
-    mtn.setProgram("/opt/mtn"); //TODO add mtn to PATH or find it
+    mtn.setProgram("/opt/mtn"); //FIXME add mtn to PATH or find it
 #endif
     QStringList args = createArguments();
     args << m_stditem->child(m_row, 1)->text();
@@ -48,15 +44,15 @@ void MtnJob::run()
             vypis += "*** Result ****\n\n";
             vypis += vystup.trimmed();
 
-            m_stditem->child(m_row, 0)->setIcon(ICON_VIDEO);
-            m_stditem->child(m_row, 2)->setText(vypis);
-            m_stditem->child(m_row, 3)->setText(m_outputfilename);
+            m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_VIDEO);
+            m_stditem->child(m_row, dataItemNames::log      )->setText(vypis);
+            m_stditem->child(m_row, dataItemNames::output   )->setText(m_outputfilename);
         }
         else
-            m_stditem->child(m_row, 2)->setText(QString("Error: %1").arg(mtn.errorString()));
+            m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
     }
     else
-        m_stditem->child(m_row, 2)->setText(QString("Error startig: %1").arg(mtn.errorString()));
+        m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
 }
 /******************************************************************************************************/
 QStringList MtnJob::createArguments()

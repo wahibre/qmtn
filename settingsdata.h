@@ -6,6 +6,14 @@
 #define ICON_FOLDER  QIcon::fromTheme("folder")
 #define ICON_LOADING QIcon::fromTheme("image-loading")
 #define ICON_VIDEO   QIcon::fromTheme("video-x-generic")
+#define ICON_IMAGE   QIcon::fromTheme("image-x-generic")
+
+enum dataItemNames {
+    filename    =0,
+    path        =1,
+    log         =2,
+    output      =3
+};
 
 struct SettingsData
 {

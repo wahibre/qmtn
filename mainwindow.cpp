@@ -23,12 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->hide();
     ui->treeView->setModel(datamodel);
-    ui->treeView->header()->hideSection(1);
-    ui->treeView->header()->hideSection(2);
-    ui->treeView->header()->hideSection(3);
+    ui->treeView->header()->hideSection(dataItemNames::path);
+    ui->treeView->header()->hideSection(dataItemNames::log);
+    ui->treeView->header()->hideSection(dataItemNames::output);
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
-    ui->imageViewer->addAction(ui->actionShowImage);
 
     //TODO add alternative for WIN Icon from theme
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
@@ -39,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
+
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
@@ -56,9 +56,10 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
 {
     QString log;
 
-    log = current.sibling(current.row(), 2).data().toString();
+    log = current.sibling(current.row(), dataItemNames::log).data().toString();
     ui->logText->setPlainText(log);
 }
+
 
 void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
@@ -70,26 +71,35 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 
 void MainWindow::openDirectory()
 {
-    //TODO Open directory for directory item
     if(datamodel->rowCount()>0)
     {
-        auto s = ui->treeView->currentIndex().sibling(
+        QString s = ui->treeView->currentIndex().sibling(
                     ui->treeView->currentIndex().row(),
                     1
                     ).data().toString();
 
-        QFileInfo f(s);
-        if(f.exists())
+        if(!s.isEmpty())
         {
-            if(f.isDir())
-                QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteFilePath()));
-            else
-                if(f.isFile())
-                    QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
+            QFileInfo f(s);
+            if(f.exists())
+            {
+                if(f.isDir())
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteFilePath()));
+                else
+                    if(f.isFile())
+                        QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
+            }
+        }
+        else
+        {
+            QFileInfo f(ui->treeView->currentIndex().child(0,dataItemNames::path).data().toString());
+            if(f.exists() && f.isFile())
+            {
+                QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
+            }
         }
     }
 }
-
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -142,8 +152,7 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir)
     QStandardItem *iChildDir, *iDir;
     QList<QStandardItem*> iChildren;
 
-    iDir = new QStandardItem(ICON_FOLDER, dir.dirName());
-    iDir->setEditable(false);
+    iDir = new QStandardItem(ICON_FOLDER, dir.dirName()); iDir->setEditable(false);
 
     //Folders
     foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
@@ -172,8 +181,7 @@ QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
     QStandardItem *iDir;
 
-    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName());
-    iDir->setEditable(false);
+    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName()); iDir->setEditable(false);
     fileInfo2FileItem(file, iDir);
 
     return iDir;
@@ -228,9 +236,4 @@ void MainWindow::on_action_Settings_triggered()
 void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox::aboutQt(this, "About Qt");
-}
-
-void MainWindow::on_actionShowImage_triggered()
-{
-    QDesktopServices::openUrl(QUrl::fromLocalFile(ui->imageViewer->imagePath()));
 }

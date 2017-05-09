@@ -30,7 +30,6 @@ private slots:
     void openDirectory();
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();
-    void on_actionShowImage_triggered();
 
 private:
     Ui::MainWindow *ui;

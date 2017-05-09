@@ -1,6 +1,9 @@
 #include "imageitemview.h"
+#include <QAction>
 #include <QFileInfo>
 #include <QPicture>
+#include <QDesktopServices>
+#include <QUrl>
 
 QString ImageItemView::imagePath() const
 {
@@ -9,7 +12,11 @@ QString ImageItemView::imagePath() const
 
 ImageItemView::ImageItemView(QWidget *parent): QLabel(parent)
 {
+    showImageAction = new QAction(ICON_IMAGE, "Show Image using default Application", parent);
+    showImageAction->setDisabled(true);
+    connect(showImageAction, &QAction::triggered, this, &ImageItemView::on_contextMenuRequest);
 
+    this->addAction(showImageAction);
 }
 
 void ImageItemView::setModel(QItemSelectionModel *model)
@@ -24,20 +31,25 @@ void ImageItemView::setModel(QItemSelectionModel *model)
 void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
     //TODO add cache
-//    QString log;
 
-    imagepath = current.sibling(current.row(), 3).data().toString();
-//    log = current.sibling(current.row(), 2).data().toString();
+    imagepath = current.sibling(current.row(), dataItemNames::output).data().toString();
 
     if(QFileInfo::exists(imagepath))
     {
         QPixmap pix;
         pix.load(imagepath);
         this->setPixmap(pix);
+        showImageAction->setEnabled(true);
     }
     else
     {
         this->setText("Preview not available");
          imagepath.clear();
+         showImageAction->setEnabled(false);
     }
+}
+
+void ImageItemView::on_contextMenuRequest(bool /*checked*/)
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(imagePath()));
 }

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>996</width>
-    <height>407</height>
+    <height>435</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -83,17 +83,19 @@
             <property name="bottomMargin">
              <number>5</number>
             </property>
-            <item alignment="Qt::AlignTop">
-             <widget class="QLineEdit" name="lineEdit">
+            <item>
+             <widget class="QComboBox" name="cbSettingsName">
               <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="text">
-               <string>default</string>
+              <property name="editable">
+               <bool>true</bool>
               </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
+              <item>
+               <property name="text">
+                <string>default</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>
@@ -897,7 +899,6 @@ QPushButton#btnTimeShadow
   <tabstop>comboBox_2</tabstop>
   <tabstop>groupInfotext</tabstop>
   <tabstop>comboBox</tabstop>
-  <tabstop>lineEdit</tabstop>
   <tabstop>fontComboBox_2</tabstop>
   <tabstop>spinBox_8</tabstop>
   <tabstop>btnBackground</tabstop>
