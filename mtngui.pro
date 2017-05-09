@@ -11,7 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = mtngui
 TEMPLATE = app
 DEFINES += LAST_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
-
+target.path = /opt
+INSTALLS += target
 
 SOURCES += main.cpp\
         mainwindow.cpp \

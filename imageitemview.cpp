@@ -43,7 +43,7 @@ void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex
     }
     else
     {
-        this->setText("Preview not available");
+        this->setText("Preview not available \n"+imagepath);
          imagepath.clear();
          showImageAction->setEnabled(false);
     }

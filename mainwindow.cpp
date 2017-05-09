@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
     ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
 
-    videoExtensions << "mp4" << "avi" << "mpeg" << "mkv";
+    videoExtensions << "mp4" << "avi" << "mpeg" << "mkv" << "wmv" << "asf";
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
