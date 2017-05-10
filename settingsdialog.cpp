@@ -4,6 +4,7 @@
 #include <QCompleter>
 #include <QDirModel>
 #include <QColorDialog>
+#include <QStandardPaths>
 
 SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     QDialog(parent),
@@ -70,6 +71,9 @@ SettingsData SettingsDialog::settingsData()
     data.infotext         = ui->groupInfotext->isChecked();
     data.timestamp        = ui->groupTimestamp->isChecked();
 
+//    auto f = ui->fontComboBox->currentFont();
+//    auto fi = QFontInfo(f);
+//    auto f2 = QFont(fi.family()).rawName();
     //m_data.background     in on_btnBackground_clicked()
     //m_data.foregound      in on_btnForeground_clicked()
     //m_data.timecolor      in on_btnTimeColor_clicked();

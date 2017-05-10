@@ -3,6 +3,8 @@
 
 #include <QSettings>
 #include <QDir>
+#include<QStandardPaths>
+#include<QCoreApplication>
 
 MtnWorker::MtnWorker()
 {
@@ -80,6 +82,28 @@ SettingsData MtnWorker::data()
 void MtnWorker::setData(SettingsData newData)
 {
     settingsData = newData;
+}
+
+bool MtnWorker::findExecutable()
+{
+    const QString  mtn_cli=__mtn();
+    QString najdenyMtnProcess;
+
+    najdenyMtnProcess = QStandardPaths::findExecutable(mtn_cli);
+
+    if(najdenyMtnProcess.isEmpty())
+    {
+        QStringList searchPaths;
+        searchPaths << qApp->applicationDirPath() << QDir::currentPath();
+        najdenyMtnProcess = QStandardPaths::findExecutable(mtn_cli, searchPaths);
+    }
+
+    if(najdenyMtnProcess.isEmpty())
+        return false;
+
+    settingsData.executable = najdenyMtnProcess;
+
+    return true;
 }
 
 QString MtnWorker::outputFile(const QString inputfilename)

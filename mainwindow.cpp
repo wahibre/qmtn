@@ -13,7 +13,6 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-
 {
     ui->setupUi(this);
     setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(LAST_TAG));
@@ -45,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     restoreState(s.value("mainform/state").toByteArray());
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
 
+    worker.findExecutable();
 }
 
 MainWindow::~MainWindow()

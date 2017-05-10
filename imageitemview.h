@@ -4,12 +4,14 @@
 #include "settingsdata.h"
 #include <QLabel>
 #include <QTreeView>
+//#include <QCache>
 
 class ImageItemView : public QLabel
 {
     QItemSelectionModel *m_model;
     QString imagepath;
     QAction *showImageAction;
+//    QCache<QModelIndex, QPixmap> imagecache;
 
 public:
     ImageItemView(QWidget *parent = Q_NULLPTR);

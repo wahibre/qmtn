@@ -17,14 +17,18 @@ MtnJob::MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QStrin
 /******************************************************************************************************/
 void MtnJob::run()
 {
-
     QProcess mtn;
-#ifdef WIN32
-    mtn.setProgram("mtn.exe");
-#else
-    mtn.setProgram("/opt/mtn"); //FIXME add mtn to PATH or find it
-#endif
-    QStringList args = createArguments();
+    QStringList args;
+
+    if(m_sett.executable.isEmpty())
+    {
+        m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, dataItemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
+        return;
+    }
+    mtn.setProgram(m_sett.executable);
+
+    args = createArguments();
     args << m_stditem->child(m_row, 1)->text();
 
     mtn.setWorkingDirectory(QCoreApplication::applicationDirPath());
@@ -49,15 +53,21 @@ void MtnJob::run()
             m_stditem->child(m_row, dataItemNames::output   )->setText(m_outputfilename);
         }
         else
+        {
+            m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
             m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
+        }
     }
     else
+    {
+        m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
         m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
+    }
 }
 /******************************************************************************************************/
 QStringList MtnJob::createArguments()
 {
-    const QString DEFAULT_UNIX_FONT="/usr/share/fonts/google-crosextra-carlito/Carlito-Regular.ttf";
+    const QString DEFAULT_UNIX_FONT="/usr/share/fonts/dejavu/DejaVuSans.ttf";
 
     QStringList args;
     args                                            //         http://moviethumbnail.sourceforge.net/

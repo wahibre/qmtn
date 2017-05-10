@@ -37,10 +37,12 @@ public:
     ~MtnWorker();
     void dataLoad();
     void dataSave();
+    static QString __mtn(){return "mtn";}
 
     SettingsData data();
     void setData(SettingsData newData);
     QString outputFile(QString inputfilename);
+    bool findExecutable();
 
     void enqueue(QStandardItem* parent, int row);
 };

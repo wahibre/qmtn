@@ -5,20 +5,21 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-QString ImageItemView::imagePath() const
-{
-    return imagepath;
-}
 
 ImageItemView::ImageItemView(QWidget *parent): QLabel(parent)
 {
     showImageAction = new QAction(ICON_IMAGE, "Show Image using default Application", parent);
     showImageAction->setDisabled(true);
+//    imagecache.setMaxCost(10);
     connect(showImageAction, &QAction::triggered, this, &ImageItemView::on_contextMenuRequest);
 
     this->addAction(showImageAction);
 }
 
+QString ImageItemView::imagePath() const
+{
+    return imagepath;
+}
 void ImageItemView::setModel(QItemSelectionModel *model)
 {
     if(model)
@@ -30,23 +31,33 @@ void ImageItemView::setModel(QItemSelectionModel *model)
 
 void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
-    //TODO add cache
+    QPixmap pix;
 
-    imagepath = current.sibling(current.row(), dataItemNames::output).data().toString();
+//    if(imagecache.contains(current))
+//    {
+//        pix = *imagecache[current];
+//    }
+//    else
+    {
+        imagepath = current.sibling(current.row(), dataItemNames::output).data().toString();
+        if(QFileInfo::exists(imagepath))
+        {
+//            QPixmap *cashed = new QPixmap(imagepath);
+//            pix = *cashed;
+//            imagecache.insert(current, cashed, 1);
+            pix.load(imagepath);
+        }
+        else
+        {
+            this->setText("Preview not available \n"+imagepath);
+             imagepath.clear();
+             showImageAction->setEnabled(false);
+             return;
+        }
+    }
 
-    if(QFileInfo::exists(imagepath))
-    {
-        QPixmap pix;
-        pix.load(imagepath);
-        this->setPixmap(pix);
-        showImageAction->setEnabled(true);
-    }
-    else
-    {
-        this->setText("Preview not available \n"+imagepath);
-         imagepath.clear();
-         showImageAction->setEnabled(false);
-    }
+    this->setPixmap(pix);
+    showImageAction->setEnabled(true);
 }
 
 void ImageItemView::on_contextMenuRequest(bool /*checked*/)
