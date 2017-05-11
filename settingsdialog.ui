@@ -293,7 +293,7 @@
                    <number>12</number>
                   </property>
                   <property name="singleStep">
-                   <number>1</number>
+                   <number>2</number>
                   </property>
                   <property name="displayIntegerBase">
                    <number>10</number>
@@ -621,7 +621,7 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QFontComboBox" name="fontComboBox"/>
+                    <widget class="FileSelector" name="wFontInfo" native="true"/>
                    </item>
                   </layout>
                  </item>
@@ -635,7 +635,7 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="spinBox_8"/>
+                    <widget class="QSpinBox" name="sbFontInfoSize"/>
                    </item>
                   </layout>
                  </item>
@@ -649,7 +649,37 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="comboBox"/>
+                    <widget class="QComboBox" name="cbFontInfoLocation">
+                     <property name="currentIndex">
+                      <number>-1</number>
+                     </property>
+                     <property name="maxCount">
+                      <number>10</number>
+                     </property>
+                     <property name="insertPolicy">
+                      <enum>QComboBox::NoInsert</enum>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>lower left</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>lower right</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>upper right</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>upper left</string>
+                      </property>
+                     </item>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -741,7 +771,7 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QFontComboBox" name="fontComboBox_2"/>
+                    <widget class="FileSelector" name="wFontTimestamp" native="true"/>
                    </item>
                   </layout>
                  </item>
@@ -755,7 +785,7 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="spinBox_9"/>
+                    <widget class="QSpinBox" name="sbFontTimestampSize"/>
                    </item>
                   </layout>
                  </item>
@@ -769,7 +799,37 @@ QPushButton#btnTimeShadow
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="comboBox_2"/>
+                    <widget class="QComboBox" name="cmFontTimestampLocation">
+                     <property name="currentIndex">
+                      <number>-1</number>
+                     </property>
+                     <property name="maxCount">
+                      <number>10</number>
+                     </property>
+                     <property name="insertPolicy">
+                      <enum>QComboBox::NoInsert</enum>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>lower left</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>lower right</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>upper right</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>upper left</string>
+                      </property>
+                     </item>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -883,6 +943,14 @@ QPushButton#btnTimeShadow
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileSelector</class>
+   <extends>QWidget</extends>
+   <header>fileselector.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>sbColumns</tabstop>
   <tabstop>sbRows</tabstop>
@@ -895,15 +963,13 @@ QPushButton#btnTimeShadow
   <tabstop>sbQuality</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
-  <tabstop>spinBox_9</tabstop>
-  <tabstop>comboBox_2</tabstop>
+  <tabstop>sbFontTimestampSize</tabstop>
+  <tabstop>cmFontTimestampLocation</tabstop>
   <tabstop>groupInfotext</tabstop>
-  <tabstop>comboBox</tabstop>
-  <tabstop>fontComboBox_2</tabstop>
-  <tabstop>spinBox_8</tabstop>
+  <tabstop>cbFontInfoLocation</tabstop>
+  <tabstop>sbFontInfoSize</tabstop>
   <tabstop>btnBackground</tabstop>
   <tabstop>groupTimestamp</tabstop>
-  <tabstop>fontComboBox</tabstop>
  </tabstops>
  <resources/>
  <connections>

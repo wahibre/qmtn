@@ -67,8 +67,6 @@ void MtnJob::run()
 /******************************************************************************************************/
 QStringList MtnJob::createArguments()
 {
-    const QString DEFAULT_UNIX_FONT="/usr/share/fonts/dejavu/DejaVuSans.ttf";
-
     QStringList args;
     args                                            //         http://moviethumbnail.sourceforge.net/
          << "-P"                                    //    -P : dont pause before exiting; override -p
@@ -93,12 +91,26 @@ QStringList MtnJob::createArguments()
     if(m_sett.skip_end > 0.01)                      //    -E 0.0 : omit this seconds at the end
         args << "-E" << QString::asprintf("%.1f", m_sett.skip_end);
 
-                                                    //    -f tahomabd.ttf : font file; use absolute path if not in usual places
-    args << "-f" << DEFAULT_UNIX_FONT;
 
+    args << "-f" << m_sett.fontInfotext;            //    -f tahomabd.ttf : font file; use absolute path if not in usual places
+
+    {
                                                     //    -F RRGGBB:size[:font:RRGGBB:RRGGBB:size] : font format [time is optional]
-    args << "-F" << color2hex(m_sett.foreground)+":14";
                                                     //       info_color:info_size[:time_font:time_color:time_shadow:time_size]
+        QString fontparam;
+        //RRGGBB
+        fontparam = color2hex(m_sett.foreground);
+        if(m_sett.fontInfoSize>0)
+        {
+            //RRGGBB:size
+            fontparam+=":"+QString::number(m_sett.fontInfoSize);
+            if(!m_sett.fontTimestamp.isEmpty() && !m_sett.fontTimestamp.isEmpty() && m_sett.fontTimeSize>0)
+                //RRGGBB:size[:font:RRGGBB:RRGGBB:size]
+                fontparam+=QString(":%1:%2:%3:%4").arg(m_sett.fontTimestamp, color2hex(m_sett.timecolor), color2hex(m_sett.timeshadow)).arg(m_sett.fontTimeSize);
+        }
+
+        args << "-F" << fontparam;
+    }
                                                     //    -h 150 : minimum height of each shot; will reduce # of column to fit
 
     if(!m_sett.infotext)                            //    -i : info text off

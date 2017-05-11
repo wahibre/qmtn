@@ -18,8 +18,8 @@ enum dataItemNames {
 
 struct SettingsData
 {
-    QString output_directory, suffix, title;
-    int columns,rows,width, edge_detect, quality, gap;
+    QString output_directory, suffix, title, fontInfotext, fontTimestamp;
+    int columns,rows,width, edge_detect, quality, gap, fontInfoSize, fontTimeSize;
     double blank_skip, skip_begin, skip_end;
     bool overwrite, infotext, timestamp;
     QColor foreground, background, timecolor, timeshadow;

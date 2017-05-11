@@ -12,6 +12,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     m_data(data)
 {
     ui->setupUi(this);
+    ui->wFontInfo->setPlaceholderText("Choose font file");
+    ui->wFontTimestamp->setPlaceholderText("Choose font file");
 
     QCompleter *completer = new QCompleter(this);
     completer->setModel(new QDirModel(completer));
@@ -33,13 +35,18 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     ui->eSuffix->setText(       data.suffix);
 
     ui->eTitle->setText(        data.title);
-    ui->groupInfotext->setChecked(data.infotext);
-    ui->groupTimestamp->setChecked(data.timestamp);
+    ui->groupInfotext->setChecked(      data.infotext);
+    ui->groupTimestamp->setChecked(     data.timestamp);
 
     setBackGroundColor(ui->btnBackground, data.background);
     setBackGroundColor(ui->btnForeground, data.foreground);
     setBackGroundColor(ui->btnTimeColor,  data.timecolor);
     setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
+
+    ui->wFontInfo->setText(             data.fontInfotext);
+    ui->wFontTimestamp->setText(        data.fontTimestamp);
+    ui->sbFontInfoSize->setValue(       data.fontInfoSize);
+    ui->sbFontTimestampSize->setValue(  data.fontTimeSize);
 
     connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 }
@@ -78,6 +85,12 @@ SettingsData SettingsDialog::settingsData()
     //m_data.foregound      in on_btnForeground_clicked()
     //m_data.timecolor      in on_btnTimeColor_clicked();
     //m_data.timeshadow     in on_btnTimeShadow_clicked();
+
+    data.fontInfotext       = ui->wFontInfo->text();
+    data.fontTimestamp      = ui->wFontTimestamp->text();
+    data.fontInfoSize       = ui->sbFontInfoSize->value();
+    data.fontTimeSize       = ui->sbFontTimestampSize->value();
+
     return data;
 }
 

@@ -43,6 +43,11 @@ void MtnWorker::dataLoad()
     settingsData.foreground.setNamedColor(s.value(REG_FOREGROUND,   QColor(Qt::white)).toString());
     settingsData.timecolor.setNamedColor(s.value(REG_TIMECOLOR,     QColor(Qt::black)).toString());
     settingsData.timeshadow.setNamedColor(s.value(REG_TIMESHADOW,   QColor(Qt::gray)) .toString());
+
+    settingsData.fontInfotext   = s.value(REG_FONTTEXT          ).toString();
+    settingsData.fontTimestamp  = s.value(REG_FONTTIME          ).toString();
+    settingsData.fontInfoSize   = s.value(REG_FONTTEXTSIZE, 0   ).toInt();
+    settingsData.fontTimeSize   = s.value(REG_FONTTIMESIZE, 0   ).toInt();
 }
 
 void MtnWorker::dataSave()
@@ -72,6 +77,11 @@ void MtnWorker::dataSave()
     s.setValue(REG_FOREGROUND,      settingsData.foreground.name());
     s.setValue(REG_TIMECOLOR,       settingsData.timecolor.name());
     s.setValue(REG_TIMESHADOW,      settingsData.timeshadow.name());
+
+    s.setValue(REG_FONTTEXT,        settingsData.fontInfotext);
+    s.setValue(REG_FONTTIME,        settingsData.fontTimestamp);
+    s.setValue(REG_FONTTEXTSIZE,    settingsData.fontInfoSize);
+    s.setValue(REG_FONTTIMESIZE,    settingsData.fontTimeSize);
 }
 
 SettingsData MtnWorker::data()

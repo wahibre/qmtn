@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
+
     //TODO add alternative for WIN Icon from theme
     ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
     ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
