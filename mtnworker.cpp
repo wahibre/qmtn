@@ -24,7 +24,7 @@ void MtnWorker::dataLoad()
 
     settingsData.columns        = s.value(REG_COLUMNS,   4      ).toInt();
     settingsData.rows           = s.value(REG_ROWS,      8      ).toInt();
-    settingsData.width          = s.value(REG_WIDTH,     920    ).toInt();
+    settingsData.width          = s.value(REG_WIDTH,     1920   ).toInt();
     settingsData.gap            = s.value(REG_GAP,       3      ).toInt();
     settingsData.overwrite      = s.value(REG_OVERWRITE, true   ).toBool();
     settingsData.suffix         = s.value(REG_SUFFIX            ).toString();
@@ -34,6 +34,9 @@ void MtnWorker::dataLoad()
     settingsData.quality        = s.value(REG_QUALITY,   90     ).toInt();
     settingsData.skip_begin     = s.value(REG_SKIPBEGIN, 0.0    ).toReal();
     settingsData.skip_end       = s.value(REG_SKIPEND,   0.0    ).toReal();
+    settingsData.step           = s.value(REG_STEP,      0      ).toInt();
+    settingsData.minHeight      = s.value(REG_MINHEIGHT, 0      ).toInt();
+    settingsData.verbose        = s.value(REG_VERBOSE,  false   ).toBool();
 
     settingsData.title          = s.value(REG_TITLE             ).toString();
     settingsData.infotext       = s.value(REG_INFOTEXT,  true   ).toBool();
@@ -48,6 +51,8 @@ void MtnWorker::dataLoad()
     settingsData.fontTimestamp  = s.value(REG_FONTTIME          ).toString();
     settingsData.fontInfoSize   = s.value(REG_FONTTEXTSIZE, 0   ).toInt();
     settingsData.fontTimeSize   = s.value(REG_FONTTIMESIZE, 0   ).toInt();
+    settingsData.fontInfoLocation = s.value(REG_FONTTEXTLOCATION, -1).toInt();
+    settingsData.fontTimeLocation = s.value(REG_FONTTIMELOCATION, -1).toInt();
 }
 
 void MtnWorker::dataSave()
@@ -68,6 +73,9 @@ void MtnWorker::dataSave()
     s.setValue(REG_BLANK,           settingsData.blank_skip);
     s.setValue(REG_SKIPBEGIN,       settingsData.skip_begin);
     s.setValue(REG_SKIPEND,         settingsData.skip_end);
+    s.setValue(REG_STEP,            settingsData.step);
+    s.setValue(REG_MINHEIGHT,       settingsData.minHeight);
+    s.setValue(REG_VERBOSE,         settingsData.verbose);
 
     s.setValue(REG_TITLE,           settingsData.title);
     s.setValue(REG_INFOTEXT,        settingsData.infotext);
@@ -82,6 +90,8 @@ void MtnWorker::dataSave()
     s.setValue(REG_FONTTIME,        settingsData.fontTimestamp);
     s.setValue(REG_FONTTEXTSIZE,    settingsData.fontInfoSize);
     s.setValue(REG_FONTTIMESIZE,    settingsData.fontTimeSize);
+    s.setValue(REG_FONTTEXTLOCATION, settingsData.fontInfoLocation);
+    s.setValue(REG_FONTTIMELOCATION, settingsData.fontTimeLocation);
 }
 
 SettingsData MtnWorker::data()
@@ -150,9 +160,9 @@ QString MtnWorker::outputFile(const QString inputfilename)
 
 void MtnWorker::enqueue(QStandardItem* parent, int row)
 {
-    if(parent->child(row))
+    if(parent && parent->child(row))
     {
-        QString outfil = outputFile(parent->child(row, dataItemNames::path)->text());
+        QString outfil = outputFile(parent->child(row, columntemNames::path)->text());
         QThreadPool::globalInstance()->start(new MtnJob(parent, row, settingsData, outfil));
     }
 }

@@ -196,6 +196,7 @@
     <property name="title">
      <string>&amp;About</string>
     </property>
+    <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
    <addaction name="menu_File"/>
@@ -237,6 +238,11 @@
   <action name="actionAboutQt">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
    </property>
    <property name="shortcut">
     <string>F1</string>

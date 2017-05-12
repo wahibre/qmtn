@@ -20,6 +20,9 @@
 #define REG_OVERWRITE           "overwrite"
 #define REG_SKIPBEGIN           "skip_begin"
 #define REG_SKIPEND             "skip_end"
+#define REG_STEP                "time_step"
+#define REG_MINHEIGHT           "min_height"
+#define REG_VERBOSE             "verbose"
 #define REG_FOREGROUND          "foregound"
 #define REG_BACKGROUND          "background"
 #define REG_TIMECOLOR           "timecolor"
@@ -30,6 +33,8 @@
 #define REG_FONTTIME            "font_time_stamp"
 #define REG_FONTTEXTSIZE        "font_info_text_size"
 #define REG_FONTTIMESIZE        "font_time_stamp_size"
+#define REG_FONTTEXTLOCATION    "font_info_text_location"
+#define REG_FONTTIMELOCATION    "font_time_stamp_location"
 
 class MtnWorker
 {

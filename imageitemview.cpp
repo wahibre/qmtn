@@ -39,7 +39,7 @@ void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex
 //    }
 //    else
     {
-        imagepath = current.sibling(current.row(), dataItemNames::output).data().toString();
+        imagepath = current.sibling(current.row(), columntemNames::output).data().toString();
         if(QFileInfo::exists(imagepath))
         {
 //            QPixmap *cashed = new QPixmap(imagepath);

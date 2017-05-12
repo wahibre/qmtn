@@ -1,6 +1,7 @@
 #include "mtnjob.h"
 #include<QProcess>
 #include<QDir>
+#include<QDateTime>
 #include<QCoreApplication>
 
 /******************************************************************************************************/
@@ -9,10 +10,7 @@ MtnJob::MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QStrin
     m_stditem(parent),
     m_row(row),
     m_sett(settingsData),
-    m_outputfilename(outputfilename)
-{
-
-}
+    m_outputfilename(outputfilename) { }
 
 /******************************************************************************************************/
 void MtnJob::run()
@@ -22,10 +20,11 @@ void MtnJob::run()
 
     if(m_sett.executable.isEmpty())
     {
-        m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
-        m_stditem->child(m_row, dataItemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
+        m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, columntemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
         return;
     }
+    m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_LOADING);
     mtn.setProgram(m_sett.executable);
 
     args = createArguments();
@@ -42,26 +41,26 @@ void MtnJob::run()
         {
             QString vypis, vystup(mtn.readAll());
 
-            vypis = "*** Calling ****\n\n";
+            vypis =  timeString("*** Calling ****\n\n");
             vypis += mtn.program() + "   ";
             vypis += mtn.arguments().join(' ')+ " \n\n";
-            vypis += "*** Result ****\n\n";
+            vypis += timeString("*** Result ****\n\n");
             vypis += vystup.trimmed();
 
-            m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_VIDEO);
-            m_stditem->child(m_row, dataItemNames::log      )->setText(vypis);
-            m_stditem->child(m_row, dataItemNames::output   )->setText(m_outputfilename);
+            m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_VIDEO);
+            m_stditem->child(m_row, columntemNames::log      )->setText(vypis);
+            m_stditem->child(m_row, columntemNames::output   )->setText(m_outputfilename);
         }
         else
         {
-            m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
-            m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
+            m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
+            m_stditem->child(m_row, columntemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
         }
     }
     else
     {
-        m_stditem->child(m_row, dataItemNames::filename )->setIcon(ICON_ERROR);
-        m_stditem->child(m_row, dataItemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
+        m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, columntemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
     }
 }
 /******************************************************************************************************/
@@ -107,11 +106,13 @@ QStringList MtnJob::createArguments()
             if(!m_sett.fontTimestamp.isEmpty() && !m_sett.fontTimestamp.isEmpty() && m_sett.fontTimeSize>0)
                 //RRGGBB:size[:font:RRGGBB:RRGGBB:size]
                 fontparam+=QString(":%1:%2:%3:%4").arg(m_sett.fontTimestamp, color2hex(m_sett.timecolor), color2hex(m_sett.timeshadow)).arg(m_sett.fontTimeSize);
-        }
 
-        args << "-F" << fontparam;
+            args << "-F" << fontparam;
+        }
     }
-                                                    //    -h 150 : minimum height of each shot; will reduce # of column to fit
+
+    if(m_sett.minHeight>0)                          //    -h 150 : minimum height of each shot; will reduce # of column to fit
+        args << "-h" << QString::number(m_sett.minHeight);
 
     if(!m_sett.infotext)                            //    -i : info text off
         args << "-i";
@@ -122,8 +123,16 @@ QStringList MtnJob::createArguments()
 
     args << "-k" << color2hex(m_sett.background);   //    -k RRGGBB : background color (in hex)
 
-                                                    //    -L info_location[:time_location] : location of text
-                                                    //       1=lower left, 2=lower right, 3=upper right, 4=upper left
+
+    if(m_sett.fontInfoLocation >= 0)                //    -L info_location[:time_location] : location of text
+    {                                               //       1=lower left, 2=lower right, 3=upper right, 4=upper left
+        QString location;
+        location = QString::number(m_sett.fontInfoLocation+1);
+
+        if(m_sett.fontTimeLocation >= 0)
+            location += ":"+QString::number(m_sett.fontTimeLocation+1);
+        args << "-L" << location;
+    }
                                                     //    -n : run at normal priority
                                                     //    -N info_suffix : save info text to a file with suffix
 
@@ -132,16 +141,20 @@ QStringList MtnJob::createArguments()
     if(!m_sett.output_directory.isEmpty())
         args << "-O" << m_sett.output_directory;    //    -O directory : save output files in the specified directory
 
-                                                    //    -s 120 : time step between each shot
+    if(m_sett.step>0)                               //    -s 120 : time step between each shot
+        args << "-s" << QString::number(m_sett.step);
 
     if(!m_sett.timestamp)                           //    -t : time stamp off
         args << "-t";
 
     if(!m_sett.title.isEmpty())                     //    -T text : add text above output image
         args << "-T" << m_sett.title;
-                                                    //    -v : verbose mode (debug)
-    if(!m_sett.overwrite)
-        args << "-W";                               //    -W : dont overwrite existing files, i.e. update mode
+
+    if(m_sett.verbose)                              //    -v : verbose mode (debug)
+        args << "-v";
+
+    if(!m_sett.overwrite)                           //    -W : dont overwrite existing files, i.e. update mode
+        args << "-W";
                                                     //    -z : always use seek mode
                                                     //    -Z : always use non-seek mode -- slower but more accurate timing
 
@@ -154,5 +167,11 @@ QString MtnJob::color2hex(QColor color)
         return QString::asprintf("%02x%02x%02x", color.red(), color.green(), color.blue());
 
     return QString("FFFFFF");
+}
+/******************************************************************************************************/
+QString MtnJob::timeString(QString text)
+{
+    auto now = QDateTime::currentDateTime();
+    return QString("%1: %2").arg(now.toString("hh:mm:ss"), text);
 }
 /******************************************************************************************************/

@@ -12,6 +12,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     m_data(data)
 {
     ui->setupUi(this);
+    setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
+
     ui->wFontInfo->setPlaceholderText("Choose font file");
     ui->wFontTimestamp->setPlaceholderText("Choose font file");
 
@@ -33,6 +35,9 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     ui->sbSkipBegin->setValue(  data.skip_begin);
     ui->sbSkipEnd->setValue(    data.skip_end);
     ui->eSuffix->setText(       data.suffix);
+    ui->sbStep->setValue(       data.step);
+    ui->sbHeight->setValue(     data.minHeight);
+    ui->verboseCheckBox->setChecked(data.verbose);
 
     ui->eTitle->setText(        data.title);
     ui->groupInfotext->setChecked(      data.infotext);
@@ -43,10 +48,12 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     setBackGroundColor(ui->btnTimeColor,  data.timecolor);
     setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
 
-    ui->wFontInfo->setText(             data.fontInfotext);
-    ui->wFontTimestamp->setText(        data.fontTimestamp);
-    ui->sbFontInfoSize->setValue(       data.fontInfoSize);
-    ui->sbFontTimestampSize->setValue(  data.fontTimeSize);
+    ui->wFontInfo->setText(                         data.fontInfotext);
+    ui->wFontTimestamp->setText(                    data.fontTimestamp);
+    ui->sbFontInfoSize->setValue(                   data.fontInfoSize);
+    ui->sbFontTimestampSize->setValue(              data.fontTimeSize);
+    ui->cbFontInfoLocation->setCurrentIndex(        data.fontInfoLocation);
+    ui->cbFontTimestampLocation->setCurrentIndex(   data.fontTimeLocation);
 
     connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 }
@@ -73,14 +80,14 @@ SettingsData SettingsDialog::settingsData()
     data.skip_begin       = ui->sbSkipBegin->value();
     data.skip_end         = ui->sbSkipEnd->value();
     data.suffix           = ui->eSuffix->text();
+    data.step             = ui->sbStep->value();
+    data.minHeight        = ui->sbHeight->value();
+    data.verbose          = ui->verboseCheckBox->isChecked();
 
     data.title            = ui->eTitle->text();
     data.infotext         = ui->groupInfotext->isChecked();
     data.timestamp        = ui->groupTimestamp->isChecked();
 
-//    auto f = ui->fontComboBox->currentFont();
-//    auto fi = QFontInfo(f);
-//    auto f2 = QFont(fi.family()).rawName();
     //m_data.background     in on_btnBackground_clicked()
     //m_data.foregound      in on_btnForeground_clicked()
     //m_data.timecolor      in on_btnTimeColor_clicked();
@@ -90,6 +97,8 @@ SettingsData SettingsDialog::settingsData()
     data.fontTimestamp      = ui->wFontTimestamp->text();
     data.fontInfoSize       = ui->sbFontInfoSize->value();
     data.fontTimeSize       = ui->sbFontTimestampSize->value();
+    data.fontInfoLocation   = ui->cbFontInfoLocation->currentIndex();
+    data.fontTimeLocation   = ui->cbFontTimestampLocation->currentIndex();
 
     return data;
 }

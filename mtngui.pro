@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2017-04-20T18:32:30
-#
-#-------------------------------------------------
-
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -11,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = mtngui
 TEMPLATE = app
 DEFINES += LAST_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
-target.path = /opt
+target.path = /usr/bin
 INSTALLS += target
 
 SOURCES += main.cpp\

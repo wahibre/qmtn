@@ -8,9 +8,9 @@ namespace Ui {
 class Dialog;
 }
 
+//TODO multiple settings profiles
 class SettingsDialog : public QDialog
 {
-    //TODO implement others settings
     Q_OBJECT
 
     Ui::Dialog *ui;

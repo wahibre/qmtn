@@ -28,8 +28,10 @@ private slots:
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
     void treeContextMenuRequest(const QPoint &pos);
     void openDirectory();
+    void recreateThumbnail();
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();
+    void on_actionAbout_triggered();
 
 private:
     Ui::MainWindow *ui;

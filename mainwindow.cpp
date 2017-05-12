@@ -22,16 +22,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->hide();
     ui->treeView->setModel(datamodel);
-    ui->treeView->header()->hideSection(dataItemNames::path);
-    ui->treeView->header()->hideSection(dataItemNames::log);
-    ui->treeView->header()->hideSection(dataItemNames::output);
+    ui->treeView->header()->hideSection(columntemNames::path);
+    ui->treeView->header()->hideSection(columntemNames::log);
+    ui->treeView->header()->hideSection(columntemNames::output);
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
 
     //TODO add alternative for WIN Icon from theme
-    ui->action_Settings->setIcon(QIcon::fromTheme("applications-system"));
-    ui->action_Quit->setIcon(QIcon::fromTheme("application-exit"));
+    ui->action_Settings->setIcon(ICON_SYSTEM);
+    ui->action_Quit->setIcon(ICON_EXIT);
+    ui->actionAbout->setIcon(ICON_HELP);
+    ui->actionAboutQt->setIcon(ICON_HELP);
+    ui->TabOutput->setTabIcon(0, ICON_IMAGE);
+    ui->TabOutput->setTabIcon(1, ICON_TEXT);
 
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv" << "wmv" << "asf";
 
@@ -57,7 +61,7 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
 {
     QString log;
 
-    log = current.sibling(current.row(), dataItemNames::log).data().toString();
+    log = current.sibling(current.row(), columntemNames::log).data().toString();
     ui->logText->setPlainText(log);
 }
 
@@ -66,7 +70,8 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
-    treeContextMenu->addAction(ICON_FOLDER, "Open Directory", this, SLOT(openDirectory()));
+    treeContextMenu->addAction(ICON_FOLDER,  "&Open Directory",      this, SLOT(openDirectory()));
+    treeContextMenu->addAction(ICON_REFRESH, "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()));
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 
@@ -74,11 +79,14 @@ void MainWindow::openDirectory()
 {
     if(datamodel->rowCount()>0)
     {
-        QString s = ui->treeView->currentIndex().sibling(
-                    ui->treeView->currentIndex().row(),
-                    1
+        QModelIndex selIndex = ui->treeView->currentIndex();
+
+        QString s = selIndex.sibling(
+                    selIndex.row(),
+                    columntemNames::path
                     ).data().toString();
 
+        // File Item
         if(!s.isEmpty())
         {
             QFileInfo f(s);
@@ -92,12 +100,37 @@ void MainWindow::openDirectory()
             }
         }
         else
+        // Directory Item
         {
-            QFileInfo f(ui->treeView->currentIndex().child(0,dataItemNames::path).data().toString());
+            QFileInfo f(selIndex.child(0,columntemNames::path).data().toString());
+
             if(f.exists() && f.isFile())
-            {
                 QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
-            }
+        }
+    }
+}
+
+void MainWindow::recreateThumbnail()
+{
+    if(datamodel->rowCount()>0)
+    {
+        QModelIndex selIndex = ui->treeView->currentIndex();
+
+        QString s = selIndex.sibling(
+                    selIndex.row(),
+                    columntemNames::path
+                    ).data().toString();
+
+        // File Item
+        if(!s.isEmpty())
+            worker.enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
+        else
+        // Directory Item
+        {
+            int i=0;
+
+            while(selIndex.child(i, 0).isValid())
+                worker.enqueue(datamodel->itemFromIndex(selIndex), i++);
         }
     }
 }
@@ -120,7 +153,6 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 }
 
 void MainWindow::dropEvent(QDropEvent *event)
-
 {
     QStandardItem *iDir;
 
@@ -197,7 +229,7 @@ bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
 
     if(isVideoFile(file))
     {
-        iFile = new QStandardItem(ICON_LOADING, file.fileName());   iFile->setEditable(false);
+        iFile = new QStandardItem(file.fileName());                 iFile->setEditable(false);
         iAbsFile = new QStandardItem(file.absoluteFilePath());      iAbsFile->setEditable(false);
         iLog = new QStandardItem();                                 iLog->setEditable(false);
         iOutputFile = new QStandardItem();                          iOutputFile->setEditable(false);
@@ -237,4 +269,27 @@ void MainWindow::on_action_Settings_triggered()
 void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox::aboutQt(this, "About Qt");
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, "About...",
+R"(
+Movie Thumbnailer for creating thumbnails
+is frontend of great mtn.
+
+(see http://moviethumbnail.sourceforge.net)
+
+
+Features:
+   - Drag&drop files and folders
+   - Filter Videofiles to mp4, avi, mpeg, mkv, wmv, asf
+   - Recursive search for movie files
+   - Immediate image creation in background
+   - Display created image and log
+   - Open image in external image viewer
+   - Recreate image with new settings
+   - Settings for managing mtn switches
+)"
+    );
 }

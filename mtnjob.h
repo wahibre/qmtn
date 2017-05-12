@@ -24,6 +24,7 @@ private:
     void run() Q_DECL_OVERRIDE;
     QStringList createArguments();
     QString color2hex(QColor color);
+    static QString timeString(QString text);
 };
 
 #endif // MTNJOB_H

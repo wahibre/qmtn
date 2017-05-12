@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>996</width>
-    <height>435</height>
+    <width>889</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,8 +27,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1548</width>
-    <height>1677</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -58,10 +58,13 @@
    </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_8">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_10">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <layout class="QVBoxLayout" name="groupOutput">
          <item>
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
@@ -144,7 +147,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="columnsLabel_4">
                   <property name="text">
-                   <string>Columns:</string>
+                   <string>&amp;Columns:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbColumns</cstring>
@@ -161,7 +164,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="rowsLabel_3">
                   <property name="text">
-                   <string>Rows:</string>
+                   <string>&amp;Rows:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbRows</cstring>
@@ -178,7 +181,7 @@
                 <item row="2" column="0">
                  <widget class="QLabel" name="widthPxLabel_3">
                   <property name="text">
-                   <string>Width:</string>
+                   <string>&amp;Width:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbWidth</cstring>
@@ -201,7 +204,7 @@
                 <item row="3" column="0">
                  <widget class="QLabel" name="gapLabel">
                   <property name="text">
-                   <string>Gap:</string>
+                   <string>&amp;Gap:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbGap</cstring>
@@ -224,7 +227,7 @@
                 <item row="4" column="0">
                  <widget class="QLabel" name="overwriteLabel">
                   <property name="text">
-                   <string>Overwrite:</string>
+                   <string>&amp;Overwrite:</string>
                   </property>
                   <property name="buddy">
                    <cstring>overwriteCheckBox</cstring>
@@ -257,10 +260,36 @@
                 <item row="5" column="0">
                  <widget class="QLabel" name="qualityLabel_2">
                   <property name="text">
-                   <string>Suffix:</string>
+                   <string>&amp;Suffix:</string>
                   </property>
                   <property name="buddy">
                    <cstring>eSuffix</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="stepLabel">
+                  <property name="text">
+                   <string>S&amp;tep:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>sbStep</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QSpinBox" name="sbStep">
+                  <property name="toolTip">
+                   <string>-s 120 : time step between each shot</string>
+                  </property>
+                  <property name="suffix">
+                   <string>s</string>
+                  </property>
+                  <property name="maximum">
+                   <number>999999999</number>
+                  </property>
+                  <property name="value">
+                   <number>120</number>
                   </property>
                  </widget>
                 </item>
@@ -277,7 +306,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="edgeDetectLabel">
                   <property name="text">
-                   <string>Edge Detect:</string>
+                   <string>&amp;Edge Detect:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbEdgeDetect</cstring>
@@ -303,7 +332,7 @@
                 <item row="2" column="0">
                  <widget class="QLabel" name="blankSkipLabel">
                   <property name="text">
-                   <string>Blank skip:</string>
+                   <string>&amp;Blank skip:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbBlankSkip</cstring>
@@ -326,7 +355,7 @@
                 <item row="3" column="0">
                  <widget class="QLabel" name="qualityLabel">
                   <property name="text">
-                   <string>Quality:</string>
+                   <string>&amp;Quality:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbQuality</cstring>
@@ -381,7 +410,7 @@
                 <item row="4" column="0">
                  <widget class="QLabel" name="omitFromBeginningLabel">
                   <property name="text">
-                   <string>Begin at:</string>
+                   <string>Begin &amp;at:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbSkipBegin</cstring>
@@ -391,10 +420,56 @@
                 <item row="5" column="0">
                  <widget class="QLabel" name="omitAtEndLabel">
                   <property name="text">
-                   <string>Omit from End:</string>
+                   <string>O&amp;mit from End:</string>
                   </property>
                   <property name="buddy">
                    <cstring>sbSkipEnd</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="minHeightLabel">
+                  <property name="text">
+                   <string>&amp;Min. Height:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>sbHeight</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QSpinBox" name="sbHeight">
+                  <property name="toolTip">
+                   <string>-h 150 : minimum height of each shot; will reduce # of column to fit</string>
+                  </property>
+                  <property name="suffix">
+                   <string>px</string>
+                  </property>
+                  <property name="maximum">
+                   <number>999999999</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>150</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="verboseLabel">
+                  <property name="text">
+                   <string>&amp;Verbose:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>verboseCheckBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QCheckBox" name="verboseCheckBox">
+                  <property name="toolTip">
+                   <string>-v : verbose mode (debug)</string>
                   </property>
                  </widget>
                 </item>
@@ -410,7 +485,7 @@
               <item>
                <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>Output:</string>
+                 <string>Outp&amp;ut:</string>
                 </property>
                 <property name="buddy">
                  <cstring>eOutputDir</cstring>
@@ -508,9 +583,45 @@ QPushButton#btnTimeShadow
            <number>5</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <property name="spacing">
+               <number>5</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Additional &amp;Title: </string>
+                </property>
+                <property name="buddy">
+                 <cstring>eTitle</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="eTitle">
+                <property name="clearButtonEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout">
+              <property name="spacing">
+               <number>5</number>
+              </property>
               <item>
                <widget class="QLabel" name="label_8">
                 <property name="sizePolicy">
@@ -529,6 +640,12 @@ QPushButton#btnTimeShadow
               </item>
               <item>
                <widget class="QPushButton" name="btnBackground">
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="toolTip">
                  <string>-k RRGGBB : background color (in hex)</string>
                 </property>
@@ -540,32 +657,18 @@ QPushButton#btnTimeShadow
                 </property>
                </widget>
               </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
-               <widget class="QLabel" name="label_9">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="text">
-                 <string>Additional Title: </string>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
                 </property>
-                <property name="buddy">
-                 <cstring>eTitle</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="eTitle">
-                <property name="clearButtonEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               </spacer>
               </item>
              </layout>
             </item>
@@ -583,7 +686,7 @@ QPushButton#btnTimeShadow
              <string>-i : info text on/off</string>
             </property>
             <property name="title">
-             <string>Infotext</string>
+             <string>&amp;Infotext</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -591,94 +694,165 @@ QPushButton#btnTimeShadow
             <property name="checkable">
              <bool>true</bool>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_17">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout">
+               <property name="spacing">
+                <number>5</number>
+               </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <widget class="QLabel" name="label_10">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Font:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="FileSelector" name="wFontInfo" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="text">
-                      <string>Font</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="FileSelector" name="wFontInfo" native="true"/>
-                   </item>
-                  </layout>
+                  <widget class="QLabel" name="label_11">
+                   <property name="text">
+                    <string>Size:        </string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_14">
-                   <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="text">
-                      <string>Font Size</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sbFontInfoSize"/>
-                   </item>
-                  </layout>
+                  <widget class="QSpinBox" name="sbFontInfoSize">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_12">
+                   <property name="text">
+                    <string>Location:</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_15">
+                  <widget class="QComboBox" name="cbFontInfoLocation">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>-L info_location[:time_location] : location of text</string>
+                   </property>
+                   <property name="currentIndex">
+                    <number>-1</number>
+                   </property>
+                   <property name="maxCount">
+                    <number>10</number>
+                   </property>
+                   <property name="insertPolicy">
+                    <enum>QComboBox::NoInsert</enum>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_12">
-                     <property name="text">
-                      <string>Location</string>
-                     </property>
-                    </widget>
+                    <property name="text">
+                     <string>lower left</string>
+                    </property>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="cbFontInfoLocation">
-                     <property name="currentIndex">
-                      <number>-1</number>
+                    <property name="text">
+                     <string>lower right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>upper right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>upper left</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_16">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_13">
+                   <property name="text">
+                    <string>Color:</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>btnForeground</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="spacing">
+                    <number>5</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="btnForeground">
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>16777215</height>
+                      </size>
                      </property>
-                     <property name="maxCount">
-                      <number>10</number>
+                     <property name="toolTip">
+                      <string>Infotext Font Color</string>
                      </property>
-                     <property name="insertPolicy">
-                      <enum>QComboBox::NoInsert</enum>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: white</string>
                      </property>
-                     <item>
-                      <property name="text">
-                       <string>lower left</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>lower right</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>upper right</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>upper left</string>
-                      </property>
-                     </item>
+                     <property name="text">
+                      <string/>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -686,38 +860,17 @@ QPushButton#btnTimeShadow
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
-                 <item>
-                  <widget class="QLabel" name="label_13">
-                   <property name="text">
-                    <string>Font Color: </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnForeground">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: white</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -741,119 +894,156 @@ QPushButton#btnTimeShadow
             <property name="checkable">
              <bool>true</bool>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>5</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_21">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_19">
+              <layout class="QVBoxLayout" name="verticalLayout_13">
+               <property name="spacing">
+                <number>5</number>
+               </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <widget class="QLabel" name="label_19">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Font:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="FileSelector" name="wFontTimestamp" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_16">
-                   <item>
-                    <widget class="QLabel" name="label_19">
-                     <property name="text">
-                      <string>Font</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="FileSelector" name="wFontTimestamp" native="true"/>
-                   </item>
-                  </layout>
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Font Size:</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_17">
-                   <item>
-                    <widget class="QLabel" name="label_20">
-                     <property name="text">
-                      <string>Font Size</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sbFontTimestampSize"/>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_18">
-                   <item>
-                    <widget class="QLabel" name="label_21">
-                     <property name="text">
-                      <string>Location</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cmFontTimestampLocation">
-                     <property name="currentIndex">
-                      <number>-1</number>
-                     </property>
-                     <property name="maxCount">
-                      <number>10</number>
-                     </property>
-                     <property name="insertPolicy">
-                      <enum>QComboBox::NoInsert</enum>
-                     </property>
-                     <item>
-                      <property name="text">
-                       <string>lower left</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>lower right</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>upper right</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>upper left</string>
-                      </property>
-                     </item>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="QSpinBox" name="sbFontTimestampSize">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <layout class="QVBoxLayout" name="verticalLayout_12">
                  <property name="spacing">
-                  <number>14</number>
+                  <number>5</number>
                  </property>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                  <widget class="QLabel" name="label_21">
+                   <property name="text">
+                    <string>Location:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cbFontTimestampLocation">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>-L info_location[:time_location] : location of text</string>
+                   </property>
+                   <property name="currentIndex">
+                    <number>-1</number>
+                   </property>
+                   <property name="maxCount">
+                    <number>10</number>
+                   </property>
+                   <property name="insertPolicy">
+                    <enum>QComboBox::NoInsert</enum>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_17">
-                     <property name="text">
-                      <string>Font Color: </string>
-                     </property>
-                     <property name="buddy">
-                      <cstring>btnTimeColor</cstring>
-                     </property>
-                    </widget>
+                    <property name="text">
+                     <string>lower left</string>
+                    </property>
                    </item>
                    <item>
+                    <property name="text">
+                     <string>lower right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>upper right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>upper left</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_17">
+                   <property name="text">
+                    <string>Color/Shadow: </string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>btnTimeColor</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <property name="spacing">
+                    <number>5</number>
+                   </property>
+                   <item>
                     <widget class="QPushButton" name="btnTimeColor">
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Timestamp Font Color</string>
+                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: black</string>
                      </property>
@@ -862,22 +1052,17 @@ QPushButton#btnTimeShadow
                      </property>
                     </widget>
                    </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_12">
-                   <item>
-                    <widget class="QLabel" name="label_18">
-                     <property name="text">
-                      <string>Shadow Color: </string>
-                     </property>
-                     <property name="buddy">
-                      <cstring>btnTimeShadow</cstring>
-                     </property>
-                    </widget>
-                   </item>
                    <item>
                     <widget class="QPushButton" name="btnTimeShadow">
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Timestamp Shadow Color</string>
+                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: grey</string>
                      </property>
@@ -888,20 +1073,20 @@ QPushButton#btnTimeShadow
                    </item>
                   </layout>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -926,7 +1111,7 @@ QPushButton#btnTimeShadow
        </property>
       </spacer>
      </item>
-     <item>
+     <item alignment="Qt::AlignRight">
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -952,24 +1137,32 @@ QPushButton#btnTimeShadow
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>cbSettingsName</tabstop>
   <tabstop>sbColumns</tabstop>
   <tabstop>sbRows</tabstop>
   <tabstop>sbWidth</tabstop>
   <tabstop>sbGap</tabstop>
   <tabstop>overwriteCheckBox</tabstop>
   <tabstop>eSuffix</tabstop>
+  <tabstop>sbStep</tabstop>
   <tabstop>sbEdgeDetect</tabstop>
   <tabstop>sbBlankSkip</tabstop>
   <tabstop>sbQuality</tabstop>
+  <tabstop>sbSkipBegin</tabstop>
+  <tabstop>sbSkipEnd</tabstop>
+  <tabstop>sbHeight</tabstop>
+  <tabstop>verboseCheckBox</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
-  <tabstop>sbFontTimestampSize</tabstop>
-  <tabstop>cmFontTimestampLocation</tabstop>
-  <tabstop>groupInfotext</tabstop>
-  <tabstop>cbFontInfoLocation</tabstop>
-  <tabstop>sbFontInfoSize</tabstop>
   <tabstop>btnBackground</tabstop>
+  <tabstop>eTitle</tabstop>
+  <tabstop>groupInfotext</tabstop>
+  <tabstop>sbFontInfoSize</tabstop>
+  <tabstop>cbFontInfoLocation</tabstop>
   <tabstop>groupTimestamp</tabstop>
+  <tabstop>sbFontTimestampSize</tabstop>
+  <tabstop>cbFontTimestampLocation</tabstop>
+  <tabstop>btnTimeColor</tabstop>
  </tabstops>
  <resources/>
  <connections>
