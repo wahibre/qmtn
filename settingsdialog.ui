@@ -159,6 +159,9 @@
                   <property name="toolTip">
                    <string>-c 3 : # of column</string>
                   </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="0">

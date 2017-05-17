@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
 
     worker.findExecutable();
+
+    createStatusBarWidgets();
+    refreshStatusBar();
 }
 
 MainWindow::~MainWindow()
@@ -259,6 +262,51 @@ bool MainWindow::isVideoFile(QFileInfo file)
     */
 }
 
+void MainWindow::createStatusBarWidgets()
+{
+    auto s = statusBar();
+    qApp->setStyleSheet("QStatusBar::item { border-width: 0; }");
+
+    sColumns = new QLabel(s);
+    sRows = new QLabel(s);
+    sOutput = new QLabel(s);
+    sStep = new QLabel(s);
+    sSuffix = new QLabel(s);
+
+    sOverwrite = new QCheckBox("Overwrite:", s);
+    sOverwrite->setLayoutDirection(Qt::RightToLeft);
+    sOverwrite->setAttribute(Qt::WA_TransparentForMouseEvents);
+    sOverwrite->setFocusPolicy(Qt::NoFocus);
+
+    s->addWidget(sColumns);
+    s->addWidget(sStep);
+    s->addWidget(sRows);
+    s->addWidget(sOutput);
+    s->addWidget(sSuffix);
+    s->addWidget(sOverwrite);
+}
+
+void MainWindow::refreshStatusBar()
+{
+    auto d = worker.data();
+
+    sColumns->setText(QString("Columns: %1 |").arg(d.columns));
+
+    sStep->setText(QString("Step: %1s |").arg(d.step));
+    sStep->setVisible(d.rows<=0);
+
+    sRows->setText(QString("Rows: %1 |").arg(d.rows));
+    sRows->setVisible(d.rows>0);
+
+    sOutput->setText(QString("Output: %1 |").arg(d.output_directory));
+    sOutput->setHidden(d.output_directory.isEmpty());
+
+    sSuffix->setText(QString("Suffix: %1 |").arg(d.suffix));
+    sSuffix->setHidden(d.suffix.isEmpty());
+
+    sOverwrite->setChecked(d.overwrite);
+}
+
 void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dial = new SettingsDialog(this, worker.data());
@@ -266,6 +314,7 @@ void MainWindow::on_action_Settings_triggered()
     if(dial->exec() == QDialog::Accepted)
     {
         worker.setData(dial->settingsData());
+        refreshStatusBar();
     }
 }
 

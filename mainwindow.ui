@@ -219,6 +219,7 @@
    <addaction name="action_Quit"/>
    <addaction name="action_Settings"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Settings">
    <property name="text">
     <string>&amp;Settings</string>

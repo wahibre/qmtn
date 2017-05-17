@@ -7,6 +7,8 @@
 #include <QTreeWidgetItem>
 #include <QDir>
 #include <QUrl>
+#include <QLabel>
+#include <QCheckBox>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +21,10 @@ class MainWindow : public QMainWindow
     MtnWorker worker;
     QStandardItemModel *datamodel;
     QStringList videoExtensions;
+
+    /* statusbar widgets */
+    QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix;
+    QCheckBox *sOverwrite;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -46,6 +52,8 @@ private:
     QStandardItem *fileInfo2DirItem(QFileInfo file);
     bool fileInfo2FileItem(QFileInfo file, QStandardItem *parent);
     bool isVideoFile(QFileInfo file);
+    void createStatusBarWidgets();
+    void refreshStatusBar();
 };
 
 #endif // MAINWINDOW_H
