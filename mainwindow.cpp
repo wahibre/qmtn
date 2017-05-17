@@ -154,6 +154,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
+    //TODO merge multiple files
+    //TODO add support for external URL (SMB, ...)
     QStandardItem *iDir;
 
     // All droped files
@@ -165,6 +167,7 @@ void MainWindow::dropEvent(QDropEvent *event)
         if(fi.isDir())
             iDir = dir2DirItem(QDir(fi.absoluteFilePath()));
         else
+
             if(fi.isFile())
                 iDir = fileInfo2DirItem(fi);
             else
