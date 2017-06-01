@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Movie Thumbnailer
+GenericName=Movie Thumbnailer
+Comment=Movie Thumbnail generator
+Exec=qmtn
+Icon=qmtn
+MimeType=application/x-mtn;
+Terminal=false
+Type=Application
+Categories=AudioVideo;
+X-Desktop-File-Install-Version=0.23

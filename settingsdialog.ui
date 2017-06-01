@@ -34,6 +34,10 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/rsc/qmtn.png</normaloff>:/rsc/qmtn.png</iconset>
+  </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
@@ -1167,7 +1171,9 @@ QPushButton#btnTimeShadow
   <tabstop>cbFontTimestampLocation</tabstop>
   <tabstop>btnTimeColor</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
