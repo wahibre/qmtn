@@ -327,21 +327,21 @@ void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::about(this, "About...",
 R"(
-Movie Thumbnailer for creating thumbnails
-is frontend of great mtn.
-
-(see http://moviethumbnail.sourceforge.net)
-
-
-Features:
-   - Drag&drop files and folders
-   - Filter Videofiles to mp4, avi, mpeg, mkv, wmv, asf
-   - Recursive search for movie files
-   - Immediate image creation in background
-   - Display created image and log
-   - Open image in external image viewer
-   - Recreate image with new settings
-   - Settings for managing mtn switches
+<html>
+    <p>Movie Thumbnailer for creating thumbnails is frontend of great <a href="http://moviethumbnail.sourceforge.net">mtn</a>.</p>
+    <p>Features:
+        <ul>
+            <li>Drag&drop files and folders</li>
+            <li>Recursive search for movie files</li>
+            <li>Filter Videofiles to mp4, avi, mpeg, mkv, wmv, asf</li>
+            <li>Immediate image creation in background</li>
+            <li>Display created image and log</li>
+            <li>Open image in external image viewer</li>
+            <li>Recreate image with new settings</li>
+            <li>Settings for managing mtn switches</li>
+        </ul>
+    </p>
+</html>
 )"
     );
 }
