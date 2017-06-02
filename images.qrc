@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>rsc/qmtn.png</file>
+        <file>rsc/qmtn.ico</file>
     </qresource>
 </RCC>

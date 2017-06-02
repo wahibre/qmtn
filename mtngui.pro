@@ -37,3 +37,6 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     images.qrc
+
+ICON = qmtn.ico
+RC_ICONS = rsc/qmtn.ico
