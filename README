@@ -1,0 +1,13 @@
+Thumbnail generator using CLI mtn (http://moviethumbnail.sourceforge.net)
+
+
+Get source:
+git clone git://git.assembla.com/wahibresstuff.mtngui.git
+
+Make:
+qmake-qt5 wahibresstuff.mtngui/mtngui.pro 
+make -j 4
+
+Install:
+su -c 'make install'
+
