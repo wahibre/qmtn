@@ -20,11 +20,11 @@ void MtnJob::run()
 
     if(m_sett.executable.isEmpty())
     {
-        m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
-        m_stditem->child(m_row, columntemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
+        m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, columnItemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
         return;
     }
-    m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_LOADING);
+    m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_LOADING);
     mtn.setProgram(m_sett.executable);
 
     args = createArguments();
@@ -47,20 +47,20 @@ void MtnJob::run()
             vypis += timeString("*** Result ****\n\n");
             vypis += vystup.trimmed();
 
-            m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_VIDEO);
-            m_stditem->child(m_row, columntemNames::log      )->setText(vypis);
-            m_stditem->child(m_row, columntemNames::output   )->setText(m_outputfilename);
+            m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_VIDEO);
+            m_stditem->child(m_row, columnItemNames::log      )->setText(vypis);
+            m_stditem->child(m_row, columnItemNames::output   )->setText(m_outputfilename);
         }
         else
         {
-            m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
-            m_stditem->child(m_row, columntemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
+            m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
+            m_stditem->child(m_row, columnItemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
         }
     }
     else
     {
-        m_stditem->child(m_row, columntemNames::filename )->setIcon(ICON_ERROR);
-        m_stditem->child(m_row, columntemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
+        m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, columnItemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
     }
 }
 /******************************************************************************************************/

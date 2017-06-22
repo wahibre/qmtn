@@ -162,8 +162,7 @@ void MtnWorker::enqueue(QStandardItem* parent, int row)
 {
     if(parent && parent->child(row))
     {
-        QString outfil = outputFile(parent->child(row, columntemNames::path)->text());
-        QThreadPool::globalInstance()->start(new MtnJob(parent, row, settingsData, outfil));
+        QString outfile = outputFile(parent->child(row, columnItemNames::path)->text());
+        QThreadPool::globalInstance()->start(new MtnJob(parent, row, settingsData, outfile));
     }
 }
-

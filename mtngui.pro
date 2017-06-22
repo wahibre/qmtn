@@ -40,3 +40,6 @@ RESOURCES += \
 
 ICON = qmtn.ico
 RC_ICONS = rsc/qmtn.ico
+
+OTHER_FILES += \
+    README

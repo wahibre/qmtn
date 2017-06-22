@@ -14,11 +14,11 @@
 #define ICON_EXIT    QIcon::fromTheme("application-exit")
 #define ICON_TEXT    QIcon::fromTheme("accessories-text-editor")
 
-enum columntemNames {
-    filename    =0,
-    path        =1,
-    log         =2,
-    output      =3
+enum columnItemNames {
+    filename    =0,     /* file, folder */
+    path        =1,     /* file         */
+    log         =2,     /* file         */
+    output      =3      /* file         */
 };
 
 struct SettingsData

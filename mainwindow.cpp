@@ -22,9 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->hide();
     ui->treeView->setModel(datamodel);
-    ui->treeView->header()->hideSection(columntemNames::path);
-    ui->treeView->header()->hideSection(columntemNames::log);
-    ui->treeView->header()->hideSection(columntemNames::output);
+    ui->treeView->header()->hideSection(columnItemNames::path);
+    ui->treeView->header()->hideSection(columnItemNames::log);
+    ui->treeView->header()->hideSection(columnItemNames::output);
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
@@ -64,7 +64,7 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
 {
     QString log;
 
-    log = current.sibling(current.row(), columntemNames::log).data().toString();
+    log = current.sibling(current.row(), columnItemNames::log).data().toString();
     ui->logText->setPlainText(log);
 }
 
@@ -86,7 +86,7 @@ void MainWindow::openDirectory()
 
         QString s = selIndex.sibling(
                     selIndex.row(),
-                    columntemNames::path
+                    columnItemNames::path
                     ).data().toString();
 
         // File Item
@@ -105,7 +105,7 @@ void MainWindow::openDirectory()
         else
         // Directory Item
         {
-            QFileInfo f(selIndex.child(0,columntemNames::path).data().toString());
+            QFileInfo f(selIndex.child(0,columnItemNames::path).data().toString());
 
             if(f.exists() && f.isFile())
                 QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
@@ -121,7 +121,7 @@ void MainWindow::recreateThumbnail()
 
         QString s = selIndex.sibling(
                     selIndex.row(),
-                    columntemNames::path
+                    columnItemNames::path       /* vyplnene len pre subory */
                     ).data().toString();
 
         // File Item
@@ -130,6 +130,7 @@ void MainWindow::recreateThumbnail()
         else
         // Directory Item
         {
+            //FIXME toto pada na linuxe
             int i=0;
 
             while(selIndex.child(i, 0).isValid())
