@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(LAST_TAG));
+    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(QString(LAST_TAG).replace('-','.')));
 
     datamodel = new QStandardItemModel(this);
     datamodel->setColumnCount(4);
@@ -130,7 +130,7 @@ void MainWindow::recreateThumbnail()
         else
         // Directory Item
         {
-            //FIXME toto pada na linuxe
+            //FIXME crash on directories [recreateThumbnail]
             int i=0;
 
             while(selIndex.child(i, 0).isValid())
@@ -160,6 +160,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 {
     //TODO merge multiple files
     //TODO add support for external URL (SMB, ...)
+    //TODO menu items for open file or directory
     QStandardItem *iDir;
 
     // All droped files

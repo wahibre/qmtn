@@ -110,30 +110,19 @@
          </property>
          <item>
           <widget class="ImageItemView" name="imageViewer">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>15</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="contextMenuPolicy">
-            <enum>Qt::ActionsContextMenu</enum>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="scaledContents">
+           <property name="widgetResizable">
             <bool>true</bool>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>210</width>
+              <height>241</height>
+             </rect>
+            </property>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -258,8 +247,9 @@
  <customwidgets>
   <customwidget>
    <class>ImageItemView</class>
-   <extends>QLabel</extends>
+   <extends>QScrollArea</extends>
    <header>imageitemview.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

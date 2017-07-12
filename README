@@ -1,17 +1,24 @@
-Thumbnail generator using CLI mtn (http://moviethumbnail.sourceforge.net)
+Thumbnail generator using CLI mtn (https://gitlab.com/movie_thumbnailer/mtn).
+
+Aplication focuses on quick thumbnails-grid creating using drag&drop.
+
+Features:
+    - drag&drop files and directories
+    - instant image making in background
+    - showing image and output log
+    - settings dialog for mtn switches
 
 
 ----------
 Get source
 ----------
-
-git clone git://git.assembla.com/wahibresstuff.mtngui.git
+git clone https://gitlab.com/movie_thumbnailer/qmtn.git qmtn
 
 
 -----
 Build
 -----
-qmake-qt5 wahibresstuff.mtngui/mtngui.pro 
+qmake-qt5 qmtn/mtngui.pro
 make -j 4
 
 
@@ -19,4 +26,3 @@ make -j 4
 Install
 -------
 su -c 'make install'
-
