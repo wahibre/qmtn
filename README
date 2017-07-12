@@ -1,4 +1,4 @@
-Thumbnail generator using CLI mtn (https://gitlab.com/movie_thumbnailer/mtn).
+GUI Thumbnail Generator Using CLI mtn (https://gitlab.com/movie_thumbnailer/mtn).
 
 Aplication focuses on quick thumbnails-grid creating using drag&drop.
 
@@ -13,6 +13,7 @@ Features:
 Get source
 ----------
 git clone https://gitlab.com/movie_thumbnailer/qmtn.git qmtn
+
 
 
 -----
