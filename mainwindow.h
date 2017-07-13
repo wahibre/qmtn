@@ -35,6 +35,7 @@ private slots:
     void treeContextMenuRequest(const QPoint &pos);
     void openDirectory();
     void recreateThumbnail();
+    void recreateThumbnail(const QModelIndex idx);
 
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();

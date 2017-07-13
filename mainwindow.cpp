@@ -143,30 +143,30 @@ void MainWindow::openDirectory()
     }
 }
 /******************************************************************************************************/
+void MainWindow::recreateThumbnail(const QModelIndex selIndex)
+{
+    QModelIndex pathCell = selIndex.sibling(
+                selIndex.row(),
+                columnItemNames::path       /* empty for directories */
+                );
+
+    // File Item
+    if(!pathCell.data().toString().isEmpty())
+        worker.enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
+    else
+    // Directory Item
+    {
+        int i=0;
+
+        while(selIndex.child(i, 0).isValid())
+            recreateThumbnail(selIndex.child(i++, 0));
+    }
+}
+/******************************************************************************************************/
 void MainWindow::recreateThumbnail()
 {
     if(datamodel->rowCount()>0)
-    {
-        QModelIndex selIndex = ui->treeView->currentIndex();
-
-        QString s = selIndex.sibling(
-                    selIndex.row(),
-                    columnItemNames::path       /* vyplnene len pre subory */
-                    ).data().toString();
-
-        // File Item
-        if(!s.isEmpty())
-            worker.enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
-        else
-        // Directory Item
-        {
-            //FIXME crash on directories [recreateThumbnail]
-            int i=0;
-
-            while(selIndex.child(i, 0).isValid())
-                worker.enqueue(datamodel->itemFromIndex(selIndex), i++);
-        }
-    }
+        recreateThumbnail(ui->treeView->currentIndex());
 }
 /******************************************************************************************************/
 void MainWindow::closeEvent(QCloseEvent *event)
