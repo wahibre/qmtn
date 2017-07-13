@@ -11,7 +11,6 @@
 
 class ImageItemView : public QScrollArea
 {
-    //TODO mouse move and scale image
     QItemSelectionModel *m_model;
     QString imagepath;    
     QPixmap pix;

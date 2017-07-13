@@ -35,9 +35,12 @@ private slots:
     void treeContextMenuRequest(const QPoint &pos);
     void openDirectory();
     void recreateThumbnail();
+
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();
     void on_actionAbout_triggered();
+    void on_actionOpenFile_triggered();
+    void on_actionOpenDirectory_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -54,6 +57,7 @@ private:
     bool isVideoFile(QFileInfo file);
     void createStatusBarWidgets();
     void refreshStatusBar();
+    void processUrls(QList<QUrl> urls);
 };
 
 #endif // MAINWINDOW_H

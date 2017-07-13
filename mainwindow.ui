@@ -183,6 +183,8 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionOpenFile"/>
+    <addaction name="actionOpenDirectory"/>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menu_About">
@@ -215,7 +217,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Settings">
    <property name="text">
-    <string>&amp;Settings</string>
+    <string>&amp;Settings ...</string>
    </property>
    <property name="shortcut">
     <string>F10</string>
@@ -233,6 +235,9 @@
    <property name="text">
     <string>About &amp;Qt</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+F1</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
@@ -240,6 +245,28 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="text">
+    <string>Open File ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Video File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionOpenDirectory">
+   <property name="text">
+    <string>Open Directory ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Directory containing video files</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

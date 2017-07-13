@@ -70,6 +70,7 @@ void ImageItemView::scaleImage(double factor, QPoint pointAt)
     double factorX, factorY;
     scaleFactor *= factor;
 
+    QGuiApplication::setOverrideCursor(Qt::WaitCursor);
     imageLabel->resize(scaleFactor * imageLabel->pixmap()->size());
     fitImageToWindow = false;
 
@@ -88,6 +89,7 @@ void ImageItemView::scaleImage(double factor, QPoint pointAt)
 
     zoomInAct->setEnabled(scaleFactor < 3.0);
     zoomOutAct->setEnabled(scaleFactor > 0.2);
+    QGuiApplication::restoreOverrideCursor();
 }
 /******************************************************************************************************/
 QString ImageItemView::imagePath() const

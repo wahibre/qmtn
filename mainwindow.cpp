@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QFileDialog>
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
@@ -54,12 +55,12 @@ MainWindow::MainWindow(QWidget *parent) :
     createStatusBarWidgets();
     refreshStatusBar();
 }
-
+/******************************************************************************************************/
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+/******************************************************************************************************/
 void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
     QString log;
@@ -67,8 +68,7 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
     log = current.sibling(current.row(), columnItemNames::log).data().toString();
     ui->logText->setPlainText(log);
 }
-
-
+/******************************************************************************************************/
 void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
@@ -77,7 +77,37 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
     treeContextMenu->addAction(ICON_REFRESH, "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()));
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
+/******************************************************************************************************/
+void MainWindow::processUrls(QList<QUrl> urls)
+{
+    //TODO merge multiple files
+    //TODO add support for external URL (SMB, ...)
 
+
+    QStandardItem *iDir;
+
+    foreach (QUrl files, urls)
+    {
+        iDir=NULL;
+        QFileInfo fi(files.toLocalFile());
+
+        if(fi.isDir())
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()));
+        else
+            if(fi.isFile())
+                iDir = fileInfo2DirItem(fi);
+            else
+                continue;
+
+        if(iDir && iDir->hasChildren())
+        {
+            datamodel->appendRow(iDir);
+            ui->placeholderLabel->hide();
+            ui->treeView->show();
+        }
+    }
+}
+/******************************************************************************************************/
 void MainWindow::openDirectory()
 {
     if(datamodel->rowCount()>0)
@@ -112,7 +142,7 @@ void MainWindow::openDirectory()
         }
     }
 }
-
+/******************************************************************************************************/
 void MainWindow::recreateThumbnail()
 {
     if(datamodel->rowCount()>0)
@@ -138,7 +168,7 @@ void MainWindow::recreateThumbnail()
         }
     }
 }
-
+/******************************************************************************************************/
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     QSettings s;
@@ -149,45 +179,19 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     QMainWindow::closeEvent(event);
 }
-
+/******************************************************************************************************/
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
 }
-
+/******************************************************************************************************/
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    //TODO merge multiple files
-    //TODO add support for external URL (SMB, ...)
-    //TODO menu items for open file or directory
-    QStandardItem *iDir;
-
-    // All droped files
-    foreach (QUrl files, event->mimeData()->urls())
-    {
-        iDir=NULL;
-        QFileInfo fi(files.toLocalFile());
-
-        if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()));
-        else
-
-            if(fi.isFile())
-                iDir = fileInfo2DirItem(fi);
-            else
-                continue;
-
-        if(iDir && iDir->hasChildren())
-        {
-            datamodel->appendRow(iDir);
-            ui->placeholderLabel->hide();
-            ui->treeView->show();
-        }
-    }
-
+    // All droped files and directories
+    processUrls(event->mimeData()->urls());
 }
-
+/******************************************************************************************************/
 QStandardItem* MainWindow::dir2DirItem(QDir dir)
 {
     QStandardItem *iChildDir, *iDir;
@@ -217,7 +221,7 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir)
 
     return iDir;
 }
-
+/******************************************************************************************************/
 QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
     QStandardItem *iDir;
@@ -227,7 +231,7 @@ QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 
     return iDir;
 }
-
+/******************************************************************************************************/
 /**
  * @return true if fileitem created, othewise false
  */
@@ -252,7 +256,7 @@ bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
     }
     return false;
 }
-
+/******************************************************************************************************/
 bool MainWindow::isVideoFile(QFileInfo file)
 {
     /* according to extension */
@@ -263,7 +267,7 @@ bool MainWindow::isVideoFile(QFileInfo file)
     QMimeType mType = mimedb.mimeTypeForFile(entry, QMimeDatabase::MatchContent);
     */
 }
-
+/******************************************************************************************************/
 void MainWindow::createStatusBarWidgets()
 {
     auto s = statusBar();
@@ -287,7 +291,7 @@ void MainWindow::createStatusBarWidgets()
     s->addWidget(sSuffix);
     s->addWidget(sOverwrite);
 }
-
+/******************************************************************************************************/
 void MainWindow::refreshStatusBar()
 {
     auto d = worker.data();
@@ -308,7 +312,7 @@ void MainWindow::refreshStatusBar()
 
     sOverwrite->setChecked(d.overwrite);
 }
-
+/******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dial = new SettingsDialog(this, worker.data());
@@ -319,12 +323,12 @@ void MainWindow::on_action_Settings_triggered()
         refreshStatusBar();
     }
 }
-
+/******************************************************************************************************/
 void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox::aboutQt(this, "About Qt");
 }
-
+/******************************************************************************************************/
 void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::about(this, "About...",
@@ -347,3 +351,20 @@ R"(
 )"
     );
 }
+/******************************************************************************************************/
+void MainWindow::on_actionOpenFile_triggered()
+{
+    auto files = QFileDialog::getOpenFileUrls(this, qApp->applicationName());
+
+    if(!files.isEmpty())
+        processUrls(files);
+}
+/******************************************************************************************************/
+void MainWindow::on_actionOpenDirectory_triggered()
+{
+    QUrl directory = QFileDialog::getExistingDirectoryUrl(this, qApp->applicationName(), QUrl(), QFileDialog::ReadOnly|QFileDialog::ShowDirsOnly);
+
+    if(!directory.isEmpty())
+        processUrls({directory});
+}
+/******************************************************************************************************/
