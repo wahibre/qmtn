@@ -1,13 +1,16 @@
 #include "mtnjob.h"
+#include "iconprovider.h"
+
 #include<QProcess>
 #include<QDir>
 #include<QDateTime>
 #include<QCoreApplication>
 
 /******************************************************************************************************/
-MtnJob::MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QString outputfilename):
+MtnJob::MtnJob(QObject *parent, QStandardItem *item, int row, SettingsData settingsData, QString outputfilename):
     QRunnable(),
-    m_stditem(parent),
+    m_parent(parent),
+    m_stditem(item),
     m_row(row),
     m_sett(settingsData),
     m_outputfilename(outputfilename) { }
@@ -17,14 +20,16 @@ void MtnJob::run()
 {
     QProcess mtn;
     QStringList args;
+    QString result_log, result_file;
+    bool success=false;
 
     if(m_sett.executable.isEmpty())
     {
-        m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
+        m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::error());
         m_stditem->child(m_row, columnItemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
         return;
     }
-    m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_LOADING);
+    m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::loading());
     mtn.setProgram(m_sett.executable);
 
     args = createArguments();
@@ -47,21 +52,19 @@ void MtnJob::run()
             vypis += timeString("*** Result ****\n\n");
             vypis += vystup.trimmed();
 
-            m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_VIDEO);
-            m_stditem->child(m_row, columnItemNames::log      )->setText(vypis);
-            m_stditem->child(m_row, columnItemNames::output   )->setText(m_outputfilename);
+            success = true;
+            result_log = vypis;
+            result_file = m_outputfilename;
+
         }
         else
-        {
-            m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
-            m_stditem->child(m_row, columnItemNames::log)->setText(QString("Error: %1").arg(mtn.errorString()));
-        }
+            result_log = QString("Error: %1").arg(mtn.errorString());
     }
     else
-    {
-        m_stditem->child(m_row, columnItemNames::filename )->setIcon(ICON_ERROR);
-        m_stditem->child(m_row, columnItemNames::log)->setText(QString("Error startig: %1").arg(mtn.errorString()));
-    }
+        result_log = QString("Error startig: %1").arg(mtn.errorString());
+
+    Q_ASSERT(m_parent);
+    static_cast<MtnWorker*>(m_parent)->jobFinished(m_stditem, m_row, success, result_log, result_file);
 }
 /******************************************************************************************************/
 QStringList MtnJob::createArguments()

@@ -6,17 +6,28 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QVersionNumber>
 
 #include "mainwindow.h"
 #include "settingsdialog.h"
 #include "ui_mainwindow.h"
+#include "iconprovider.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    processingItems(0),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(QString(LAST_TAG).replace('-','.')));
+
+    /*
+     *                  VERSION_FROM_GIT_TAG    window title
+     *                  --------------------    ------------
+     *  tagged commit       0.1                 0.1
+     *  after the tag       0.1-10-g23fc        0.1.10
+     */
+    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(QVersionNumber::fromString(QString(VERSION_FROM_GIT_TAG).replace('-','.')).toString()));
 
     datamodel = new QStandardItemModel(this);
     datamodel->setColumnCount(4);
@@ -30,20 +41,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
 
-    //TODO add alternative for WIN Icon from theme
-    ui->action_Settings->setIcon(ICON_SYSTEM);
-    ui->action_Quit->setIcon(ICON_EXIT);
-    ui->actionAbout->setIcon(ICON_HELP);
-    ui->actionAboutQt->setIcon(ICON_HELP);
-    ui->TabOutput->setTabIcon(0, ICON_IMAGE);
-    ui->TabOutput->setTabIcon(1, ICON_TEXT);
+    //TODO add alternative Icon from theme for WIN
+    ui->action_Settings->setIcon(IconProvider::system());
+    ui->action_Quit->setIcon(IconProvider::exit());
+    ui->actionAbout->setIcon(IconProvider::help());
+    ui->actionAboutQt->setIcon(IconProvider::help());
+    ui->TabOutput->setTabIcon(0, IconProvider::image());
+    ui->TabOutput->setTabIcon(1, IconProvider::text());
+    ui->actionOpenDirectory->setIcon(IconProvider::folder());
+    ui->actionOpenFile->setIcon(IconProvider::video());
 
     videoExtensions << "mp4" << "avi" << "mpeg" << "mkv" << "wmv" << "asf";
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
-
+    connect(&worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
@@ -73,8 +86,8 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
-    treeContextMenu->addAction(ICON_FOLDER,  "&Open Directory",      this, SLOT(openDirectory()));
-    treeContextMenu->addAction(ICON_REFRESH, "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()));
+    treeContextMenu->addAction(IconProvider::folder(),  "&Open Directory",      this, SLOT(openDirectory()));
+    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()));
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/
@@ -163,6 +176,15 @@ void MainWindow::recreateThumbnail(const QModelIndex selIndex)
     }
 }
 /******************************************************************************************************/
+void MainWindow::changedProcessingItemsNumber(int delta)
+{
+    gardian.lock();
+    processingItems += delta;
+    gardian.unlock();
+
+    refreshStatusBar();
+}
+/******************************************************************************************************/
 void MainWindow::recreateThumbnail()
 {
     if(datamodel->rowCount()>0)
@@ -197,7 +219,7 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir)
     QStandardItem *iChildDir, *iDir;
     QList<QStandardItem*> iChildren;
 
-    iDir = new QStandardItem(ICON_FOLDER, dir.dirName()); iDir->setEditable(false);
+    iDir = new QStandardItem(IconProvider::folder(), dir.dirName()); iDir->setEditable(false);
 
     //Folders
     foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
@@ -226,7 +248,7 @@ QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
     QStandardItem *iDir;
 
-    iDir = new QStandardItem(ICON_FOLDER, file.dir().dirName()); iDir->setEditable(false);
+    iDir = new QStandardItem(IconProvider::folder(), file.dir().dirName()); iDir->setEditable(false);
     fileInfo2FileItem(file, iDir);
 
     return iDir;
@@ -279,6 +301,8 @@ void MainWindow::createStatusBarWidgets()
     sStep = new QLabel(s);
     sSuffix = new QLabel(s);
 
+    sItemsCnt = new QLabel(s);
+
     sOverwrite = new QCheckBox("Overwrite:", s);
     sOverwrite->setLayoutDirection(Qt::RightToLeft);
     sOverwrite->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -290,6 +314,7 @@ void MainWindow::createStatusBarWidgets()
     s->addWidget(sOutput);
     s->addWidget(sSuffix);
     s->addWidget(sOverwrite);
+    s->addPermanentWidget(sItemsCnt);
 }
 /******************************************************************************************************/
 void MainWindow::refreshStatusBar()
@@ -311,6 +336,11 @@ void MainWindow::refreshStatusBar()
     sSuffix->setHidden(d.suffix.isEmpty());
 
     sOverwrite->setChecked(d.overwrite);
+
+    if(processingItems == 0)
+        sItemsCnt->clear();
+    else
+        sItemsCnt->setText(tr("Processing items: %1").arg(processingItems));
 }
 /******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
@@ -339,9 +369,8 @@ R"(
         <ul>
             <li>Drag&drop files and folders</li>
             <li>Recursive search for movie files</li>
-            <li>Filter Videofiles to mp4, avi, mpeg, mkv, wmv, asf</li>
-            <li>Immediate image creation in background</li>
-            <li>Display created image and log</li>
+            <li>Instant image making in background</li>
+            <li>Image and output log preview</li>
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>

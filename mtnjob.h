@@ -13,13 +13,14 @@
 
 class MtnJob : public QRunnable
 {
+    QObject *m_parent;
     QStandardItem *m_stditem;
     int m_row;
     SettingsData m_sett;
     QString m_outputfilename;
 
 public:
-    MtnJob(QStandardItem *parent, int row, SettingsData settingsData, QString outputfilename);
+    MtnJob(QObject *parent, QStandardItem *item, int row, SettingsData settingsData, QString outputfilename);
 private:
     void run() Q_DECL_OVERRIDE;
     QStringList createArguments();

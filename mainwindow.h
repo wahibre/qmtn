@@ -21,9 +21,11 @@ class MainWindow : public QMainWindow
     MtnWorker worker;
     QStandardItemModel *datamodel;
     QStringList videoExtensions;
+    QMutex gardian;
+    int processingItems;
 
     /* statusbar widgets */
-    QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix;
+    QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;
     QCheckBox *sOverwrite;
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -36,6 +38,7 @@ private slots:
     void openDirectory();
     void recreateThumbnail();
     void recreateThumbnail(const QModelIndex idx);
+    void changedProcessingItemsNumber(int delta);
 
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();

@@ -4,6 +4,7 @@
 #include <QTreeWidgetItem>
 #include <QThreadPool>
 #include <QStandardItem>
+#include <QMutex>
 
 #include "settingsdata.h"
 
@@ -36,10 +37,12 @@
 #define REG_FONTTEXTLOCATION    "font_info_text_location"
 #define REG_FONTTIMELOCATION    "font_time_stamp_location"
 
-class MtnWorker
+class MtnWorker: public QObject
 {
+    Q_OBJECT
 
     SettingsData settingsData;
+    QMutex mutex;
 
 public:
     MtnWorker();
@@ -54,6 +57,11 @@ public:
     bool findExecutable();
 
     void enqueue(QStandardItem* parent, int row);
+
+signals:
+    void changedProcessingItemsNumber(int delta);
+public slots:
+    void jobFinished(QStandardItem *parent, int row, bool success, QString log, QString outFileName);
 };
 
 #endif // MTNWORKER_H

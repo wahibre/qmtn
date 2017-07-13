@@ -1,4 +1,3 @@
-#include "imageitemview.h"
 #include <QAction>
 #include <QFileInfo>
 #include <QPicture>
@@ -8,6 +7,8 @@
 #include <QWheelEvent>
 #include <QGuiApplication>
 
+#include "imageitemview.h"
+#include "iconprovider.h"
 /******************************************************************************************************/
 ImageItemView::ImageItemView(QWidget *parent):
     QScrollArea(parent),
@@ -17,25 +18,25 @@ ImageItemView::ImageItemView(QWidget *parent):
     dragEnabled(false)
 
 {
-    zoomFitAct = new QAction(tr("Zoom to &Fit Window"), parent);
+    zoomFitAct = new QAction(IconProvider::zoomFit(), tr("Zoom to &Fit Window"), parent);
     zoomFitAct->setEnabled(false);
     connect(zoomFitAct, &QAction::triggered, this, &ImageItemView::zoomToFitWindow);
 
-    zoomInAct = new QAction(tr("Zoom &In (25%)"), parent);
+    zoomInAct = new QAction(IconProvider::zoomIn(), tr("Zoom &In (25%)"), parent);
     zoomInAct->setShortcut(QKeySequence::ZoomIn);
     zoomInAct->setEnabled(false);
     connect(zoomInAct, &QAction::triggered, this, &ImageItemView::zoomIn);
 
-    zoomOutAct = new QAction(tr("Zoom &Out (25%)"), parent);
+    zoomOutAct = new QAction(IconProvider::zoomOut(), tr("Zoom &Out (25%)"), parent);
     zoomOutAct->setShortcut(QKeySequence::ZoomOut);
     zoomOutAct->setEnabled(false);
     connect(zoomOutAct, &QAction::triggered, this, &ImageItemView::zoomOut);
 
-    zoomOrigAct = new QAction(tr("&Normal Size"), parent);
+    zoomOrigAct = new QAction(IconProvider::zoomOrig(), tr("&Normal Size"), parent);
     zoomOrigAct->setEnabled(false);
     connect(zoomOrigAct, &QAction::triggered, this, &ImageItemView::normalSize);
 
-    showImgAct = new QAction(/*ICON_IMAGE,*/ tr("Show Image using &Default Application"), parent);
+    showImgAct = new QAction(IconProvider::image(), tr("Open Image using &Default Application"), parent);
     showImgAct->setEnabled(false);
     connect(showImgAct, &QAction::triggered, this, &ImageItemView::on_contextMenuRequest);
 }
@@ -201,7 +202,6 @@ void ImageItemView::wheelEvent(QWheelEvent *event)
 /******************************************************************************************************/
 void ImageItemView::mouseDoubleClickEvent(QMouseEvent */*event*/)
 {
-    //TODO new function 'imageLoaded'
     if(imageLabel->pixmap())
     {
         if(fitImageToWindow)

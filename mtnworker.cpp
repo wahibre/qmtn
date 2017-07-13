@@ -1,10 +1,12 @@
-#include "mtnjob.h"
 #include "mtnworker.h"
+#include "mtnjob.h"
+#include "iconprovider.h"
 
 #include <QSettings>
 #include <QDir>
-#include<QStandardPaths>
-#include<QCoreApplication>
+#include <QStandardPaths>
+#include <QCoreApplication>
+#include <QMutexLocker>
 
 MtnWorker::MtnWorker()
 {
@@ -163,6 +165,26 @@ void MtnWorker::enqueue(QStandardItem* parent, int row)
     if(parent && parent->child(row))
     {
         QString outfile = outputFile(parent->child(row, columnItemNames::path)->text());
-        QThreadPool::globalInstance()->start(new MtnJob(parent, row, settingsData, outfile));
+
+        QThreadPool::globalInstance()->start(new MtnJob(this, parent, row, settingsData, outfile));
+        emit changedProcessingItemsNumber(+1);
     }
+}
+
+void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QString log, QString outFileName=QString())
+{
+    mutex.lock();
+    if(success)
+    {
+        parent->child(row, columnItemNames::filename)->setIcon(IconProvider::video());
+        parent->child(row, columnItemNames::log)->setText(log);
+        parent->child(row, columnItemNames::output)->setText(outFileName);
+    }
+    else
+    {
+        parent->child(row, columnItemNames::filename)->setIcon(IconProvider::error());
+        parent->child(row, columnItemNames::log)->setText(log);
+    }
+    emit changedProcessingItemsNumber(-1);
+    mutex.unlock();
 }

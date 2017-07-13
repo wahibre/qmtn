@@ -3,23 +3,26 @@ GUI Thumbnail Generator Using CLI mtn (https://gitlab.com/movie_thumbnailer/mtn)
 Aplication focuses on quick thumbnails-grid creating using drag&drop.
 
 Features:
-    - drag&drop files and directories
-    - instant image making in background
-    - showing image and output log
-    - settings dialog for mtn switches
+   - Drag&drop files and folders
+   - Recursive search for movie files
+   - Instant image making in background
+   - Image and output log preview
+   - Open image in external image viewer
+   - Recreate image with new settings
+   - Settings for managing mtn switches
 
 
 ----------
 Get source
 ----------
-git clone https://gitlab.com/movie_thumbnailer/qmtn.git qmtn
+git clone https://gitlab.com/movie_thumbnailer/qmtn.git QtMtn
 
 
 
 -----
 Build
 -----
-qmake-qt5 qmtn/mtngui.pro
+qmake-qt5 QtMtn/mtngui.pro
 make -j 4
 
 
