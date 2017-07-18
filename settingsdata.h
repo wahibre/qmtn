@@ -6,7 +6,7 @@
 enum columnItemNames {
     filename    =0,     /* file & folder */
     path        =1,     /* file only     */
-    log         =2,     /* file only     */
+    logtext     =2,     /* file only     */
     output      =3      /* file only     */
 };
 

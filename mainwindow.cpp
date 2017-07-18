@@ -6,8 +6,9 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QFileDialog>
+#if QT_VERSION>=0x050600
 #include <QVersionNumber>
-
+#endif
 #include "mainwindow.h"
 #include "settingsdialog.h"
 #include "ui_mainwindow.h"
@@ -27,15 +28,18 @@ MainWindow::MainWindow(QWidget *parent) :
      *  tagged commit       0.1                 0.1
      *  after the tag       0.1-10-g23fc        0.1.10
      */
+#if QT_VERSION>=0x050600
     setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(QVersionNumber::fromString(QString(VERSION_FROM_GIT_TAG).replace('-','.')).toString()));
-
+#else
+    setWindowTitle(QString("%1 (%2)").arg(qApp->applicationName()).arg(VERSION_FROM_GIT_TAG));
+#endif
     datamodel = new QStandardItemModel(this);
     datamodel->setColumnCount(4);
 
     ui->treeView->hide();
     ui->treeView->setModel(datamodel);
     ui->treeView->header()->hideSection(columnItemNames::path);
-    ui->treeView->header()->hideSection(columnItemNames::log);
+    ui->treeView->header()->hideSection(columnItemNames::logtext);
     ui->treeView->header()->hideSection(columnItemNames::output);
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
@@ -78,7 +82,7 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
 {
     QString log;
 
-    log = current.sibling(current.row(), columnItemNames::log).data().toString();
+    log = current.sibling(current.row(), columnItemNames::logtext).data().toString();
     ui->logText->setPlainText(log);
 }
 /******************************************************************************************************/

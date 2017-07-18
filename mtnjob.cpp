@@ -26,7 +26,7 @@ void MtnJob::run()
     if(m_sett.executable.isEmpty())
     {
         m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::error());
-        m_stditem->child(m_row, columnItemNames::log      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
+        m_stditem->child(m_row, columnItemNames::logtext      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
         return;
     }
     m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::loading());
@@ -80,10 +80,10 @@ QStringList MtnJob::createArguments()
                                                     //    -a aspect_ratio : override input file's display aspect ratio
 
     if(qAbs(m_sett.blank_skip-0.8)>0.001)           //    -b 0.80 : skip if % blank is higher; 0:skip all 1:skip really blank >1:off
-        args << "-b" << QString::asprintf("%.2f", m_sett.blank_skip);
+        args << "-b" << QString::number(m_sett.blank_skip, 'f', 2);
 
     if(m_sett.skip_begin > 0.01)                    //    -B 0.0 : omit this seconds from the beginning
-        args << "-B" << QString::asprintf("%.1f", m_sett.skip_begin);
+        args << "-B" << QString::number(m_sett.skip_begin, 'f', 1);
 
                                                     //    -C -1 : cut movie and thumbnails not more than the specified seconds; <=0:off
 
@@ -91,7 +91,7 @@ QStringList MtnJob::createArguments()
         args << "-D" << QString::number(m_sett.edge_detect);
 
     if(m_sett.skip_end > 0.01)                      //    -E 0.0 : omit this seconds at the end
-        args << "-E" << QString::asprintf("%.1f", m_sett.skip_end);
+        args << "-E" << QString::number(m_sett.skip_end, 'f', 1);
 
 
     args << "-f" << m_sett.fontInfotext;            //    -f tahomabd.ttf : font file; use absolute path if not in usual places
@@ -167,7 +167,7 @@ QStringList MtnJob::createArguments()
 QString MtnJob::color2hex(QColor color)
 {
     if(color.isValid())
-        return QString::asprintf("%02x%02x%02x", color.red(), color.green(), color.blue());
+        return QString("%1%2%3").arg(color.red(), 2, 16).arg(color.green(), 2, 16).arg(color.blue(), 2, 16);
 
     return QString("FFFFFF");
 }

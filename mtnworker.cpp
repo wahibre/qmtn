@@ -177,13 +177,13 @@ void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QStrin
     if(success)
     {
         parent->child(row, columnItemNames::filename)->setIcon(IconProvider::video());
-        parent->child(row, columnItemNames::log)->setText(log);
+        parent->child(row, columnItemNames::logtext)->setText(log);
         parent->child(row, columnItemNames::output)->setText(outFileName);
     }
     else
     {
         parent->child(row, columnItemNames::filename)->setIcon(IconProvider::error());
-        parent->child(row, columnItemNames::log)->setText(log);
+        parent->child(row, columnItemNames::logtext)->setText(log);
     }
     emit changedProcessingItemsNumber(-1);
     mutex.unlock();
