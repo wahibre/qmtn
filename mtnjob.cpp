@@ -13,7 +13,9 @@ MtnJob::MtnJob(QObject *parent, QStandardItem *item, int row, SettingsData setti
     m_stditem(item),
     m_row(row),
     m_sett(settingsData),
-    m_outputfilename(outputfilename) { }
+    m_outputfilename(outputfilename) {
+    qRegisterMetaType<QVector<int> >("QVector<int>");
+}
 
 /******************************************************************************************************/
 void MtnJob::run()
@@ -166,8 +168,14 @@ QStringList MtnJob::createArguments()
 
 QString MtnJob::color2hex(QColor color)
 {
+#if QT_VERSION>=0x050500
     if(color.isValid())
-        return QString("%1%2%3").arg(color.red(), 2, 16).arg(color.green(), 2, 16).arg(color.blue(), 2, 16);
+        return QString::asprintf("%02x%02x%02x", color.red(), color.green(), color.blue());
+#else
+    QString s;
+    if(color.isValid())
+        return s.sprintf("%02x%02x%02x", color.red(), color.green(), color.blue());
+#endif
 
     return QString("FFFFFF");
 }
