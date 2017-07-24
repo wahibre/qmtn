@@ -12,21 +12,28 @@ Features:
    - Settings for managing mtn switches
 
 
+------------
+Dependencies
+------------
+    Ubuntu 17.4$  sudo apt-get install qt5-default qtbase5-dev
+
 ----------
 Get source
 ----------
-git clone https://gitlab.com/movie_thumbnailer/qmtn.git QtMtn
-
+    $git clone https://gitlab.com/movie_thumbnailer/qmtn.git QtMtn
 
 
 -----
 Build
 -----
-qmake-qt5 QtMtn/mtngui.pro
-make -j 4
+    Fedora25$    qmake-qt5 QtMtn/mtngui.pro
+    Ubuntu 17.4$ qmake QtMtn/mtngui.pro
+    $make -j 4
 
 
 -------
 Install
 -------
-su -c 'make install'
+    Fedora25$   $su -c 'make install'
+    Ubuntu 17.4 $sudo make install
+
