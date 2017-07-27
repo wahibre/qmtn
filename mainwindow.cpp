@@ -67,8 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
     restoreState(s.value("mainform/state").toByteArray());
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
 
-    worker.findExecutable();
-
     createStatusBarWidgets();
     refreshStatusBar();
 }

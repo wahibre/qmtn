@@ -8,6 +8,12 @@
 
 #include "settingsdata.h"
 
+#ifdef Q_OS_WIN
+    #define MTN_EXE "mtn.exe"
+#else
+    #define MTN_EXE "mtn"
+#endif
+
 #define REG_OUTPUT_DIRECTORY    "output_directory"
 #define REG_COLUMNS             "columns"
 #define REG_ROWS                "rows"
@@ -30,6 +36,7 @@
 #define REG_TIMESHADOW          "shadow"
 #define REG_INFOTEXT            "infotext"
 #define REG_TIMESTAMP           "timestamp"
+#define REG_MTN                 "mtn"
 #define REG_FONTTEXT            "font_info_text"
 #define REG_FONTTIME            "font_time_stamp"
 #define REG_FONTTEXTSIZE        "font_info_text_size"
@@ -49,12 +56,11 @@ public:
     ~MtnWorker();
     void dataLoad();
     void dataSave();
-    static QString __mtn(){return "mtn";}
 
     SettingsData data();
     void setData(SettingsData newData);
     QString outputFile(QString inputfilename);
-    bool findExecutable();
+    QString findExecutableMtn();
 
     void enqueue(QStandardItem* parent, int row);
 

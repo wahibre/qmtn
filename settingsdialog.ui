@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>889</width>
-    <height>440</height>
+    <height>471</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,7 +44,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_9">
+  <layout class="QHBoxLayout" name="horizontalLayout_9">
    <property name="spacing">
     <number>5</number>
    </property>
@@ -70,26 +70,11 @@
        <item>
         <layout class="QVBoxLayout" name="groupOutput">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="gpbSettingsName">
            <property name="title">
-            <string>Setting name</string>
+            <string>Setting</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <property name="leftMargin">
-             <number>5</number>
-            </property>
-            <property name="topMargin">
-             <number>5</number>
-            </property>
-            <property name="rightMargin">
-             <number>5</number>
-            </property>
-            <property name="bottomMargin">
-             <number>5</number>
-            </property>
             <item>
              <widget class="QComboBox" name="cbSettingsName">
               <property name="enabled">
@@ -105,11 +90,25 @@
               </item>
              </widget>
             </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="lblMtnExe">
+                <property name="text">
+                 <string>mtn.exe:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="FileSelector" name="eMtnSelector" native="true"/>
+              </item>
+             </layout>
+            </item>
            </layout>
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2">
+          <widget class="QGroupBox" name="gpbOutput">
            <property name="title">
             <string>Output</string>
            </property>

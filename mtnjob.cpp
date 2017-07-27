@@ -28,7 +28,7 @@ void MtnJob::run()
     if(m_sett.executable.isEmpty())
     {
         m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::error());
-        m_stditem->child(m_row, columnItemNames::logtext      )->setText(QString("Cannot find executable \"%1\"!").arg(MtnWorker::__mtn()));
+        m_stditem->child(m_row, columnItemNames::logtext      )->setText(QString("Cannot find executable \"%1\"!").arg(MTN_EXE));
         return;
     }
     m_stditem->child(m_row, columnItemNames::filename )->setIcon(IconProvider::loading());

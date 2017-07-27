@@ -43,6 +43,7 @@ void MtnWorker::dataLoad()
     settingsData.title          = s.value(REG_TITLE             ).toString();
     settingsData.infotext       = s.value(REG_INFOTEXT,  true   ).toBool();
     settingsData.timestamp      = s.value(REG_TIMESTAMP, true   ).toBool();
+    settingsData.executable     = s.value(REG_MTN, findExecutableMtn()).toString();
 
     settingsData.background.setNamedColor(s.value(REG_BACKGROUND,   QColor(Qt::black)).toString());
     settingsData.foreground.setNamedColor(s.value(REG_FOREGROUND,   QColor(Qt::white)).toString());
@@ -82,6 +83,7 @@ void MtnWorker::dataSave()
     s.setValue(REG_TITLE,           settingsData.title);
     s.setValue(REG_INFOTEXT,        settingsData.infotext);
     s.setValue(REG_TIMESTAMP,       settingsData.timestamp);
+    s.setValue(REG_MTN,             settingsData.executable);
 
     s.setValue(REG_BACKGROUND,      settingsData.background.name());
     s.setValue(REG_FOREGROUND,      settingsData.foreground.name());
@@ -106,26 +108,23 @@ void MtnWorker::setData(SettingsData newData)
     settingsData = newData;
 }
 
-bool MtnWorker::findExecutable()
+QString MtnWorker::findExecutableMtn()
 {
-    const QString  mtn_cli=__mtn();
-    QString najdenyMtnProcess;
+    const QString  mtn_cli=MTN_EXE;
+    QString mtn_exe=settingsData.executable;
 
-    najdenyMtnProcess = QStandardPaths::findExecutable(mtn_cli);
-
-    if(najdenyMtnProcess.isEmpty())
+    if(mtn_exe.isEmpty())
     {
-        QStringList searchPaths;
-        searchPaths << qApp->applicationDirPath() << QDir::currentPath();
-        najdenyMtnProcess = QStandardPaths::findExecutable(mtn_cli, searchPaths);
+        mtn_exe = QStandardPaths::findExecutable(mtn_cli);
+
+        if(mtn_exe.isEmpty())
+        {
+            QStringList searchPaths;
+            searchPaths << qApp->applicationDirPath() << QDir::currentPath() << qApp->applicationDirPath() + "/mtn";
+            mtn_exe = QStandardPaths::findExecutable(mtn_cli, searchPaths);
+        }
     }
-
-    if(najdenyMtnProcess.isEmpty())
-        return false;
-
-    settingsData.executable = najdenyMtnProcess;
-
-    return true;
+    return mtn_exe;
 }
 
 QString MtnWorker::outputFile(const QString inputfilename)
