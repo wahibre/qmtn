@@ -6,6 +6,7 @@
 #include <QScrollBar>
 #include <QWheelEvent>
 #include <QGuiApplication>
+#include <QDebug>
 
 #include "imageitemview.h"
 #include "iconprovider.h"
@@ -154,7 +155,9 @@ void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex
 
     if(fileExists)
     {
-        pix.load(imagepath);
+        if(!pix.load(imagepath))
+            qCritical() << "loading image failed: " << imagepath;
+
         imageLabel->setPixmap(pix);
         zoomToFitWindow();
         fitImageToWindow = true;

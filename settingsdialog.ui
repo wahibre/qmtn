@@ -231,26 +231,16 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="overwriteLabel">
+                 <widget class="QLabel" name="qualityLabel_2">
                   <property name="text">
-                   <string>&amp;Overwrite:</string>
+                   <string>&amp;Suffix:</string>
                   </property>
                   <property name="buddy">
-                   <cstring>overwriteCheckBox</cstring>
+                   <cstring>eSuffix</cstring>
                   </property>
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QCheckBox" name="overwriteCheckBox">
-                  <property name="toolTip">
-                   <string>-W : dont overwrite existing files, i.e. update mode</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
                  <widget class="QLineEdit" name="eSuffix">
                   <property name="toolTip">
                    <string>-o _s.jpg : output suffix</string>
@@ -264,16 +254,6 @@
                  </widget>
                 </item>
                 <item row="5" column="0">
-                 <widget class="QLabel" name="qualityLabel_2">
-                  <property name="text">
-                   <string>&amp;Suffix:</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>eSuffix</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
                  <widget class="QLabel" name="stepLabel">
                   <property name="text">
                    <string>S&amp;tep:</string>
@@ -283,7 +263,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="1">
+                <item row="5" column="1">
                  <widget class="QSpinBox" name="sbStep">
                   <property name="toolTip">
                    <string>-s 120 : time step between each shot</string>
@@ -296,6 +276,26 @@
                   </property>
                   <property name="value">
                    <number>120</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="overwriteLabel">
+                  <property name="text">
+                   <string>&amp;Overwrite:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>overwriteCheckBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QCheckBox" name="overwriteCheckBox">
+                  <property name="toolTip">
+                   <string>-W : dont overwrite existing files, i.e. update mode</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -1148,9 +1148,9 @@ QPushButton#btnTimeShadow
   <tabstop>sbRows</tabstop>
   <tabstop>sbWidth</tabstop>
   <tabstop>sbGap</tabstop>
-  <tabstop>overwriteCheckBox</tabstop>
   <tabstop>eSuffix</tabstop>
   <tabstop>sbStep</tabstop>
+  <tabstop>overwriteCheckBox</tabstop>
   <tabstop>sbEdgeDetect</tabstop>
   <tabstop>sbBlankSkip</tabstop>
   <tabstop>sbQuality</tabstop>
@@ -1160,15 +1160,17 @@ QPushButton#btnTimeShadow
   <tabstop>verboseCheckBox</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
-  <tabstop>btnBackground</tabstop>
   <tabstop>eTitle</tabstop>
+  <tabstop>btnBackground</tabstop>
   <tabstop>groupInfotext</tabstop>
   <tabstop>sbFontInfoSize</tabstop>
   <tabstop>cbFontInfoLocation</tabstop>
+  <tabstop>btnForeground</tabstop>
   <tabstop>groupTimestamp</tabstop>
   <tabstop>sbFontTimestampSize</tabstop>
   <tabstop>cbFontTimestampLocation</tabstop>
   <tabstop>btnTimeColor</tabstop>
+  <tabstop>btnTimeShadow</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>
