@@ -55,7 +55,7 @@ private:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
     /* Own */
-    QStandardItem *dir2DirItem(QDir dir);
+    QStandardItem *dir2DirItem(QDir dir, int recursion_depth);
     QStandardItem *fileInfo2DirItem(QFileInfo file);
     bool fileInfo2FileItem(QFileInfo file, QStandardItem *parent);
     bool isVideoFile(QFileInfo file);

@@ -22,6 +22,7 @@ void MtnWorker::dataLoad()
 {
     QSettings s;
 
+    /// mtn settings
     settingsData.output_directory = s.value(REG_OUTPUT_DIRECTORY, QString()).toString();
 
     settingsData.columns        = s.value(REG_COLUMNS,   4      ).toInt();
@@ -43,7 +44,6 @@ void MtnWorker::dataLoad()
     settingsData.title          = s.value(REG_TITLE             ).toString();
     settingsData.infotext       = s.value(REG_INFOTEXT,  true   ).toBool();
     settingsData.timestamp      = s.value(REG_TIMESTAMP, true   ).toBool();
-    settingsData.executable     = s.value(REG_MTN, findExecutableMtn()).toString();
 
     settingsData.background.setNamedColor(s.value(REG_BACKGROUND,   QColor(Qt::black)).toString());
     settingsData.foreground.setNamedColor(s.value(REG_FOREGROUND,   QColor(Qt::white)).toString());
@@ -56,6 +56,10 @@ void MtnWorker::dataLoad()
     settingsData.fontTimeSize   = s.value(REG_FONTTIMESIZE, 0   ).toInt();
     settingsData.fontInfoLocation = s.value(REG_FONTTEXTLOCATION, -1).toInt();
     settingsData.fontTimeLocation = s.value(REG_FONTTIMELOCATION, -1).toInt();
+
+    /// qmtn settings
+    settingsData.executable     = s.value(REG_MTN, findExecutableMtn()).toString();
+    settingsData.max_dir_depth  = s.value(REG_MAXDIRDEPTH, 999).toInt();
 }
 
 void MtnWorker::dataSave()
@@ -83,7 +87,6 @@ void MtnWorker::dataSave()
     s.setValue(REG_TITLE,           settingsData.title);
     s.setValue(REG_INFOTEXT,        settingsData.infotext);
     s.setValue(REG_TIMESTAMP,       settingsData.timestamp);
-    s.setValue(REG_MTN,             settingsData.executable);
 
     s.setValue(REG_BACKGROUND,      settingsData.background.name());
     s.setValue(REG_FOREGROUND,      settingsData.foreground.name());
@@ -96,6 +99,10 @@ void MtnWorker::dataSave()
     s.setValue(REG_FONTTIMESIZE,    settingsData.fontTimeSize);
     s.setValue(REG_FONTTEXTLOCATION, settingsData.fontInfoLocation);
     s.setValue(REG_FONTTIMELOCATION, settingsData.fontTimeLocation);
+
+    /// qmtn settings
+    s.setValue(REG_MTN,             settingsData.executable);
+    s.setValue(REG_MAXDIRDEPTH,     settingsData.max_dir_depth);
 }
 
 SettingsData MtnWorker::data()

@@ -299,6 +299,26 @@
                   </property>
                  </widget>
                 </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="lblDepth">
+                  <property name="text">
+                   <string>Depth:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QSpinBox" name="sbDepth">
+                  <property name="toolTip">
+                   <string>Directory search recursion. 0: Selected videofiles only</string>
+                  </property>
+                  <property name="maximum">
+                   <number>999</number>
+                  </property>
+                  <property name="value">
+                   <number>999</number>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>

@@ -20,6 +20,7 @@ struct SettingsData
     QColor foreground, background, timecolor, timeshadow;
 
     QString executable;
+    int max_dir_depth;
 };
 
 #endif // SETTINGSDATA_H

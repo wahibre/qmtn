@@ -22,7 +22,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
 
     ui->eOutputDir->setText(data.output_directory);
     ui->eOutputDir->setCompleter(completer);
-    ui->eMtnSelector->setText(data.executable);
 
     ui->sbColumns->setValue(    data.columns);
     ui->sbRows->setValue(       data.rows);
@@ -57,6 +56,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     ui->cbFontTimestampLocation->setCurrentIndex(   data.fontTimeLocation);
 
     ui->lblMtnExe->setText(QString(MTN_EXE)+":");
+    ui->eMtnSelector->setText(data.executable);
+    ui->sbDepth->setValue(data.max_dir_depth);
 
     connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 }
@@ -91,8 +92,6 @@ SettingsData SettingsDialog::settingsData()
     data.infotext         = ui->groupInfotext->isChecked();
     data.timestamp        = ui->groupTimestamp->isChecked();
 
-    data.executable       = ui->eMtnSelector->text();
-
     //m_data.background     in on_btnBackground_clicked()
     //m_data.foregound      in on_btnForeground_clicked()
     //m_data.timecolor      in on_btnTimeColor_clicked();
@@ -104,6 +103,9 @@ SettingsData SettingsDialog::settingsData()
     data.fontTimeSize       = ui->sbFontTimestampSize->value();
     data.fontInfoLocation   = ui->cbFontInfoLocation->currentIndex();
     data.fontTimeLocation   = ui->cbFontTimestampLocation->currentIndex();
+
+    data.executable       = ui->eMtnSelector->text();
+    data.max_dir_depth    = ui->sbDepth->value();
 
     return data;
 }

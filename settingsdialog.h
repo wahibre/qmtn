@@ -9,7 +9,6 @@ class Dialog;
 }
 
 //TODO multiple settings profiles
-//TODO fit dialog size to content (no idea how to do it yet)
 class SettingsDialog : public QDialog
 {
     Q_OBJECT

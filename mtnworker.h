@@ -36,13 +36,15 @@
 #define REG_TIMESHADOW          "shadow"
 #define REG_INFOTEXT            "infotext"
 #define REG_TIMESTAMP           "timestamp"
-#define REG_MTN                 "mtn"
 #define REG_FONTTEXT            "font_info_text"
 #define REG_FONTTIME            "font_time_stamp"
 #define REG_FONTTEXTSIZE        "font_info_text_size"
 #define REG_FONTTIMESIZE        "font_time_stamp_size"
 #define REG_FONTTEXTLOCATION    "font_info_text_location"
 #define REG_FONTTIMELOCATION    "font_time_stamp_location"
+
+#define REG_MTN                 "mtn"
+#define REG_MAXDIRDEPTH         "max_dir_depth"
 
 class MtnWorker: public QObject
 {

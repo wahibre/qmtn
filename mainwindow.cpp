@@ -107,7 +107,7 @@ void MainWindow::processUrls(QList<QUrl> urls)
         QFileInfo fi(files.toLocalFile());
 
         if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()));
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), worker.data().max_dir_depth);
         else
             if(fi.isFile())
                 iDir = fileInfo2DirItem(fi);
@@ -216,33 +216,35 @@ void MainWindow::dropEvent(QDropEvent *event)
     processUrls(event->mimeData()->urls());
 }
 /******************************************************************************************************/
-QStandardItem* MainWindow::dir2DirItem(QDir dir)
+QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth)
 {
-    QStandardItem *iChildDir, *iDir;
+    QStandardItem *iChildDir, *iDir=nullptr;
     QList<QStandardItem*> iChildren;
 
-    iDir = new QStandardItem(IconProvider::folder(), dir.dirName()); iDir->setEditable(false);
-
-    //Folders
-    foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
+    if(recursion_depth > 0)
     {
-        iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()));
-        if(iChildDir)
-            iChildren.append(iChildDir);
+        iDir = new QStandardItem(IconProvider::folder(), dir.dirName()); iDir->setEditable(false);
+
+        //Folders
+        foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
+        {
+            iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()), --recursion_depth);
+            if(iChildDir)
+                iChildren.append(iChildDir);
+        }
+        iDir->appendRows(iChildren);
+        iChildren.clear();
+
+        //Files
+        foreach(QFileInfo entry, dir.entryInfoList(QDir::Files, QDir::Name))
+            fileInfo2FileItem(entry, iDir);
+
+        if(!iDir->hasChildren())
+        {
+            delete iDir;
+            iDir=0;
+        }
     }
-    iDir->appendRows(iChildren);
-    iChildren.clear();
-
-    //Files
-    foreach(QFileInfo entry, dir.entryInfoList(QDir::Files, QDir::Name))
-        fileInfo2FileItem(entry, iDir);
-
-    if(!iDir->hasChildren())
-    {
-        delete iDir;
-        iDir=0;
-    }
-
     return iDir;
 }
 /******************************************************************************************************/
