@@ -111,9 +111,16 @@ QStringList MtnJob::createArguments()
             //RRGGBB:size
             fontparam+=":"+QString::number(m_sett.fontInfoSize);
             if(!m_sett.fontTimestamp.isEmpty() && !m_sett.fontTimestamp.isEmpty() && m_sett.fontTimeSize>0)
+            {
                 //RRGGBB:size[:font:RRGGBB:RRGGBB:size]
+#ifdef Q_OS_WIN
+                QFileInfo fi(m_sett.fontTimestamp);
+                /// colon conflict in WIN (e.g. C:\Uses\...)
+                fontparam+=QString(":%1:%2:%3:%4").arg(       fi.fileName(), color2hex(m_sett.timecolor), color2hex(m_sett.timeshadow)).arg(m_sett.fontTimeSize);
+#else
                 fontparam+=QString(":%1:%2:%3:%4").arg(m_sett.fontTimestamp, color2hex(m_sett.timecolor), color2hex(m_sett.timeshadow)).arg(m_sett.fontTimeSize);
-
+#endif
+            }
             args << "-F" << fontparam;
         }
     }
