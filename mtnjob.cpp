@@ -35,7 +35,7 @@ void MtnJob::run()
     mtn.setProgram(m_sett.executable);
 
     args = createArguments();
-    args << m_stditem->child(m_row, 1)->text();
+    args << m_stditem->child(m_row, 1)->text(); //Filename
 
     mtn.setWorkingDirectory(QCoreApplication::applicationDirPath());
     mtn.setProcessChannelMode(QProcess::MergedChannels);
@@ -54,7 +54,7 @@ void MtnJob::run()
             vypis += timeString("*** Result ****\n\n");
             vypis += vystup.trimmed();
 
-            success = true;
+            success = (mtn.exitCode() == 0);
             result_log = vypis;
             result_file = m_outputfilename;
 
@@ -72,6 +72,7 @@ void MtnJob::run()
 QStringList MtnJob::createArguments()
 {
     QStringList args;
+    QLocale locale ;
     args                                            //         http://moviethumbnail.sourceforge.net/
          << "-P"                                    //    -P : dont pause before exiting; override -p
                                                     //    -p : pause before exiting; default on in win32
@@ -82,10 +83,10 @@ QStringList MtnJob::createArguments()
                                                     //    -a aspect_ratio : override input file's display aspect ratio
 
     if(qAbs(m_sett.blank_skip-0.8)>0.001)           //    -b 0.80 : skip if % blank is higher; 0:skip all 1:skip really blank >1:off
-        args << "-b" << QString::number(m_sett.blank_skip, 'f', 2);
+        args << "-b" << locale.toString(m_sett.blank_skip, 'f', 2);
 
     if(m_sett.skip_begin > 0.01)                    //    -B 0.0 : omit this seconds from the beginning
-        args << "-B" << QString::number(m_sett.skip_begin, 'f', 1);
+        args << "-B" << locale.toString(m_sett.skip_begin, 'f', 1);
 
                                                     //    -C -1 : cut movie and thumbnails not more than the specified seconds; <=0:off
 
@@ -93,10 +94,11 @@ QStringList MtnJob::createArguments()
         args << "-D" << QString::number(m_sett.edge_detect);
 
     if(m_sett.skip_end > 0.01)                      //    -E 0.0 : omit this seconds at the end
-        args << "-E" << QString::number(m_sett.skip_end, 'f', 1);
+        args << "-E" << locale.toString(m_sett.skip_end, 'f', 1);
 
 
-    args << "-f" << m_sett.fontInfotext;            //    -f tahomabd.ttf : font file; use absolute path if not in usual places
+    if(m_sett.infotext || m_sett.timestamp)
+        args << "-f" << m_sett.fontInfotext;        //    -f tahomabd.ttf : font file; use absolute path if not in usual places
 
     {
                                                     //    -F RRGGBB:size[:font:RRGGBB:RRGGBB:size] : font format [time is optional]
@@ -142,11 +144,11 @@ QStringList MtnJob::createArguments()
                                                     //    -N info_suffix : save info text to a file with suffix
 
     if(!m_sett.suffix.isEmpty())
-        args << "-o" << m_sett.suffix;              //    -o _s.jpg : output suffix
+        args << "-o" << m_sett.suffix;                                      //    -o _s.jpg : output suffix
     if(!m_sett.output_directory.isEmpty())
-        args << "-O" << m_sett.output_directory;    //    -O directory : save output files in the specified directory
+        args << "-O" << m_sett.output_directory;     //    -O directory : save output files in the specified directory
 
-    if(m_sett.step>0)                               //    -s 120 : time step between each shot
+    if(m_sett.step>0)                                                       //    -s 120 : time step between each shot
         args << "-s" << QString::number(m_sett.step);
 
     if(!m_sett.timestamp)                           //    -t : time stamp off

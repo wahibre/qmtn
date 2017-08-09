@@ -10,7 +10,7 @@ QIcon IconProvider::video()    {return QIcon::fromTheme("video-x-generic");     
 
 QIcon IconProvider::image()    {return QIcon::fromTheme("image-x-generic");        }
 
-QIcon IconProvider::error()    {return QIcon::fromTheme("sync_error");             }
+QIcon IconProvider::error()    {return QIcon::fromTheme("dialog-error");           }
 
 QIcon IconProvider::refresh()  {return QIcon::fromTheme("view-refresh");           }
 
