@@ -14,13 +14,14 @@ public:
     static QIcon error();
     static QIcon refresh();
     static QIcon help();
-    static QIcon system();
+    static QIcon settings();
     static QIcon exit();
     static QIcon text();
     static QIcon zoomIn();
     static QIcon zoomOut();
     static QIcon zoomOrig();
     static QIcon zoomFit();
+    static QIcon qt();
 };
 
 #endif // ICONPROVIDER_H

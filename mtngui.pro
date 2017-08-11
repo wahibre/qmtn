@@ -42,6 +42,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     images.qrc
+win32: RESOURCES += winicons.qrc
 
 ICON = qmtn.ico
 RC_ICONS = rsc/qmtn.ico

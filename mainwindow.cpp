@@ -45,11 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
 
-    //TODO add alternative Icon from theme for WIN
-    ui->action_Settings->setIcon(IconProvider::system());
+    ui->action_Settings->setIcon(IconProvider::settings());
     ui->action_Quit->setIcon(IconProvider::exit());
     ui->actionAbout->setIcon(IconProvider::help());
-    ui->actionAboutQt->setIcon(IconProvider::help());
+    ui->actionAboutQt->setIcon(IconProvider::qt());
     ui->TabOutput->setTabIcon(0, IconProvider::image());
     ui->TabOutput->setTabIcon(1, IconProvider::text());
     ui->actionOpenDirectory->setIcon(IconProvider::folder());

@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>rsc/help.svg</file>
+        <file>rsc/off.svg</file>
+        <file>rsc/zlozka.svg</file>
+        <file>rsc/settings.svg</file>
+        <file>rsc/log.svg</file>
+        <file>rsc/video.svg</file>
+        <file>rsc/failed.svg</file>
+        <file>rsc/zoomout.svg</file>
+        <file>rsc/zoomorig.svg</file>
+        <file>rsc/zoomin.svg</file>
+        <file>rsc/zoomfit.svg</file>
+        <file>rsc/refresh.svg</file>
+        <file>rsc/loading.svg</file>
+        <file>rsc/image.svg</file>
+    </qresource>
+</RCC>

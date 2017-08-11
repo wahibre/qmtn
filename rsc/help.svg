@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   id="Layer_1"
+   xml:space="preserve"
+   style="overflow:visible"><metadata
+   id="metadata55"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs53" />
+	<path
+   d="m 3,64 c 0,34.188 27.813,62 62,62 34.188,0 62,-27.813 62,-62 C 127,29.813 99.188,2 65,2 30.813,2 3,29.813 3,64 z"
+   id="path3"
+   style="opacity:0.2" />
+	<path
+   d="m 4,64 c 0,33.636 27.364,61 61,61 33.636,0 61,-27.364 61,-61 C 126,30.364 98.636,3 65,3 31.364,3 4,30.364 4,64 z"
+   id="path5"
+   style="opacity:0.2" />
+	<linearGradient
+   x1="53.619598"
+   y1="-10.749"
+   x2="79.119598"
+   y2="154.5011"
+   id="XMLID_5_"
+   gradientUnits="userSpaceOnUse">
+		<stop
+   id="stop8"
+   style="stop-color:#295aa6;stop-opacity:1"
+   offset="0" />
+		<stop
+   id="stop10"
+   style="stop-color:#27569f;stop-opacity:1"
+   offset="0.3319" />
+		<stop
+   id="stop12"
+   style="stop-color:#224c8b;stop-opacity:1"
+   offset="0.81919998" />
+		<stop
+   id="stop14"
+   style="stop-color:#1f4782;stop-opacity:1"
+   offset="1" />
+	</linearGradient>
+	<path
+   d="m 4,63 c 0,33.636 27.364,61 61,61 33.636,0 61,-27.364 61,-61 C 126,29.364 98.636,2 65,2 31.364,2 4,29.364 4,63 z"
+   id="path16"
+   style="fill:url(#XMLID_5_)" />
+	<linearGradient
+   x1="69.318398"
+   y1="125.5117"
+   x2="64.068298"
+   y2="49.512299"
+   id="XMLID_6_"
+   gradientUnits="userSpaceOnUse">
+		<stop
+   id="stop19"
+   style="stop-color:#2c60b0;stop-opacity:1"
+   offset="0" />
+		<stop
+   id="stop21"
+   style="stop-color:#2a5ca9;stop-opacity:1"
+   offset="0.31990001" />
+		<stop
+   id="stop23"
+   style="stop-color:#245195;stop-opacity:1"
+   offset="0.78960001" />
+		<stop
+   id="stop25"
+   style="stop-color:#214b8a;stop-opacity:1"
+   offset="1" />
+	</linearGradient>
+	<circle
+   cx="65"
+   cy="63"
+   r="60"
+   id="circle27"
+   style="fill:url(#XMLID_6_)" />
+	<linearGradient
+   x1="17.7852"
+   y1="24.6035"
+   x2="124.5362"
+   y2="98.604202"
+   id="XMLID_7_"
+   gradientUnits="userSpaceOnUse">
+		<stop
+   id="stop30"
+   style="stop-color:#728fba;stop-opacity:1"
+   offset="0" />
+		<stop
+   id="stop32"
+   style="stop-color:#3c6199;stop-opacity:1"
+   offset="1" />
+	</linearGradient>
+	<path
+   d="M 57.067,53.727 C 86,43 123.648,50.273 123.648,50.273 117.811,23.25 93.771,3 65,3 31.863,3 5,29.863 5,63 c 0,8.284 1.679,16.176 4.715,23.354 0,0.001 13.556,-20.098 47.352,-32.627 z"
+   id="path34"
+   style="fill:url(#XMLID_7_)" />
+	<path
+   d="M 65,122 C 32.03,122 5.283,95.406 5.013,62.5 5.011,62.668 5,62.832 5,63 c 0,33.137 26.863,60 60,60 33.137,0 60,-26.863 60,-60 0,-0.168 -0.012,-0.332 -0.013,-0.5 C 124.717,95.406 97.97,122 65,122 z"
+   id="path36"
+   style="fill:#4c7ac2" />
+	<linearGradient
+   x1="5"
+   y1="33.350601"
+   x2="125"
+   y2="33.350601"
+   id="XMLID_8_"
+   gradientUnits="userSpaceOnUse">
+		<stop
+   id="stop39"
+   style="stop-color:#90a5c4;stop-opacity:1"
+   offset="0" />
+		<stop
+   id="stop41"
+   style="stop-color:#d0e0fb;stop-opacity:1"
+   offset="0.47189999" />
+		<stop
+   id="stop43"
+   style="stop-color:#acbad5;stop-opacity:1"
+   offset="0.81190002" />
+		<stop
+   id="stop45"
+   style="stop-color:#9daac5;stop-opacity:1"
+   offset="1" />
+	</linearGradient>
+	<path
+   d="m 65,4.101 c 32.97,0 59.717,26.595 59.987,59.5 0.001,-0.167 0.013,-0.333 0.013,-0.5 0,-33.138 -26.863,-60 -60,-60 -33.137,0 -60,26.862 -60,60 0,0.167 0.011,0.333 0.013,0.5 C 5.283,30.695 32.03,4.101 65,4.101 z"
+   id="path47"
+   style="fill:url(#XMLID_8_)" />
+	<path
+   d="m 40.86,25.273 c 7.22,-2.143 14.779,-3.723 22.336,-3.723 12.974,0 25.721,5.754 25.721,20.194 0,15.794 -20.531,22.111 -19.178,36.891 H 55.864 c 0,-10.718 4.175,-16.585 8.236,-21.21 4.174,-4.625 8.349,-8.01 8.349,-13.877 0,-7.444 -6.431,-10.266 -12.974,-10.266 -5.979,0 -11.958,2.031 -17.373,4.514 L 40.86,25.273 z m 14.102,60.582 h 15.794 v 15.793 H 54.962 V 85.855 z"
+   id="path49"
+   style="fill:#ffffff" />
+</svg>
