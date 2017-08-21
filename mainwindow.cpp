@@ -367,7 +367,7 @@ void MainWindow::on_actionAbout_triggered()
     QMessageBox::about(this, "About...",
 R"(
 <html>
-    <p>Movie Thumbnailer for creating thumbnails is frontend of great <a href="http://moviethumbnail.sourceforge.net">mtn</a>.</p>
+    <p>Movie Thumbnailer for creating thumbnails is frontend of great <a href="http://gitlab.com/movie_thumbnailer/mtn/">mtn</a>.</p>
     <p>Features:
         <ul>
             <li>Drag&drop files and folders</li>

@@ -4,8 +4,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = qmtn
 TEMPLATE = app
-DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 CONFIG +=c++11
+
+use_git_version {
+    DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
+} else {
+    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.1.9\\\"
+}
 
 target.path = /usr/bin
 INSTALLS += target
