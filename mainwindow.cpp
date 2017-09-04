@@ -1,3 +1,22 @@
+/* Qt Movie Thumbnailer - movie screencast generator
+
+Copyright (C) 2017 wahibre <wahibre@gmx.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 #include <QDropEvent>
 #include <QMimeData>
 #include <QMimeDatabase>
@@ -367,7 +386,7 @@ void MainWindow::on_actionAbout_triggered()
     QMessageBox::about(this, "About...",
 R"(
 <html>
-    <p>Movie Thumbnailer for creating thumbnails is frontend of great <a href="http://gitlab.com/movie_thumbnailer/mtn/">mtn</a>.</p>
+    <p>Movie Thumbnailer for creating thumbnails is frontend of CLI <a href="https://gitlab.com/movie_thumbnailer/mtn/wikis/home/">mtn</a>.</p>
     <p>Features:
         <ul>
             <li>Drag&drop files and folders</li>
@@ -379,9 +398,24 @@ R"(
             <li>Settings for managing mtn switches</li>
         </ul>
     </p>
-</html>
+    <p>
+    <code>
+            Copyright (C) 2017 &lt;<a href=
 )"
+
++QString("\"mailto:wahibre@gmx.com?Subject=%1\"").arg(windowTitle().toHtmlEscaped())+
+
+R"(
+>wahibre@gmx.com</a>&gt;<br>
+            Qt Movie Thumbnailer comes with ABSOLUTELY NO WARRANTY.
+            This is free software, and you are welcome
+            to redistribute it under certain conditions; see <a href="https://www.gnu.org/licenses/gpl.html">GPLv3</a> for details.
+    </code>
+    </p>
+</html>
+            )"
     );
+
 }
 /******************************************************************************************************/
 void MainWindow::on_actionOpenFile_triggered()
