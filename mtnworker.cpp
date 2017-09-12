@@ -22,19 +22,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "iconprovider.h"
 
 #include <QSettings>
-#include <QDir>
-#include <QStandardPaths>
-#include <QCoreApplication>
 #include <QMutexLocker>
 
 MtnWorker::MtnWorker()
 {
-    dataLoad();
+//    dataLoad();
 }
 
 MtnWorker::~MtnWorker()
 {
-    dataSave();
+//    dataSave();
 }
 
 void MtnWorker::dataLoad()
@@ -77,7 +74,7 @@ void MtnWorker::dataLoad()
     settingsData.fontTimeLocation = s.value(REG_FONTTIMELOCATION, -1).toInt();
 
     /// qmtn settings
-    settingsData.executable     = s.value(REG_MTN, findExecutableMtn()).toString();
+    settingsData.executable     = s.value(REG_MTN/*, findExecutableMtn()*/).toString();
     settingsData.max_dir_depth  = s.value(REG_MAXDIRDEPTH, 999).toInt();
 }
 
@@ -132,25 +129,6 @@ SettingsData MtnWorker::data()
 void MtnWorker::setData(SettingsData newData)
 {
     settingsData = newData;
-}
-
-QString MtnWorker::findExecutableMtn()
-{
-    const QString  mtn_cli=MTN_EXE;
-    QString mtn_exe=settingsData.executable;
-
-    if(mtn_exe.isEmpty())
-    {
-        mtn_exe = QStandardPaths::findExecutable(mtn_cli);
-
-        if(mtn_exe.isEmpty())
-        {
-            QStringList searchPaths;
-            searchPaths << qApp->applicationDirPath() << QDir::currentPath() << qApp->applicationDirPath() + "/mtn";
-            mtn_exe = QStandardPaths::findExecutable(mtn_cli, searchPaths);
-        }
-    }
-    return mtn_exe;
 }
 
 QString MtnWorker::outputFile(const QString inputfilename)

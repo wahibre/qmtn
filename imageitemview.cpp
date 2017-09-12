@@ -174,12 +174,17 @@ void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex
 
     if(fileExists)
     {
-        if(!pix.load(imagepath))
-            qCritical() << "loading image failed: " << imagepath;
-
-        imageLabel->setPixmap(pix);
-        zoomToFitWindow();
-        fitImageToWindow = true;
+        if(pix.load(imagepath))
+        {
+            imageLabel->setPixmap(pix);
+            zoomToFitWindow();
+            fitImageToWindow = true;
+        }
+        else
+        {
+            imageLabel->setText(tr("Loading image failed!")+"\n"+imagepath);
+            imagepath.clear();
+        }
     }
     else
     {

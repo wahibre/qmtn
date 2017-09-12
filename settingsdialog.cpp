@@ -18,12 +18,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "settingsdialog.h"
+#include "settingsdata.h"
 #include "ui_settingsdialog.h"
 #include <QFileDialog>
 #include <QCompleter>
 #include <QDirModel>
 #include <QColorDialog>
-#include <QStandardPaths>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QTextStream>
+#include <QDebug>
+
+#define SETTINGS_FILE "settings.json"
 
 SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     QDialog(parent),
@@ -33,52 +39,23 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
     ui->setupUi(this);
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
 
-    ui->wFontInfo->setPlaceholderText("Choose font file");
-    ui->wFontTimestamp->setPlaceholderText("Choose font file");
+    ui->wFontInfo->setPlaceholderText(tr("Choose font file"));
+    ui->wFontTimestamp->setPlaceholderText(tr("Choose font file"));
 
     QCompleter *completer = new QCompleter(this);
     completer->setModel(new QDirModel(completer));
-
-    ui->eOutputDir->setText(data.output_directory);
     ui->eOutputDir->setCompleter(completer);
 
-    ui->sbColumns->setValue(    data.columns);
-    ui->sbRows->setValue(       data.rows);
-    ui->sbWidth->setValue(      data.width);
-    ui->sbGap->setValue(        data.gap);
-    ui->overwriteCheckBox->setChecked(data.overwrite);
-
-    ui->sbEdgeDetect->setValue( data.edge_detect);
-    ui->sbBlankSkip->setValue(  data.blank_skip);
-    ui->sbQuality->setValue(    data.quality);
-    ui->sbSkipBegin->setValue(  data.skip_begin);
-    ui->sbSkipEnd->setValue(    data.skip_end);
-    ui->eSuffix->setText(       data.suffix);
-    ui->sbStep->setValue(       data.step);
-    ui->sbHeight->setValue(     data.minHeight);
-    ui->verboseCheckBox->setChecked(data.verbose);
-
-    ui->eTitle->setText(        data.title);
-    ui->groupInfotext->setChecked(      data.infotext);
-    ui->groupTimestamp->setChecked(     data.timestamp);
-
-    setBackGroundColor(ui->btnBackground, data.background);
-    setBackGroundColor(ui->btnForeground, data.foreground);
-    setBackGroundColor(ui->btnTimeColor,  data.timecolor);
-    setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
-
-    ui->wFontInfo->setText(                         data.fontInfotext);
-    ui->wFontTimestamp->setText(                    data.fontTimestamp);
-    ui->sbFontInfoSize->setValue(                   data.fontInfoSize);
-    ui->sbFontTimestampSize->setValue(              data.fontTimeSize);
-    ui->cbFontInfoLocation->setCurrentIndex(        data.fontInfoLocation);
-    ui->cbFontTimestampLocation->setCurrentIndex(   data.fontTimeLocation);
-
     ui->lblMtnExe->setText(QString(MTN_EXE)+":");
-    ui->eMtnSelector->setText(data.executable);
-    ui->sbDepth->setValue(data.max_dir_depth);
 
     connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
+
+    loadDataFromJSON();
+
+    foreach(QJsonValue o, m_dataArray)
+        ui->cbSettingsName->addItem(o.toObject()[REG_SETTINGSNAME].toString());
+
+    ui->cbSettingsName->setCurrentIndex(m_currIdx);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -125,14 +102,144 @@ SettingsData SettingsDialog::settingsData()
 
     data.executable       = ui->eMtnSelector->text();
     data.max_dir_depth    = ui->sbDepth->value();
+    data.settingsName       = ui->cbSettingsName->currentText();
 
     return data;
+}
+
+///fill form with data
+void SettingsDialog::setSettingsData(SettingsData data)
+{
+    ui->eOutputDir->setText(data.output_directory);
+
+    ui->sbColumns->setValue(    data.columns);
+    ui->sbRows->setValue(       data.rows);
+    ui->sbWidth->setValue(      data.width);
+    ui->sbGap->setValue(        data.gap);
+    ui->overwriteCheckBox->setChecked(data.overwrite);
+
+    ui->sbEdgeDetect->setValue( data.edge_detect);
+    ui->sbBlankSkip->setValue(  data.blank_skip);
+    ui->sbQuality->setValue(    data.quality);
+    ui->sbSkipBegin->setValue(  data.skip_begin);
+    ui->sbSkipEnd->setValue(    data.skip_end);
+    ui->eSuffix->setText(       data.suffix);
+    ui->sbStep->setValue(       data.step);
+    ui->sbHeight->setValue(     data.minHeight);
+    ui->verboseCheckBox->setChecked(data.verbose);
+
+    ui->eTitle->setText(        data.title);
+    ui->groupInfotext->setChecked(      data.infotext);
+    ui->groupTimestamp->setChecked(     data.timestamp);
+
+    setBackGroundColor(ui->btnBackground, data.background);
+    setBackGroundColor(ui->btnForeground, data.foreground);
+    setBackGroundColor(ui->btnTimeColor,  data.timecolor);
+    setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
+
+    ui->wFontInfo->setText(                         data.fontInfotext);
+    ui->wFontTimestamp->setText(                    data.fontTimestamp);
+    ui->sbFontInfoSize->setValue(                   data.fontInfoSize);
+    ui->sbFontTimestampSize->setValue(              data.fontTimeSize);
+    ui->cbFontInfoLocation->setCurrentIndex(        data.fontInfoLocation);
+    ui->cbFontTimestampLocation->setCurrentIndex(   data.fontTimeLocation);
+
+    ui->eMtnSelector->setText(data.executable);
+    ui->sbDepth->setValue(data.max_dir_depth);
+}
+
+void SettingsDialog::loadDataFromJSON()
+{
+    QString filename = getSettingsFileName();
+
+    if(!filename.isEmpty() && QFile::exists(filename))
+    {
+        QFile settFile(filename);
+        if(settFile.open(QIODevice::ReadOnly))
+        {
+            QByteArray data = settFile.readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+
+            if(doc.isObject())
+            {
+                m_currIdx = doc.object()["CurrentSetting"].toInt(0);
+                m_dataArray = doc.object()["SettingsList"].toArray();
+            }
+
+            if(m_dataArray.count() == 0)
+                m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
+        }
+        else
+            qCritical() << tr("Cannon open file %1 for reading!").arg(filename);
+    }
+    else
+    {
+        m_currIdx = 0;
+        m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
+    }
+}
+
+void SettingsDialog::saveDataToJSON()
+{
+    while(ui->cbSettingsName->count()>m_dataArray.count())
+        m_dataArray.append(settingsData().toJsonObject());
+
+    m_dataArray.replace(ui->cbSettingsName->currentIndex(), settingsData().toJsonObject());
+
+    QJsonObject jsonOut = {
+        {"CurrentSetting", ui->cbSettingsName->currentIndex()},
+        {"SettingsList", m_dataArray}
+    };
+
+    QJsonDocument doc(jsonOut);
+
+    QByteArray arr = doc.toJson(QJsonDocument::Indented);
+
+    QString filename = getSettingsFileName();
+    if(!filename.isEmpty())
+    {
+        QFile settfile(filename);
+        if(settfile.open(QIODevice::WriteOnly))
+        {
+            QTextStream settstream(&settfile);
+            settstream << arr;
+            settfile.close();
+        }
+        else
+            qCritical() << tr("Cannot open file %1!").arg(settfile.fileName());
+    }
+}
+
+QString SettingsDialog::getSettingsFileName()
+{
+    QString settdir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
+    if(!settdir.isEmpty())
+    {
+        QDir dir(settdir);
+
+        if(!dir.exists())
+        {
+            if(!dir.mkpath(settdir))
+            {
+                qCritical() << tr("Cannot create DataLocation %1!").arg(settdir);
+                return QString();
+            }
+        }
+
+        QFileInfo settfileinfo(settdir, SETTINGS_FILE);
+        return settfileinfo.absoluteFilePath();
+    }
+    else
+        qCritical() << tr("Cannot find DataLocation and thus store settigns!");
+
+    return QString();
 }
 
 void SettingsDialog::on_btnOutputDir_clicked()
 {
 
-    QString newDir = QFileDialog::getExistingDirectory(this, "Output directory", ui->eOutputDir->text(), QFileDialog::ShowDirsOnly);
+    QString newDir = QFileDialog::getExistingDirectory(this, tr("Output directory"), ui->eOutputDir->text(), QFileDialog::ShowDirsOnly);
     if(!newDir.isEmpty())
         ui->eOutputDir->setText(newDir);
 }
@@ -179,6 +286,7 @@ void SettingsDialog::on_btnTimeShadow_clicked()
     setBackGroundColor(ui->btnTimeShadow, m_data.timeshadow);
 }
 
+/// Do not allow empty settings name
 void SettingsDialog::settingsTextChanged(const QString &text)
 {
     QFont f = QApplication::font(ui->cbSettingsName);
@@ -194,5 +302,22 @@ void SettingsDialog::settingsTextChanged(const QString &text)
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
         f.setBold(false);
         ui->cbSettingsName->setFont(f);
+    }
+}
+
+void SettingsDialog::on_cbSettingsName_currentIndexChanged(int /*index*/)
+{
+    while(ui->cbSettingsName->count()>m_dataArray.count())
+        m_dataArray.append(settingsData().toJsonObject());
+
+    setSettingsData(SettingsData(m_dataArray[ui->cbSettingsName->currentIndex()].toObject()));
+}
+
+void SettingsDialog::accept()
+{
+    if(!ui->cbSettingsName->hasFocus())
+    {
+        saveDataToJSON();
+        QDialog::accept();
     }
 }

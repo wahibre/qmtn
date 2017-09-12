@@ -49,7 +49,9 @@ void stdoutMessageOutput(QtMsgType type, const QMessageLogContext &/*context*/, 
 
 int main(int argc, char *argv[])
 {
+#ifndef QT_DEBUG
     qInstallMessageHandler(stdoutMessageOutput);
+#endif
     QApplication a(argc, argv);
 
     QCoreApplication::setOrganizationName("Rusty Pipe");

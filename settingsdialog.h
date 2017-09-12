@@ -21,22 +21,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SETTINGSDIALOG2_H
 
 #include <QDialog>
+#include <QJsonArray>
 #include "mtnworker.h"
 
 namespace Ui {
 class Dialog;
 }
 
-//TODO multiple settings profiles
+//TODO add remove profile button
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
 
     Ui::Dialog *ui;
     SettingsData m_data;
+    QJsonArray m_dataArray;
+    int m_currIdx;
 
     void getUserColor(QColor &c);
     void setBackGroundColor(QPushButton *button, QColor color);
+    QString getSettingsFileName();
+    void loadDataFromJSON();
+    void saveDataToJSON();
+    void setSettingsData(SettingsData data);
 public:
     explicit SettingsDialog(QWidget *parent, SettingsData data);
     ~SettingsDialog();
@@ -48,6 +55,12 @@ private slots:
     void on_btnTimeColor_clicked();
     void on_btnTimeShadow_clicked();
     void settingsTextChanged(const QString &text);
+
+    // QDialog interface
+    void on_cbSettingsName_currentIndexChanged(int);
+
+public slots:
+    virtual void accept() override;
 };
 
 #endif // SETTINGSDIALOG2_H

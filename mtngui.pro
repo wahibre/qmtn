@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     imageitemview.cpp \
     settingsdialog.cpp \
     fileselector.cpp \
-    iconprovider.cpp
+    iconprovider.cpp \
+    settingsdata.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \

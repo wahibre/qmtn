@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>889</width>
-    <height>471</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -74,35 +74,48 @@
            <property name="title">
             <string>Setting</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Profile:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
              <widget class="QComboBox" name="cbSettingsName">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Use [Enter] to insert new profile</string>
               </property>
               <property name="editable">
                <bool>true</bool>
               </property>
-              <item>
-               <property name="text">
-                <string>default</string>
-               </property>
-              </item>
              </widget>
             </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
-               <widget class="QLabel" name="lblMtnExe">
-                <property name="text">
-                 <string>mtn.exe:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="FileSelector" name="eMtnSelector" native="true"/>
-              </item>
-             </layout>
+            <item row="1" column="0">
+             <widget class="QLabel" name="lblMtnExe">
+              <property name="text">
+               <string>mtn.exe:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="FileSelector" name="eMtnSelector" native="true"/>
             </item>
            </layout>
           </widget>
@@ -1166,7 +1179,6 @@ QPushButton#btnTimeShadow
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>cbSettingsName</tabstop>
   <tabstop>sbColumns</tabstop>
   <tabstop>sbRows</tabstop>
   <tabstop>sbWidth</tabstop>
