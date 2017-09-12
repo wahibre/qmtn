@@ -1,7 +1,21 @@
 <RCC>
     <qresource prefix="/">
-        <file>rsc/qmtn.png</file>
-        <file>rsc/qmtn.ico</file>
-        <file>rsc/qt.png</file>
+        <file>icons/failed.svg</file>
+        <file>icons/help.svg</file>
+        <file>icons/image.svg</file>
+        <file>icons/loading.svg</file>
+        <file>icons/log.svg</file>
+        <file>icons/off.svg</file>
+        <file>icons/qmtn.ico</file>
+        <file>icons/qmtn.png</file>
+        <file>icons/qt.png</file>
+        <file>icons/refresh.svg</file>
+        <file>icons/settings.svg</file>
+        <file>icons/video.svg</file>
+        <file>icons/zlozka.svg</file>
+        <file>icons/zoomfit.svg</file>
+        <file>icons/zoomin.svg</file>
+        <file>icons/zoomorig.svg</file>
+        <file>icons/zoomout.svg</file>
     </qresource>
 </RCC>

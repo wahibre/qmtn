@@ -21,66 +21,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 IconProvider::IconProvider() {}
 
-QIcon IconProvider::qt()       {return QIcon(":/rsc/qt.png");                      }
+QIcon IconProvider::qt()       {return QIcon(":/icons/qt.png");                      }
 
 #ifdef Q_OS_LINUX
 
-QIcon IconProvider::folder()   {return QIcon::fromTheme("folder");                 }
+QIcon IconProvider::folder()   {return QIcon::fromTheme("folder",                   QIcon(":/icons/zlozka.svg"));   }
 
-QIcon IconProvider::loading()  {return QIcon::fromTheme("image-loading");          }
+QIcon IconProvider::loading()  {return QIcon::fromTheme("image-loading",            QIcon(":/icons/loading.svg"));  }
 
-QIcon IconProvider::video()    {return QIcon::fromTheme("video-x-generic");        }
+QIcon IconProvider::video()    {return QIcon::fromTheme("video-x-generic",          QIcon(":/icons/video.svg"));    }
 
-QIcon IconProvider::image()    {return QIcon::fromTheme("image-x-generic");        }
+QIcon IconProvider::image()    {return QIcon::fromTheme("image-x-generic",          QIcon(":/icons/image.svg"));    }
 
-QIcon IconProvider::error()    {return QIcon::fromTheme("dialog-error");           }
+QIcon IconProvider::error()    {return QIcon::fromTheme("dialog-error",             QIcon(":/icons/failed.svg"));   }
 
-QIcon IconProvider::refresh()  {return QIcon::fromTheme("view-refresh");           }
+QIcon IconProvider::refresh()  {return QIcon::fromTheme("view-refresh",             QIcon(":/icons/refresh.svg"));  }
 
-QIcon IconProvider::help()     {return QIcon::fromTheme("help-about");             }
+QIcon IconProvider::help()     {return QIcon::fromTheme("help-about",               QIcon(":/icons/help.svg"));     }
 
-QIcon IconProvider::settings() {return QIcon::fromTheme("applications-system");    }
+QIcon IconProvider::settings() {return QIcon::fromTheme("applications-system",      QIcon(":/icons/settings.svg")); }
 
-QIcon IconProvider::exit()     {return QIcon::fromTheme("application-exit");       }
+QIcon IconProvider::exit()     {return QIcon::fromTheme("application-exit",         QIcon(":/icons/off.svg"));      }
 
-QIcon IconProvider::text()     {return QIcon::fromTheme("accessories-text-editor");}
+QIcon IconProvider::text()     {return QIcon::fromTheme("accessories-text-editor",  QIcon(":/icons/log.svg"));      }
 
-QIcon IconProvider::zoomIn()   {return QIcon::fromTheme("zoom-in");                }
+QIcon IconProvider::zoomIn()   {return QIcon::fromTheme("zoom-in",                  QIcon(":/icons/zoomin.svg"));   }
 
-QIcon IconProvider::zoomOut()  {return QIcon::fromTheme("zoom-out");               }
+QIcon IconProvider::zoomOut()  {return QIcon::fromTheme("zoom-out",                 QIcon(":/icons/zoomout.svg"));  }
 
-QIcon IconProvider::zoomOrig() {return QIcon::fromTheme("zoom-original");          }
+QIcon IconProvider::zoomOrig() {return QIcon::fromTheme("zoom-original",            QIcon(":/icons/zoomorig.svg")); }
 
-QIcon IconProvider::zoomFit()  {return QIcon::fromTheme("zoom-fit-best");          }
+QIcon IconProvider::zoomFit()  {return QIcon::fromTheme("zoom-fit-best",            QIcon(":/icons/zoomfit.svg"));  }
 
 #else
 
-QIcon IconProvider::folder()   {return QIcon(":/rsc/zlozka.svg");                  }
+QIcon IconProvider::folder()   {return QIcon(":/icons/zlozka.svg");                  }
 
-QIcon IconProvider::loading()  {return QIcon(":/rsc/loading.svg");                 }
+QIcon IconProvider::loading()  {return QIcon(":/icons/loading.svg");                 }
 
-QIcon IconProvider::video()    {return QIcon(":/rsc/video.svg");                   }
+QIcon IconProvider::video()    {return QIcon(":/icons/video.svg");                   }
 
-QIcon IconProvider::image()    {return QIcon(":/rsc/image.svg");                   }
+QIcon IconProvider::image()    {return QIcon(":/icons/image.svg");                   }
 
-QIcon IconProvider::error()    {return QIcon(":/rsc/failed.svg");                  }
+QIcon IconProvider::error()    {return QIcon(":/icons/failed.svg");                  }
 
-QIcon IconProvider::refresh()  {return QIcon(":/rsc/refresh.svg");                 }
+QIcon IconProvider::refresh()  {return QIcon(":/icons/refresh.svg");                 }
 
-QIcon IconProvider::help()     {return QIcon(":/rsc/help.svg");                    }
+QIcon IconProvider::help()     {return QIcon(":/icons/help.svg");                    }
 
-QIcon IconProvider::settings() {return QIcon(":/rsc/settings.svg");                }
+QIcon IconProvider::settings() {return QIcon(":/icons/settings.svg");                }
 
-QIcon IconProvider::exit()     {return QIcon(":/rsc/off.svg");                     }
+QIcon IconProvider::exit()     {return QIcon(":/icons/off.svg");                     }
 
-QIcon IconProvider::text()     {return QIcon(":/rsc/log.svg");                     }
+QIcon IconProvider::text()     {return QIcon(":/icons/log.svg");                     }
 
-QIcon IconProvider::zoomIn()   {return QIcon(":/rsc/zoomin.svg");                  }
+QIcon IconProvider::zoomIn()   {return QIcon(":/icons/zoomin.svg");                  }
 
-QIcon IconProvider::zoomOut()  {return QIcon(":/rsc/zoomout.svg");                 }
+QIcon IconProvider::zoomOut()  {return QIcon(":/icons/zoomout.svg");                 }
 
-QIcon IconProvider::zoomOrig() {return QIcon(":/rsc/zoomorig.svg");                }
+QIcon IconProvider::zoomOrig() {return QIcon(":/icons/zoomorig.svg");                }
 
-QIcon IconProvider::zoomFit()  {return QIcon(":/rsc/zoomfit.svg");                 }
+QIcon IconProvider::zoomFit()  {return QIcon(":/icons/zoomfit.svg");                 }
 
 #endif

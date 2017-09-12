@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>889</width>
-    <height>481</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,7 +36,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="images.qrc">
-    <normaloff>:/rsc/qmtn.png</normaloff>:/rsc/qmtn.png</iconset>
+    <normaloff>:/icons/qmtn.png</normaloff>:/icons/qmtn.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>

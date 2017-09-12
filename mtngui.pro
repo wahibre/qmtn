@@ -46,9 +46,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     settingsdialog.ui
 
-RESOURCES += \
-    images.qrc
-win32: RESOURCES += winicons.qrc
+RESOURCES += images.qrc
 
 ICON = qmtn.ico
 RC_ICONS = rsc/qmtn.ico
