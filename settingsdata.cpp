@@ -39,10 +39,10 @@ SettingsData::SettingsData(QJsonObject obj)
     blank_skip          = obj[REG_BLANK             ].toDouble(0.80);
     quality             = obj[REG_QUALITY           ].toInt(90);
     skip_begin          = obj[REG_SKIPBEGIN         ].toDouble(0.0);
-    skip_begin          = obj[REG_SKIPEND           ].toDouble(0.0);
-    skip_end            = obj[REG_STEP              ].toInt(0);
-    step                = obj[REG_MINHEIGHT         ].toInt(0);
-    minHeight           = obj[REG_VERBOSE           ].toBool(false);
+    skip_end            = obj[REG_SKIPEND           ].toDouble(0.0);
+    step                = obj[REG_STEP              ].toInt(0);
+    minHeight           = obj[REG_MINHEIGHT         ].toInt(0);
+    verbose             = obj[REG_VERBOSE           ].toBool(false);
 
     title               = obj[REG_TITLE             ].toString();
     infotext            = obj[REG_INFOTEXT          ].toBool(true);
@@ -50,7 +50,7 @@ SettingsData::SettingsData(QJsonObject obj)
 
     background.setNamedColor(   obj[REG_BACKGROUND].toString(QColor(Qt::black).name()));
     foreground.setNamedColor(   obj[REG_FOREGROUND].toString(QColor(Qt::white).name()));
-    timecolor.setNamedColor(    obj[REG_TIMECOLOR ].toString(QColor(Qt::black).name()));
+    timecolor.setNamedColor (   obj[REG_TIMECOLOR ].toString(QColor(Qt::black).name()));
     timeshadow.setNamedColor(   obj[REG_TIMESHADOW].toString(QColor(Qt::gray).name()));
 
     fontInfotext        = obj[REG_FONTTEXT          ].toString();

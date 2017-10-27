@@ -367,7 +367,7 @@ void MainWindow::refreshStatusBar()
 /******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
 {
-    SettingsDialog *dial = new SettingsDialog(this, worker.data());
+    SettingsDialog *dial = new SettingsDialog(this);
 
     if(dial->exec() == QDialog::Accepted)
     {

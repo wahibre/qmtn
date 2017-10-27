@@ -31,10 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SETTINGS_FILE "settings.json"
 
-SettingsDialog::SettingsDialog(QWidget *parent, SettingsData data) :
+SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Dialog),
-    m_data(data)
+    ui(new Ui::Dialog)
 {
     ui->setupUi(this);
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
@@ -65,7 +64,7 @@ SettingsDialog::~SettingsDialog()
 
 SettingsData SettingsDialog::settingsData()
 {
-    SettingsData data = m_data;
+    SettingsData data;
 
     data.output_directory = ui->eOutputDir->text();
     data.columns          = ui->sbColumns->value();
@@ -88,10 +87,11 @@ SettingsData SettingsDialog::settingsData()
     data.infotext         = ui->groupInfotext->isChecked();
     data.timestamp        = ui->groupTimestamp->isChecked();
 
-    //m_data.background     in on_btnBackground_clicked()
-    //m_data.foregound      in on_btnForeground_clicked()
-    //m_data.timecolor      in on_btnTimeColor_clicked();
-    //m_data.timeshadow     in on_btnTimeShadow_clicked();
+    // color are set in pushbuttons callback metods
+    data.background       = m_data.background;
+    data.foreground       = m_data.foreground;
+    data.timecolor        = m_data.timecolor;
+    data.timeshadow       = m_data.timeshadow;
 
     data.fontInfotext       = ui->wFontInfo->text();
     data.fontTimestamp      = ui->wFontTimestamp->text();
@@ -132,10 +132,10 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->groupInfotext->setChecked(      data.infotext);
     ui->groupTimestamp->setChecked(     data.timestamp);
 
-    setBackGroundColor(ui->btnBackground, data.background);
-    setBackGroundColor(ui->btnForeground, data.foreground);
-    setBackGroundColor(ui->btnTimeColor,  data.timecolor);
-    setBackGroundColor(ui->btnTimeShadow, data.timeshadow);
+    setBackGroundColor(ui->btnBackground, data.background); m_data.background=data.background;
+    setBackGroundColor(ui->btnForeground, data.foreground); m_data.foreground=data.foreground;
+    setBackGroundColor(ui->btnTimeColor,  data.timecolor);  m_data.timecolor=data.timecolor;
+    setBackGroundColor(ui->btnTimeShadow, data.timeshadow); m_data.timeshadow=data.timeshadow;
 
     ui->wFontInfo->setText(                         data.fontInfotext);
     ui->wFontTimestamp->setText(                    data.fontTimestamp);
@@ -310,7 +310,8 @@ void SettingsDialog::on_cbSettingsName_currentIndexChanged(int /*index*/)
     while(ui->cbSettingsName->count()>m_dataArray.count())
         m_dataArray.append(settingsData().toJsonObject());
 
-    setSettingsData(SettingsData(m_dataArray[ui->cbSettingsName->currentIndex()].toObject()));
+    if(!m_dataArray[ui->cbSettingsName->currentIndex()].isUndefined())
+        setSettingsData(SettingsData(m_dataArray[ui->cbSettingsName->currentIndex()].toObject()));
 }
 
 void SettingsDialog::accept()

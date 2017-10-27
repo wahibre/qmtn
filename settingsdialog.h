@@ -45,7 +45,7 @@ class SettingsDialog : public QDialog
     void saveDataToJSON();
     void setSettingsData(SettingsData data);
 public:
-    explicit SettingsDialog(QWidget *parent, SettingsData data);
+    explicit SettingsDialog(QWidget *parent);
     ~SettingsDialog();
     SettingsData settingsData();
 private slots:
