@@ -387,6 +387,7 @@ void MainWindow::on_actionAbout_triggered()
 R"(
 <html>
     <p>Movie Thumbnailer for creating thumbnails is frontend of CLI <a href="https://gitlab.com/movie_thumbnailer/mtn/wikis/home/">mtn</a>.</p>
+    <p>More details at <a href="https://gitlab.com/movie_thumbnailer/qmtn/wikis/home/">HomePage</a>.</p>
     <p>Features:
         <ul>
             <li>Drag&drop files and folders</li>
