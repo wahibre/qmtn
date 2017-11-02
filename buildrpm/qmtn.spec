@@ -1,5 +1,5 @@
 Name:		qmtn	
-Version: 	0.1.9
+Version: 	0.1.16
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 

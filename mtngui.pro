@@ -18,7 +18,7 @@ INSTALLS += target
 #TODO use macros: VERSION, QMAKE_TARGET_COMPANY, QMAKE_TARGET_DESCRIPTION, QMAKE_TARGET_COPYRIGHT, QMAKE_TARGET_PRODUCT, RC_LANG, RC_CODEPAGE
 
 ikona.path = /usr/share/pixmaps
-ikona.files = rsc/qmtn.png
+ikona.files = icons/qmtn.png
 
 desktop.path = /usr/share/applications
 desktop.files = assets/qmtn.desktop
@@ -49,7 +49,7 @@ FORMS    += mainwindow.ui \
 RESOURCES += images.qrc
 
 ICON = qmtn.ico
-RC_ICONS = rsc/qmtn.ico
+RC_ICONS = icons/qmtn.ico
 
 OTHER_FILES += \
     README

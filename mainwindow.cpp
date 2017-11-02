@@ -73,7 +73,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionOpenDirectory->setIcon(IconProvider::folder());
     ui->actionOpenFile->setIcon(IconProvider::video());
 
-    videoExtensions << "mp4" << "avi" << "mpg" << "mpeg" << "mkv" << "wmv" << "asf";
+    videoExtensions << "3gp"  << "3g2"    << "asf"   << "avi" << "avs"  << "dat"  << "divx"
+                    << "dsm"  << "evo"    << "flv"   << "m1v" << "m2ts" << "m2v"  << "m4a"
+                    << "mj2"  << "mjpg"   << "mjpeg" << "mkv" << "mov"  << "moov" << "mp4"
+                    << "rmvb" << "mpeg"   << "mpv"   << "nut" << "ogg"  << "ogm"  << "xvid"
+                    << "mpg" << "swf" << "ts" << "vob" << "webm" << "wmv" << "qt" << "rm" ;
+
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
