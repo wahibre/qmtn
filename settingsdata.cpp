@@ -18,9 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "settingsdata.h"
+#include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
 
+#define SETTINGS_FILE "settings.json"
+
+
+/******************************************************************************************************/
 SettingsData::SettingsData(){}
-
+/******************************************************************************************************/
 SettingsData::SettingsData(QJsonObject obj)
 {
     /// mtn settings
@@ -67,7 +74,7 @@ SettingsData::SettingsData(QJsonObject obj)
     if(executable.isEmpty()) //empty in file
         executable = findExecutableMtn();
 }
-
+/******************************************************************************************************/
 QJsonObject SettingsData::toJsonObject()
 {
     QJsonObject o
@@ -114,7 +121,7 @@ QJsonObject SettingsData::toJsonObject()
 
     return o;
 }
-
+/******************************************************************************************************/
 QString SettingsData::findExecutableMtn()
 {
     const QString  mtn_cli=MTN_EXE;
@@ -128,3 +135,116 @@ QString SettingsData::findExecutableMtn()
     }
     return mtn_exe;
 }
+/******************************************************************************************************/
+
+
+/******************************************************************************************************/
+QString SettingsPool::getSettingsFileName()
+{
+    QString settdir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
+    if(!settdir.isEmpty())
+    {
+        QDir dir(settdir);
+
+        if(!dir.exists())
+        {
+            if(!dir.mkpath(settdir))
+            {
+                qCritical() << QObject::tr("Cannot create DataLocation %1!").arg(settdir);
+                return QString();
+            }
+        }
+
+        QFileInfo settfileinfo(settdir, SETTINGS_FILE);
+        return settfileinfo.absoluteFilePath();
+    }
+    else
+        qCritical() << QObject::tr("Cannot find DataLocation and thus store settigns!");
+
+    return QString();
+}
+/******************************************************************************************************/
+void SettingsPool::loadFromJSON()
+{
+    QString filename = getSettingsFileName();
+    QJsonArray m_dataArray;
+
+    if(!filename.isEmpty() && QFile::exists(filename))
+    {
+        QFile settFile(filename);
+        if(settFile.open(QIODevice::ReadOnly))
+        {
+            QByteArray data = settFile.readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+
+            if(doc.isObject())
+            {
+                currSettingsIdx = doc.object()["CurrentSetting"].toInt(0);
+                m_dataArray = doc.object()["SettingsList"].toArray();
+            }
+
+            if(m_dataArray.count() == 0)
+                m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
+        }
+        else
+            qCritical() << QObject::tr("Cannon open file %1 for reading!").arg(filename);
+    }
+    else
+    {
+        //Default values
+        currSettingsIdx = 0;
+        m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
+    }
+
+
+    for (int i =0; i<m_dataArray.count(); i++)
+    {
+        SettingsData s(m_dataArray[i].toObject());
+        settingsList.append(QVariant::fromValue(s));
+    }
+}
+/******************************************************************************************************/
+void SettingsPool::saveToJSON()
+{
+    QJsonArray sl;
+    //TODO use QMetaType::registerConverter
+    foreach (QVariant v, settingsList)
+       sl.append(v.value<SettingsData>().toJsonObject());
+
+    QJsonObject jsonOut = {
+        {"CurrentSetting", currSettingsIdx},
+        {"SettingsList", sl}
+    };
+
+    QJsonDocument doc(jsonOut);
+
+    QByteArray arr = doc.toJson(QJsonDocument::Indented);
+
+    QString filename = getSettingsFileName();
+    if(!filename.isEmpty())
+    {
+        QFile settfile(filename);
+        if(settfile.open(QIODevice::WriteOnly))
+        {
+            QTextStream settstream(&settfile);
+            settstream << arr;
+            settfile.close();
+        }
+        else
+            qCritical() << QObject::tr("Cannot open file %1!").arg(settfile.fileName());
+    }
+
+}
+/******************************************************************************************************/
+SettingsData SettingsPool::currentSettings()
+{
+    return settingsList[currSettingsIdx].value<SettingsData>();
+}
+/******************************************************************************************************/
+void SettingsPool::setSettings(int idx, SettingsData data)
+{
+    settingsList[idx].setValue(QVariant::fromValue(data));
+    currSettingsIdx = idx;
+}
+/******************************************************************************************************/

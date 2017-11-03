@@ -28,24 +28,22 @@ namespace Ui {
 class Dialog;
 }
 
-//TODO add remove profile button
+//TODO add "remove profile" button
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
 
     Ui::Dialog *ui;
     SettingsData m_data;
-    QJsonArray m_dataArray;
+    SettingsPool& allSettings;
     int m_currIdx;
 
     void getUserColor(QColor &c);
     void setBackGroundColor(QPushButton *button, QColor color);
-    QString getSettingsFileName();
-    void loadDataFromJSON();
-    void saveDataToJSON();
+    void saveDialog();
     void setSettingsData(SettingsData data);
 public:
-    explicit SettingsDialog(QWidget *parent);
+    explicit SettingsDialog(QWidget *parent, SettingsPool &settings);
     ~SettingsDialog();
     SettingsData settingsData();
 private slots:

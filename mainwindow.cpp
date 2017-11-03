@@ -130,7 +130,7 @@ void MainWindow::processUrls(QList<QUrl> urls)
         QFileInfo fi(files.toLocalFile());
 
         if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), worker.data().max_dir_depth);
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), worker.currentSettings().max_dir_depth);
         else
             if(fi.isFile())
                 iDir = fileInfo2DirItem(fi);
@@ -308,10 +308,10 @@ bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
 /******************************************************************************************************/
 bool MainWindow::isVideoFile(QFileInfo file)
 {
-    /* according to extension */
+    /* based on extension */
     return (videoExtensions.contains(file.suffix(), Qt::CaseInsensitive));
 
-    /* according to mime type
+    /* based on mime type
     QMimeDatabase mimedb;
     QMimeType mType = mimedb.mimeTypeForFile(entry, QMimeDatabase::MatchContent);
     */
@@ -346,7 +346,7 @@ void MainWindow::createStatusBarWidgets()
 /******************************************************************************************************/
 void MainWindow::refreshStatusBar()
 {
-    auto d = worker.data();
+    auto d = worker.currentSettings();
 
     sColumns->setText(QString("Columns: %1 |").arg(d.columns));
 
@@ -372,13 +372,10 @@ void MainWindow::refreshStatusBar()
 /******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
 {
-    SettingsDialog *dial = new SettingsDialog(this);
+    SettingsDialog *dial = new SettingsDialog(this, worker.allSettings());
 
     if(dial->exec() == QDialog::Accepted)
-    {
-        worker.setData(dial->settingsData());
         refreshStatusBar();
-    }
 }
 /******************************************************************************************************/
 void MainWindow::on_actionAboutQt_triggered()

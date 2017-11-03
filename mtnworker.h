@@ -30,17 +30,16 @@ class MtnWorker: public QObject
 {
     Q_OBJECT
 
-    SettingsData settingsData;
     QMutex mutex;
-
+    SettingsPool settingsPool;
 public:
     MtnWorker();
     ~MtnWorker();
-    Q_DECL_DEPRECATED void dataLoad();
-    Q_DECL_DEPRECATED void dataSave();
+    void dataLoad();
+    void dataSave();
 
-    SettingsData data();
-    void setData(SettingsData newData);
+    SettingsData currentSettings();
+    SettingsPool &allSettings();
     QString outputFile(QString inputfilename);
 
     void enqueue(QStandardItem* parent, int row);

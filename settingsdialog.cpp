@@ -20,20 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "settingsdialog.h"
 #include "settingsdata.h"
 #include "ui_settingsdialog.h"
-#include <QFileDialog>
+
 #include <QCompleter>
 #include <QDirModel>
+#include <QFileDialog>
 #include <QColorDialog>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QTextStream>
-#include <QDebug>
 
-#define SETTINGS_FILE "settings.json"
 
-SettingsDialog::SettingsDialog(QWidget *parent) :
+SettingsDialog::SettingsDialog(QWidget *parent, SettingsPool &settings) :
     QDialog(parent),
-    ui(new Ui::Dialog)
+    ui(new Ui::Dialog),
+    allSettings(settings)
 {
     ui->setupUi(this);
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
@@ -49,12 +46,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 
-    loadDataFromJSON();
+    foreach(QVariant o, allSettings.settingsList)
+        ui->cbSettingsName->addItem(o.value<SettingsData>().settingsName);
 
-    foreach(QJsonValue o, m_dataArray)
-        ui->cbSettingsName->addItem(o.toObject()[REG_SETTINGSNAME].toString());
-
-    ui->cbSettingsName->setCurrentIndex(m_currIdx);
+    ui->cbSettingsName->setCurrentIndex(allSettings.currSettingsIdx);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -148,92 +143,12 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->sbDepth->setValue(data.max_dir_depth);
 }
 
-void SettingsDialog::loadDataFromJSON()
+void SettingsDialog::saveDialog()
 {
-    QString filename = getSettingsFileName();
+    while(ui->cbSettingsName->count() > allSettings.settingsList.count())
+        allSettings.settingsList.append(QVariant::fromValue(settingsData()));
 
-    if(!filename.isEmpty() && QFile::exists(filename))
-    {
-        QFile settFile(filename);
-        if(settFile.open(QIODevice::ReadOnly))
-        {
-            QByteArray data = settFile.readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(data);
-
-            if(doc.isObject())
-            {
-                m_currIdx = doc.object()["CurrentSetting"].toInt(0);
-                m_dataArray = doc.object()["SettingsList"].toArray();
-            }
-
-            if(m_dataArray.count() == 0)
-                m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
-        }
-        else
-            qCritical() << tr("Cannon open file %1 for reading!").arg(filename);
-    }
-    else
-    {
-        m_currIdx = 0;
-        m_dataArray.append(SettingsData(QJsonObject()).toJsonObject());
-    }
-}
-
-void SettingsDialog::saveDataToJSON()
-{
-    while(ui->cbSettingsName->count()>m_dataArray.count())
-        m_dataArray.append(settingsData().toJsonObject());
-
-    m_dataArray.replace(ui->cbSettingsName->currentIndex(), settingsData().toJsonObject());
-
-    QJsonObject jsonOut = {
-        {"CurrentSetting", ui->cbSettingsName->currentIndex()},
-        {"SettingsList", m_dataArray}
-    };
-
-    QJsonDocument doc(jsonOut);
-
-    QByteArray arr = doc.toJson(QJsonDocument::Indented);
-
-    QString filename = getSettingsFileName();
-    if(!filename.isEmpty())
-    {
-        QFile settfile(filename);
-        if(settfile.open(QIODevice::WriteOnly))
-        {
-            QTextStream settstream(&settfile);
-            settstream << arr;
-            settfile.close();
-        }
-        else
-            qCritical() << tr("Cannot open file %1!").arg(settfile.fileName());
-    }
-}
-
-QString SettingsDialog::getSettingsFileName()
-{
-    QString settdir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-
-    if(!settdir.isEmpty())
-    {
-        QDir dir(settdir);
-
-        if(!dir.exists())
-        {
-            if(!dir.mkpath(settdir))
-            {
-                qCritical() << tr("Cannot create DataLocation %1!").arg(settdir);
-                return QString();
-            }
-        }
-
-        QFileInfo settfileinfo(settdir, SETTINGS_FILE);
-        return settfileinfo.absoluteFilePath();
-    }
-    else
-        qCritical() << tr("Cannot find DataLocation and thus store settigns!");
-
-    return QString();
+    allSettings.setSettings(ui->cbSettingsName->currentIndex(), settingsData());
 }
 
 void SettingsDialog::on_btnOutputDir_clicked()
@@ -307,18 +222,18 @@ void SettingsDialog::settingsTextChanged(const QString &text)
 
 void SettingsDialog::on_cbSettingsName_currentIndexChanged(int /*index*/)
 {
-    while(ui->cbSettingsName->count()>m_dataArray.count())
-        m_dataArray.append(settingsData().toJsonObject());
+    while(ui->cbSettingsName->count() > allSettings.settingsList.count())
+        allSettings.settingsList.append(QVariant::fromValue(settingsData()));
 
-    if(!m_dataArray[ui->cbSettingsName->currentIndex()].isUndefined())
-        setSettingsData(SettingsData(m_dataArray[ui->cbSettingsName->currentIndex()].toObject()));
+    //fill the form
+    setSettingsData(allSettings.settingsList[ui->cbSettingsName->currentIndex()].value<SettingsData>());
 }
 
 void SettingsDialog::accept()
 {
     if(!ui->cbSettingsName->hasFocus())
     {
-        saveDataToJSON();
+        saveDialog();
         QDialog::accept();
     }
 }
