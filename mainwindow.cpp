@@ -77,7 +77,8 @@ MainWindow::MainWindow(QWidget *parent) :
                     << "dsm"  << "evo"    << "flv"   << "m1v" << "m2ts" << "m2v"  << "m4a"
                     << "mj2"  << "mjpg"   << "mjpeg" << "mkv" << "mov"  << "moov" << "mp4"
                     << "rmvb" << "mpeg"   << "mpv"   << "nut" << "ogg"  << "ogm"  << "xvid"
-                    << "mpg" << "swf" << "ts" << "vob" << "webm" << "wmv" << "qt" << "rm" ;
+                    << "mpg"  << "swf"    << "ts"    << "vob" << "webm" << "wmv"  << "qt"
+                    << "rm"   << "f4v";
 
 
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
