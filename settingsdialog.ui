@@ -315,7 +315,10 @@
                 <item row="7" column="0">
                  <widget class="QLabel" name="lblDepth">
                   <property name="text">
-                   <string>Depth:</string>
+                   <string>&amp;Depth:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>sbDepth</cstring>
                   </property>
                  </widget>
                 </item>

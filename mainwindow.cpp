@@ -252,7 +252,7 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth)
         //Folders
         foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
         {
-            iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()), --recursion_depth);
+            iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()), recursion_depth-1);
             if(iChildDir)
                 iChildren.append(iChildDir);
         }

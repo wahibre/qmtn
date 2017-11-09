@@ -68,7 +68,7 @@ SettingsData::SettingsData(QJsonObject obj)
     fontTimeLocation    = obj[REG_FONTTIMELOCATION  ].toInt(-1);
 
     /// qmtn settings
-    max_dir_depth       = obj[REG_MAXDIRDEPTH       ].toInt(999);
+    max_dir_depth       = obj[REG_MAXDIRDEPTH       ].toInt(10);
     executable          = obj[REG_MTN               ].toString(findExecutableMtn()); //mtn not searched if exists in file and is empty
 
     if(executable.isEmpty()) //empty in file
