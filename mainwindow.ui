@@ -272,6 +272,14 @@
     <string>Ctrl+L</string>
    </property>
   </action>
+  <action name="actionRefreshThumbnail">
+   <property name="text">
+    <string>__</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

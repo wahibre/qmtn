@@ -64,6 +64,7 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionOpenFile_triggered();
     void on_actionOpenDirectory_triggered();
+    void on_actionRefreshThumbnail_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -72,6 +73,7 @@ private:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent *event) override;
 
     /* Own */
     QStandardItem *dir2DirItem(QDir dir, int recursion_depth);

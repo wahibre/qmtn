@@ -113,7 +113,7 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
     auto treeContextMenu = new QMenu(this);
 
     treeContextMenu->addAction(IconProvider::folder(),  "&Open Directory",      this, SLOT(openDirectory()));
-    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()));
+    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),  Qt::Key_F5/*to generate hint*/);
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/
@@ -215,6 +215,17 @@ void MainWindow::recreateThumbnail()
 {
     if(datamodel->rowCount()>0)
         recreateThumbnail(ui->treeView->currentIndex());
+}
+/******************************************************************************************************/
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_F5 && event->modifiers() == Qt::NoModifier)
+    {
+        this->recreateThumbnail();
+        event->accept();
+        return;
+    }
+    event->ignore();
 }
 /******************************************************************************************************/
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -436,5 +447,10 @@ void MainWindow::on_actionOpenDirectory_triggered()
 
     if(!directory.isEmpty())
         processUrls({directory});
+}
+/******************************************************************************************************/
+void MainWindow::on_actionRefreshThumbnail_triggered()
+{
+    recreateThumbnail();
 }
 /******************************************************************************************************/
