@@ -50,7 +50,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
+public slots:
+    void updateItem(QStandardItem *parent, int row);
 private slots:    
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
     void treeContextMenuRequest(const QPoint &pos);

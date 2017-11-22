@@ -46,6 +46,7 @@ public:
 
 signals:
     void changedProcessingItemsNumber(int delta);
+    void generatingSuccess(QStandardItem*, int);
 public slots:
     void jobFinished(QStandardItem *parent, int row, bool success, QString logtexttext, QString outFileName);
 };

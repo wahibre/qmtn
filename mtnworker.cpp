@@ -102,6 +102,7 @@ void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QStrin
         parent->child(row, columnItemNames::filename)->setIcon(IconProvider::video());
         parent->child(row, columnItemNames::logtext)->setText(log);
         parent->child(row, columnItemNames::output)->setText(outFileName);
+        emit generatingSuccess(parent, row);
     }
     else
     {

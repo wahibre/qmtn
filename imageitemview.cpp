@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QScrollBar>
 #include <QWheelEvent>
 #include <QGuiApplication>
-#include <QDebug>
+//#include <QDebug>
 
 #include "imageitemview.h"
 #include "iconprovider.h"

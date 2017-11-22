@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
     connect(&worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
+    connect(&worker, &MtnWorker::generatingSuccess, this, &MainWindow::updateItem);
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
@@ -98,6 +99,18 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+/******************************************************************************************************/
+void MainWindow::updateItem(QStandardItem *parent, int row)
+{
+    if(ui->treeView->currentIndex().parent() == parent->index() &&
+       ui->treeView->currentIndex().row()    == row)
+    {
+        // update log
+        currentRowChanged(ui->treeView->currentIndex(), QModelIndex());
+        // update image
+        ui->imageViewer->currentChanged(ui->treeView->currentIndex(), QModelIndex());
+    }
 }
 /******************************************************************************************************/
 void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
