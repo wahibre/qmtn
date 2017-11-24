@@ -55,7 +55,9 @@ public slots:
 private slots:    
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
     void treeContextMenuRequest(const QPoint &pos);
-    void openDirectory();
+    void treeItemDoubleClicked(const QModelIndex &selIndex);
+    void treeOpenDirectory();
+    void treeOpenMovie();
     void recreateThumbnail();
     void recreateThumbnail(const QModelIndex idx);
     void changedProcessingItemsNumber(int delta);

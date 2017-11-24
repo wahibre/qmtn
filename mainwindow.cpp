@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
+    connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::treeItemDoubleClicked);
     connect(&worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
     connect(&worker, &MtnWorker::generatingSuccess, this, &MainWindow::updateItem);
 
@@ -125,9 +126,25 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
-    treeContextMenu->addAction(IconProvider::folder(),  "&Open Directory",      this, SLOT(openDirectory()));
-    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),  Qt::Key_F5/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::folder(),  "&Open Directory",      this, SLOT(treeOpenDirectory()));
+    treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),            Qt::Key_F3/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
+}
+/******************************************************************************************************/
+void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
+{
+    QString movieFileName = selIndex.sibling(
+                selIndex.row(),
+                columnItemNames::path
+                ).data().toString();
+
+    if(!movieFileName.isEmpty())
+    {
+        QFileInfo f(movieFileName);
+        if(f.exists() && f.isFile())
+            QDesktopServices::openUrl(QUrl::fromLocalFile(movieFileName));
+    }
 }
 /******************************************************************************************************/
 void MainWindow::processUrls(QList<QUrl> urls)
@@ -160,21 +177,21 @@ void MainWindow::processUrls(QList<QUrl> urls)
     }
 }
 /******************************************************************************************************/
-void MainWindow::openDirectory()
+void MainWindow::treeOpenDirectory()
 {
     if(datamodel->rowCount()>0)
     {
         QModelIndex selIndex = ui->treeView->currentIndex();
 
-        QString s = selIndex.sibling(
+        QString movieFileName = selIndex.sibling(
                     selIndex.row(),
                     columnItemNames::path
                     ).data().toString();
 
         // File Item
-        if(!s.isEmpty())
+        if(!movieFileName.isEmpty())
         {
-            QFileInfo f(s);
+            QFileInfo f(movieFileName);
             if(f.exists())
             {
                 if(f.isDir())
@@ -193,6 +210,12 @@ void MainWindow::openDirectory()
                 QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
         }
     }
+}
+/******************************************************************************************************/
+void MainWindow::treeOpenMovie()
+{
+    if(datamodel->rowCount()>0)
+        treeItemDoubleClicked(ui->treeView->currentIndex());
 }
 /******************************************************************************************************/
 void MainWindow::recreateThumbnail(const QModelIndex selIndex)
@@ -232,11 +255,19 @@ void MainWindow::recreateThumbnail()
 /******************************************************************************************************/
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_F5 && event->modifiers() == Qt::NoModifier)
+    if(event->modifiers() == Qt::NoModifier)
     {
-        this->recreateThumbnail();
-        event->accept();
-        return;
+        switch (event->key()) {
+        case Qt::Key_F3:
+            this->treeOpenMovie();
+            break;
+
+        case Qt::Key_F5:
+            this->recreateThumbnail();
+                break;
+        default:
+            event->ignore();
+        }
     }
     event->ignore();
 }
