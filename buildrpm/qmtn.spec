@@ -1,5 +1,5 @@
 Name:		qmtn	
-Version: 	0.1.16
+Version: 	0.2
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
@@ -37,6 +37,16 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
+* Fri Nov 24 2017 wahibre  <wahibre@gmx.com> - 0.2
+- location of mtn
+- max. recursion depth
+- settings profile
+- recreating thumbnail
+- context menu item "Open Movie"
+- collapseAll/expandAll context menu items
+- fix: autorefresh created image/log
+- fix: floating numbers respects locale settings
+
 * Mon Aug 21 2017 wahibre  <wahibre@gmx.com> - 0.1.9
 - option to locate mtn binary
 - option to specify recursion depth

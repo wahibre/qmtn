@@ -38,7 +38,7 @@ Fedora 25
 Ubuntu 17.4 
 
     qmake QtMtn/mtngui.pro
-    make -j 4
+    make
 
 
 Install
