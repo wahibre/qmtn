@@ -126,9 +126,11 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
-    treeContextMenu->addAction(IconProvider::folder(),  "&Open Directory",      this, SLOT(treeOpenDirectory()));
-    treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),            Qt::Key_F3/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::folder(),  "Open &Directory",      this, SLOT(treeOpenDirectory()));
+    treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),        Qt::Key_F3/*to generate hint*/);
     treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
+    treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/
@@ -267,7 +269,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 break;
         default:
             event->ignore();
+            return;
         }
+        event->accept();
     }
     event->ignore();
 }

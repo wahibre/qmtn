@@ -19,6 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "iconprovider.h"
 
+/*
+ * http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html
+ * http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+*/
+
 IconProvider::IconProvider() {}
 
 QIcon IconProvider::qt()       {return QIcon(":/icons/qt.png");                      }
