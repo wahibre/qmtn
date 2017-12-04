@@ -1,10 +1,12 @@
-image: fedora:26
-
 stages:
-    - install
+    - build
 
-install:
-    stage: install
+fc26:
+    image: fedora:26
+    stage: build
+    only:
+    - master
+    - devel
     script:
     - dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     - dnf -y install gcc-c++ qt5-qtbase-devel ffmpeg-devel gd-devel rpm-build
@@ -13,8 +15,29 @@ install:
     - mv qmtn.tar buildroot/SOURCES/
     - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
     - ARTIF=`ls buildroot/RPMS/x86_64/*.rpm`
+#    when: manual
     artifacts:
-        name: qmtn-f26
+        name: qmtn-fc26
+        expire_in: 30 week
+        paths:
+        - buildroot/RPMS/x86_64/$ARTIF
+fc27:
+    image: fedora:27
+    stage: build
+    only:
+    - master
+    - devel
+    script:
+    - dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    - dnf -y install gcc-c++ qt5-qtbase-devel ffmpeg-devel gd-devel rpm-build
+    - tar cf qmtn.tar *
+    - mkdir -p buildroot/SOURCES
+    - mv qmtn.tar buildroot/SOURCES/
+    - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
+    - ARTIF=`ls buildroot/RPMS/x86_64/*.rpm`
+#    when: manual
+    artifacts:
+        name: qmtn-fc27
         expire_in: 30 week
         paths:
         - buildroot/RPMS/x86_64/$ARTIF

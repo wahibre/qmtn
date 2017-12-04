@@ -17,7 +17,7 @@ Features:
 
 Dependencies
 ============
-Ubuntu 17.4  
+Ubuntu 17.10
 
     sudo apt-get install qt5-default qtbase5-dev
 Fedora 25
