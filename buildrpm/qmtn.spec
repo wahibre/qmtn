@@ -6,25 +6,26 @@ Summary:	Qt Movie thumbnailer
 Group:		Amusements/Graphics
 License:	GPLv2
 URL:		http://gitlab.com/movie_thumbnailer/qmtn/
-Source0:	%{name}.%{version}.tar.gz                
+#Source0:	%{name}.%{version}.tar.gz
+Source0:	%{name}.tar
 
-BuildRequires:	qt5-qtbase-devel
-Requires:	mtn
+BuildRequires:	gcc-c++ qt5-qtbase-devel ffmpeg-devel gd-devel
+Requires:	mtn qt5-qtbase ffmpeg gd
 
 %description
 Movie thumbnail generator written in Qt5
 
 %prep
 #wget -O %{name}.%{version}.tar.gz https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
-tar -xzf %SOURCE0
+tar -xf %SOURCE0
 
 %build
-cd qmtn*
+#cd qmtn*
 qmake-qt5 INSTALL_ROOT=%{buildroot} mtngui.pro
 %make_build
 
 %install
-cd qmtn*
+#cd qmtn*
 make install INSTALL_ROOT=%{buildroot}
 
 %files

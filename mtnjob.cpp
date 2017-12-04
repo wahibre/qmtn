@@ -93,14 +93,14 @@ QStringList MtnJob::createArguments()
     QStringList args;
     QLocale locale ;
     args                                            //         http://moviethumbnail.sourceforge.net/
-         << "-P"                                    //    -P : dont pause before exiting; override -p
                                                     //    -p : pause before exiting; default on in win32
+         << "-P"                                    //    -P : dont pause before exiting; override -p
+         << "-H"                                    //    -H : filesize only in human readable format (MiB, GiB). Default shows size in bytes to
          << "-c" << QString::number(m_sett.columns) //    -c 3 : # of column
          << "-r" << QString::number(m_sett.rows)    //    -r 0 : # of rows; >0:override -s
          << "-w" << QString::number(m_sett.width)   //    -w 1024 : width of output image; 0:column * movie width
          << "-g" << QString::number(m_sett.gap);    //    -g 0 : gap between each shot
                                                     //    -a aspect_ratio : override input file's display aspect ratio
-
     if(qAbs(m_sett.blank_skip-0.8)>0.001)           //    -b 0.80 : skip if % blank is higher; 0:skip all 1:skip really blank >1:off
         args << "-b" << locale.toString(m_sett.blank_skip, 'f', 2);
 

@@ -1,0 +1,20 @@
+image: fedora:26
+
+stages:
+    - install
+
+install:
+    stage: install
+    script:
+    - dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    - dnf -y install gcc-c++ qt5-qtbase-devel ffmpeg-devel gd-devel rpm-build
+    - tar cf qmtn.tar *
+    - mkdir -p buildroot/SOURCES
+    - mv qmtn.tar buildroot/SOURCES/
+    - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
+    - ARTIF=`ls buildroot/RPMS/x86_64/*.rpm`
+    artifacts:
+        name: qmtn-f26
+        expire_in: 30 week
+        paths:
+        - buildroot/RPMS/x86_64/$ARTIF
