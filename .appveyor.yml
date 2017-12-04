@@ -1,0 +1,34 @@
+version: 1.0.{build}
+clone_depth: 1
+init:
+- ps: $blockRdp = $false; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+build_script:
+- cmd: >-
+    set PROJ_DIR=%CD%
+
+    set QTBIN=c:\qt\5.8\mingw53_32\bin
+
+    set MAKE=c:\MinGW\bin\mingw32-make.exe
+
+
+    %QTBIN%\qtenv2.bat
+
+    cd "%PROJ_DIR%"
+
+    %QTBIN%\qmake
+
+    %MAKE%
+
+    %MAKE% clean
+
+    %QTBIN%\windeployqt.exe --libdir Release Release\qmtn.exe
+before_test:
+- ps: $blockRdp = $false; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+artifacts:
+- path: Release
+  name: qmtn-win32
+- path: Release\qmtn.exe
+  name: qmtn-win32.exe
+
+on_failure:
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
