@@ -92,6 +92,7 @@ QStringList MtnJob::createArguments()
 {
     QStringList args;
     QLocale locale ;
+    locale.setNumberOptions(locale.numberOptions() |= QLocale::OmitGroupSeparator);
     args                                            //         http://moviethumbnail.sourceforge.net/
                                                     //    -p : pause before exiting; default on in win32
          << "-P"                                    //    -P : dont pause before exiting; override -p
