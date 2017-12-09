@@ -9,8 +9,8 @@ URL:		http://gitlab.com/movie_thumbnailer/qmtn/
 #Source0:	%{name}.%{version}.tar.gz
 Source0:	%{name}.tar
 
-BuildRequires:	gcc-c++ qt5-qtbase-devel ffmpeg-devel gd-devel
-Requires:	mtn qt5-qtbase ffmpeg gd
+BuildRequires:	gcc-c++ qt5-qtbase-devel
+Requires:	mtn qt5-qtbase
 
 %description
 Movie thumbnail generator written in Qt5
@@ -20,12 +20,10 @@ Movie thumbnail generator written in Qt5
 tar -xf %SOURCE0
 
 %build
-#cd qmtn*
 qmake-qt5 INSTALL_ROOT=%{buildroot} mtngui.pro
 %make_build
 
 %install
-#cd qmtn*
 make install INSTALL_ROOT=%{buildroot}
 
 %files

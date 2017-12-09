@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 0.2.{build}
 clone_depth: 1
 init:
 - ps: $blockRdp = $false; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -10,6 +10,10 @@ build_script:
 
     set MAKE=c:\MinGW\bin\mingw32-make.exe
 
+    set CHOCO=c:\ProgramData\chocolatey\bin\choco.exe
+
+    set INNO=c:\Program Files (x86)\Inno Setup 5\ISCC.exe
+
 
     %QTBIN%\qtenv2.bat
 
@@ -17,17 +21,28 @@ build_script:
 
     %QTBIN%\qmake
 
-    %MAKE%
+    %MAKE% -j4
 
     %MAKE% clean
 
     %QTBIN%\windeployqt.exe --libdir Release Release\qmtn.exe
-before_test:
-- ps: $blockRdp = $false; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+    %CHOCO% install innosetup
+
+    mv assets\qmtn_create_setup.iss .
+
+    cp icons\qmtn_128.ico release
+
+    "%INNO%" qmtn_create_setup.iss
+
+    cd release
+
+    mv *.exe "%PROJ_DIR%"
+
+#before_test:
+#- ps: $blockRdp = $false; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 artifacts:
-- path: Release
-  name: qmtn-win32
-- path: Release\qmtn.exe
+- path: ./*.exe
   name: qmtn-win32.exe
 
 on_failure:
