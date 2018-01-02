@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAINWINDOW_H
 
 #include "mtnworker.h"
+#include "profilemodel.h"
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
@@ -37,11 +38,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    MtnWorker worker;
+    MtnWorker *worker;
     QStandardItemModel *datamodel;
     QStringList videoExtensions;
     QMutex gardian;
     int processingItems;
+    ProfileModel *profileModel=Q_NULLPTR;
 
     /* statusbar widgets */
     QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;

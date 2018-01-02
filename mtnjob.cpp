@@ -17,14 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "mtnjob.h"
-#include "iconprovider.h"
-
 #include<QProcess>
 #include<QDir>
 #include<QDateTime>
 #include<QCoreApplication>
 
+#include "mtnjob.h"
+#include "iconprovider.h"
 /******************************************************************************************************/
 MtnJob::MtnJob(QObject *parent, QStandardItem *item, int row, SettingsData settingsData, QString outputfilename):
     QRunnable(),
@@ -32,7 +31,8 @@ MtnJob::MtnJob(QObject *parent, QStandardItem *item, int row, SettingsData setti
     m_stditem(item),
     m_row(row),
     m_sett(settingsData),
-    m_outputfilename(outputfilename) {
+    m_outputfilename(outputfilename)
+{
     qRegisterMetaType<QVector<int> >("QVector<int>");
 }
 
@@ -194,7 +194,7 @@ QStringList MtnJob::createArguments()
 
     return args;
 }
-
+/******************************************************************************************************/
 QString MtnJob::color2hex(QColor color)
 {
 #if QT_VERSION>=0x050500

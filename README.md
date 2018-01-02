@@ -13,6 +13,7 @@ Features:
 - Open image in external image viewer
 - Recreate image with new settings
 - Settings for managing mtn switches
+- Settings profiles
 
 
 Dependencies

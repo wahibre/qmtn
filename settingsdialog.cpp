@@ -25,12 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDirModel>
 #include <QFileDialog>
 #include <QColorDialog>
+#include <QInputDialog>
+#include <QMessageBox>
 
-
-SettingsDialog::SettingsDialog(QWidget *parent, SettingsPool &settings) :
+/******************************************************************************************************/
+SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
     QDialog(parent),
     ui(new Ui::Dialog),
-    allSettings(settings)
+    profileModel(model)
 {
     ui->setupUi(this);
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
@@ -44,19 +46,17 @@ SettingsDialog::SettingsDialog(QWidget *parent, SettingsPool &settings) :
 
     ui->lblMtnExe->setText(QString(MTN_EXE)+":");
 
-    connect(ui->cbSettingsName, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
+    connect(ui->profilesComboBox, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 
-    foreach(QVariant o, allSettings.settingsList)
-        ui->cbSettingsName->addItem(o.value<SettingsData>().settingsName);
-
-    ui->cbSettingsName->setCurrentIndex(allSettings.currSettingsIdx);
+    ui->profilesComboBox->setModel(profileModel);
+    ui->profilesComboBox->setCurrentIndex(profileModel->getCurrentProfileIdx());
 }
 
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
 }
-
+/******************************************************************************************************/
 SettingsData SettingsDialog::settingsData()
 {
     SettingsData data;
@@ -97,11 +97,11 @@ SettingsData SettingsDialog::settingsData()
 
     data.executable       = ui->eMtnSelector->text();
     data.max_dir_depth    = ui->sbDepth->value();
-    data.settingsName       = ui->cbSettingsName->currentText();
+    data.settingsName       = ui->profilesComboBox->currentText();
 
     return data;
 }
-
+/******************************************************************************************************/
 ///fill form with data
 void SettingsDialog::setSettingsData(SettingsData data)
 {
@@ -142,23 +142,14 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->eMtnSelector->setText(data.executable);
     ui->sbDepth->setValue(data.max_dir_depth);
 }
-
-void SettingsDialog::saveDialog()
-{
-    while(ui->cbSettingsName->count() > allSettings.settingsList.count())
-        allSettings.settingsList.append(QVariant::fromValue(settingsData()));
-
-    allSettings.setSettings(ui->cbSettingsName->currentIndex(), settingsData());
-}
-
+/******************************************************************************************************/
 void SettingsDialog::on_btnOutputDir_clicked()
 {
-
     QString newDir = QFileDialog::getExistingDirectory(this, tr("Output directory"), ui->eOutputDir->text(), QFileDialog::ShowDirsOnly);
     if(!newDir.isEmpty())
         ui->eOutputDir->setText(newDir);
 }
-
+/******************************************************************************************************/
 void SettingsDialog::getUserColor(QColor &c)
 {
     QColor cTmp;
@@ -171,69 +162,96 @@ void SettingsDialog::getUserColor(QColor &c)
     if(cTmp.isValid())
         c = cTmp;
 }
-
+/******************************************************************************************************/
 void SettingsDialog::setBackGroundColor(QPushButton *button, QColor color)
 {
     button->setStyleSheet(QString("background-color: %1").arg(color.name()));
 }
-
+/******************************************************************************************************/
 void SettingsDialog::on_btnBackground_clicked()
 {
     getUserColor(m_data.background);
     setBackGroundColor(ui->btnBackground, m_data.background);
 }
-
+/******************************************************************************************************/
 void SettingsDialog::on_btnForeground_clicked()
 {
     getUserColor(m_data.foreground);
     setBackGroundColor(ui->btnForeground, m_data.foreground);
 }
-
+/******************************************************************************************************/
 void SettingsDialog::on_btnTimeColor_clicked()
 {
     getUserColor(m_data.timecolor);
     setBackGroundColor(ui->btnTimeColor, m_data.timecolor);
 }
-
+/******************************************************************************************************/
 void SettingsDialog::on_btnTimeShadow_clicked()
 {
     getUserColor(m_data.timeshadow);
     setBackGroundColor(ui->btnTimeShadow, m_data.timeshadow);
 }
-
+/******************************************************************************************************/
 /// Do not allow empty settings name
 void SettingsDialog::settingsTextChanged(const QString &text)
 {
-    QFont f = QApplication::font(ui->cbSettingsName);
+    QFont f = QApplication::font(ui->lblProfile);
 
     if(text.isEmpty())
     {
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
         f.setBold(true);
-        ui->cbSettingsName->setFont(f);
+        ui->lblProfile->setFont(f);
     }
     else
     {
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
         f.setBold(false);
-        ui->cbSettingsName->setFont(f);
+        ui->lblProfile->setFont(f);
     }
 }
-
-void SettingsDialog::on_cbSettingsName_currentIndexChanged(int /*index*/)
+/******************************************************************************************************/
+void SettingsDialog::on_profilesComboBox_currentIndexChanged(int index)
 {
-    while(ui->cbSettingsName->count() > allSettings.settingsList.count())
-        allSettings.settingsList.append(QVariant::fromValue(settingsData()));
-
-    //fill the form
-    setSettingsData(allSettings.settingsList[ui->cbSettingsName->currentIndex()].value<SettingsData>());
+    setSettingsData(profileModel->data(profileModel->index(index, 1), Qt::DisplayRole).value<SettingsData>());
 }
-
+/******************************************************************************************************/
 void SettingsDialog::accept()
 {
-    if(!ui->cbSettingsName->hasFocus())
+    profileModel->setData(profileModel->index(ui->profilesComboBox->currentIndex(), 1), QVariant::fromValue<SettingsData>(settingsData()), Qt::EditRole);
+    profileModel->setCurrentProfileIdx(ui->profilesComboBox->currentIndex());
+    QDialog::accept();
+}
+/******************************************************************************************************/
+void SettingsDialog::on_btnAddProfile_clicked()
+{
+    bool Ok=false;
+    QString newProfile = QInputDialog::getText(this, tr("Profile"), tr("Name:"), QLineEdit::Normal, QString(), &Ok);
+
+    if(Ok)
     {
-        saveDialog();
-        QDialog::accept();
+        SettingsData s = settingsData();
+        s.settingsName = newProfile;
+        int currRow = profileModel->rowCount();
+
+        ui->profilesComboBox->setInsertPolicy(QComboBox::InsertAfterCurrent);
+        profileModel->insertRow(currRow);
+        if(profileModel->setData(profileModel->index(currRow, 1), QVariant::fromValue<SettingsData>(s), Qt::EditRole))
+            ui->profilesComboBox->setCurrentIndex(currRow);
+        ui->profilesComboBox->setInsertPolicy(QComboBox::NoInsert);     //disable manual inserting with ENTER
     }
 }
+/******************************************************************************************************/
+void SettingsDialog::on_btnDelProfile_clicked()
+{
+    if(profileModel->rowCount()>1)
+    {
+        if(QMessageBox::question(this, tr("Delete profile"), tr("Do you really want to remove \"%1\"?").arg(ui->profilesComboBox->currentText()))
+                == QMessageBox::Yes)
+        {
+                if(profileModel->removeRow(ui->profilesComboBox->currentIndex()))
+                    ui->profilesComboBox->setCurrentIndex(0);
+        }
+    }
+}
+/******************************************************************************************************/

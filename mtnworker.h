@@ -20,26 +20,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MTNWORKER_H
 #define MTNWORKER_H
 
-#include <QTreeWidgetItem>
 #include <QThreadPool>
 #include <QMutex>
 #include <QStandardItem>
-#include "settingsdata.h"
+#include "profilemodel.h"
 
 class MtnWorker: public QObject
 {
     Q_OBJECT
 
     QMutex mutex;
-    SettingsPool settingsPool;
+    ProfileModel *profile;
 public:
-    MtnWorker();
+    MtnWorker(ProfileModel *p);
     ~MtnWorker();
     void dataLoad();
     void dataSave();
 
     SettingsData currentSettings();
-    SettingsPool &allSettings();
     QString outputFile(QString inputfilename);
 
     void enqueue(QStandardItem* parent, int row);

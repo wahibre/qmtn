@@ -97,18 +97,4 @@ private:
 
 Q_DECLARE_METATYPE(SettingsData)
 
-class SettingsPool
-{
-private:
-    QString getSettingsFileName();
-
-public:
-    int currSettingsIdx;
-    QVariantList settingsList;
-    void loadFromJSON();
-    void saveToJSON();
-    SettingsData currentSettings();
-    void setSettings(int idx, SettingsData data);
-};
-
 #endif // SETTINGSDATA_H

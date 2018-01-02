@@ -21,54 +21,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mtnjob.h"
 #include "iconprovider.h"
 
-MtnWorker::MtnWorker()
+MtnWorker::MtnWorker(ProfileModel *p):
+    profile(p)
 {
-    dataLoad();
 }
-
+/******************************************************************************************************/
 MtnWorker::~MtnWorker()
 {
-    dataSave();
 }
-
-void MtnWorker::dataLoad()
-{
-    settingsPool.loadFromJSON();
-}
-
-void MtnWorker::dataSave()
-{
-    settingsPool.saveToJSON();
-}
-
+/******************************************************************************************************/
 SettingsData MtnWorker::currentSettings()
 {
-    return settingsPool.currentSettings();
+    return SettingsData();
 }
-
-SettingsPool& MtnWorker::allSettings()
-{
-    return settingsPool;
-}
-
+/******************************************************************************************************/
 QString MtnWorker::outputFile(const QString inputfilename)
 {
     QString filename;
     QDir directory;
+    SettingsData s;
 
     if (inputfilename.isEmpty())
         return QString();
 
-    if(settingsPool.currentSettings().output_directory.isEmpty())
-    {
-        directory = QFileInfo(inputfilename).dir();
-    }
-    else
-    {
-        directory = QDir(settingsPool.currentSettings().output_directory);
-    }
+    s = profile->getCurrentSettingsData();
 
-    if(settingsPool.currentSettings().suffix.isEmpty())
+    if(s.output_directory.isEmpty())
+        directory = QFileInfo(inputfilename).dir();
+    else
+        directory = QDir(s.output_directory);
+
+    if(s.suffix.isEmpty())
     {
         QFileInfo f = QFileInfo(inputfilename);
         filename = f.completeBaseName() + "_s.jpg";
@@ -76,13 +59,12 @@ QString MtnWorker::outputFile(const QString inputfilename)
     else
     {
         QFileInfo f = QFileInfo(inputfilename);
-        filename = f.completeBaseName() + settingsPool.currentSettings().suffix;
+        filename = f.completeBaseName() + s.suffix;
     }
 
     return QFileInfo(directory, filename).absoluteFilePath();
-
 }
-
+/******************************************************************************************************/
 void MtnWorker::enqueue(QStandardItem* parent, int row)
 {
     if(parent && parent->child(row))
@@ -90,10 +72,10 @@ void MtnWorker::enqueue(QStandardItem* parent, int row)
         QString outfile = outputFile(parent->child(row, columnItemNames::path)->text());
 
         emit changedProcessingItemsNumber(+1);
-        QThreadPool::globalInstance()->start(new MtnJob(this, parent, row, settingsPool.currentSettings(), outfile));
+        QThreadPool::globalInstance()->start(new MtnJob(this, parent, row, profile->getCurrentSettingsData(), outfile));
     }
 }
-
+/******************************************************************************************************/
 void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QString log, QString outFileName=QString())
 {
     mutex.lock();
@@ -112,3 +94,4 @@ void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QStrin
     emit changedProcessingItemsNumber(-1);
     mutex.unlock();
 }
+/******************************************************************************************************/

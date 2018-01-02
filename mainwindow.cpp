@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    processingItems(0),
+    processingItems(0),    
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
     datamodel = new QStandardItemModel(this);
     datamodel->setColumnCount(4);
+
+    profileModel = new ProfileModel(this);
+    worker = new MtnWorker(profileModel);
 
     ui->treeView->hide();
     ui->treeView->setModel(datamodel);
@@ -85,13 +88,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
     connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::treeItemDoubleClicked);
-    connect(&worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
-    connect(&worker, &MtnWorker::generatingSuccess, this, &MainWindow::updateItem);
+    connect(worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
+    connect(worker, &MtnWorker::generatingSuccess, this, &MainWindow::updateItem);
 
     QSettings s;
     restoreGeometry(s.value("mainform/geometry").toByteArray());
     restoreState(s.value("mainform/state").toByteArray());
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
+
 
     createStatusBarWidgets();
     refreshStatusBar();
@@ -100,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete worker;
 }
 /******************************************************************************************************/
 void MainWindow::updateItem(QStandardItem *parent, int row)
@@ -152,8 +157,6 @@ void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
 void MainWindow::processUrls(QList<QUrl> urls)
 {
     //TODO merge multiple files
-    //TODO add support for external URL (SMB, ...)
-
 
     QStandardItem *iDir;
 
@@ -163,7 +166,7 @@ void MainWindow::processUrls(QList<QUrl> urls)
         QFileInfo fi(files.toLocalFile());
 
         if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), worker.currentSettings().max_dir_depth);
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth);
         else
             if(fi.isFile())
                 iDir = fileInfo2DirItem(fi);
@@ -229,7 +232,7 @@ void MainWindow::recreateThumbnail(const QModelIndex selIndex)
 
     // File Item
     if(!pathCell.data().toString().isEmpty())
-        worker.enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
+        worker->enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
     else
     // Directory Item
     {
@@ -359,7 +362,7 @@ bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
         cols << iFile << iAbsFile << iLog << iOutputFile;
         parent->appendRow(cols);
 
-        worker.enqueue(parent, parent->rowCount()-1);
+        worker->enqueue(parent, parent->rowCount()-1);
 
         return true;
     }
@@ -406,7 +409,7 @@ void MainWindow::createStatusBarWidgets()
 /******************************************************************************************************/
 void MainWindow::refreshStatusBar()
 {
-    auto d = worker.currentSettings();
+    auto d = profileModel->getCurrentSettingsData();
 
     sColumns->setText(QString("Columns: %1 |").arg(d.columns));
 
@@ -432,7 +435,9 @@ void MainWindow::refreshStatusBar()
 /******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
 {
-    SettingsDialog *dial = new SettingsDialog(this, worker.allSettings());
+    if(profileModel == Q_NULLPTR)
+        profileModel = new ProfileModel(this);
+    SettingsDialog *dial = new SettingsDialog(this, /*worker.allSettings(), */profileModel);
 
     if(dial->exec() == QDialog::Accepted)
         refreshStatusBar();

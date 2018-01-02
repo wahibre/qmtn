@@ -17,5 +17,7 @@
         <file>icons/zoomin.svg</file>
         <file>icons/zoomorig.svg</file>
         <file>icons/zoomout.svg</file>
+        <file>icons/delete.png</file>
+        <file>icons/plus.svg</file>
     </qresource>
 </RCC>

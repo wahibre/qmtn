@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     fileselector.cpp \
     iconprovider.cpp \
-    settingsdata.cpp
+    settingsdata.cpp \
+    profilemodel.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h \
     settingsdialog.h \
     settingsdata.h \
     fileselector.h \
-    iconprovider.h
+    iconprovider.h \
+    profilemodel.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui

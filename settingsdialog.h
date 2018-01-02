@@ -17,33 +17,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#ifndef SETTINGSDIALOG2_H
-#define SETTINGSDIALOG2_H
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
 #include <QDialog>
 #include <QJsonArray>
 #include "mtnworker.h"
+#include "profilemodel.h"
 
 namespace Ui {
 class Dialog;
 }
 
-//TODO add "remove profile" button
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
 
     Ui::Dialog *ui;
     SettingsData m_data;
-    SettingsPool& allSettings;
     int m_currIdx;
+    ProfileModel *profileModel;
 
     void getUserColor(QColor &c);
     void setBackGroundColor(QPushButton *button, QColor color);
-    void saveDialog();
     void setSettingsData(SettingsData data);
 public:
-    explicit SettingsDialog(QWidget *parent, SettingsPool &settings);
+    explicit SettingsDialog(QWidget *parent, ProfileModel *model);
     ~SettingsDialog();
     SettingsData settingsData();
 private slots:
@@ -52,13 +51,13 @@ private slots:
     void on_btnForeground_clicked();
     void on_btnTimeColor_clicked();
     void on_btnTimeShadow_clicked();
+    void on_profilesComboBox_currentIndexChanged(int index);
+    void on_btnAddProfile_clicked();
+    void on_btnDelProfile_clicked();
     void settingsTextChanged(const QString &text);
-
-    // QDialog interface
-    void on_cbSettingsName_currentIndexChanged(int);
 
 public slots:
     virtual void accept() override;
 };
 
-#endif // SETTINGSDIALOG2_H
+#endif // SETTINGSDIALOG_H
