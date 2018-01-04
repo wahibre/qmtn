@@ -38,6 +38,12 @@
    <iconset resource="images.qrc">
     <normaloff>:/icons/qmtn.png</normaloff>:/icons/qmtn.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QGroupBox::title {
+	color: qlineargradient(x1: 0, y1: 0 x2: 1, y2: 1 stop: 0 #00A000, stop: 1 FFFFFF);
+	font-weight: bold;
+}</string>
+  </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
@@ -76,6 +82,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="title">
             <string>Setting</string>
