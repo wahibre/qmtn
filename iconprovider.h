@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QIcon>
 
-//TODO fallback icons
 class IconProvider
 {
 public:
@@ -41,6 +40,7 @@ public:
     static QIcon zoomOut();
     static QIcon zoomOrig();
     static QIcon zoomFit();
+    static QIcon fullScreen();
     static QIcon qt();
 };
 

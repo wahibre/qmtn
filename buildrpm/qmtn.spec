@@ -1,12 +1,12 @@
 Name:		qmtn	
-Version: 	0.2
+Version: 	0.3
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
-License:	GPLv2
+License:	GPLv3
 URL:		http://gitlab.com/movie_thumbnailer/qmtn/
-#Source0:	%{name}.%{version}.tar.gz
+#Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 Source0:	%{name}.tar
 
 BuildRequires:	gcc-c++ qt5-qtbase-devel
@@ -36,6 +36,13 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
+* Mon Jan 8 2018 wahibre  <wahibre@gmx.com> - 0.3
+- show image in fullscreen
+- inserting/removing profiles
+- filesize only in human readable format (MiB, GiB)
+- changed log icon
+- removed group separator in numbers (affect -B, -E mtn's switches)
+
 * Fri Nov 24 2017 wahibre  <wahibre@gmx.com> - 0.2
 - location of mtn
 - max. recursion depth

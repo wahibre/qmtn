@@ -58,6 +58,8 @@ QIcon IconProvider::zoomOrig() {return QIcon::fromTheme("zoom-original",        
 
 QIcon IconProvider::zoomFit()  {return QIcon::fromTheme("zoom-fit-best",            QIcon(":/icons/zoomfit.svg"));  }
 
+QIcon IconProvider::fullScreen() {return QIcon::fromTheme("view-fullscreen",        QIcon(":/icons/fullscreen.svg"));  }
+
 #else
 
 QIcon IconProvider::folder()   {return QIcon(":/icons/zlozka.svg");                  }
@@ -87,5 +89,7 @@ QIcon IconProvider::zoomOut()  {return QIcon(":/icons/zoomout.svg");            
 QIcon IconProvider::zoomOrig() {return QIcon(":/icons/zoomorig.svg");                }
 
 QIcon IconProvider::zoomFit()  {return QIcon(":/icons/zoomfit.svg");                 }
+
+QIcon IconProvider::fullScreen() {return QIcon(":/icons/fullscreen.svg");            }
 
 #endif

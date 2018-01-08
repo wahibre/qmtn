@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>358</height>
+    <width>541</width>
+    <height>374</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -22,21 +22,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>5</number>
-    </property>
-    <property name="leftMargin">
-     <number>5</number>
-    </property>
-    <property name="topMargin">
-     <number>5</number>
-    </property>
-    <property name="rightMargin">
-     <number>5</number>
-    </property>
-    <property name="bottomMargin">
-     <number>5</number>
-    </property>
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -109,21 +94,31 @@
           <number>2</number>
          </property>
          <item>
-          <widget class="ImageItemView" name="imageViewer">
-           <property name="widgetResizable">
-            <bool>true</bool>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>6</number>
            </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>210</width>
-              <height>235</height>
-             </rect>
-            </property>
-           </widget>
-          </widget>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="ImageItemView" name="imageViewer">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>247</width>
+                <height>241</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -169,7 +164,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>455</width>
+     <width>541</width>
      <height>22</height>
     </rect>
    </property>

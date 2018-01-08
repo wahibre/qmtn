@@ -30,6 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ImageItemView : public QScrollArea
 {
+    QWidget *dockParentWidget;
+    QRect dockGeometry;
+
+
     QItemSelectionModel *m_model;
     QString imagepath;    
     QPixmap pix;
@@ -42,7 +46,8 @@ class ImageItemView : public QScrollArea
             *zoomInAct,
             *zoomOutAct,
             *zoomFitAct,
-            *zoomOrigAct;
+            *zoomOrigAct,
+            *zoomFullScreenAct;
 public:
             ImageItemView(QWidget *parent = Q_NULLPTR);
     void    setModel(QItemSelectionModel *model);
@@ -55,18 +60,24 @@ private:
     void zoomIn();
     void zoomOut();
     void zoomToFitWindow();
+    void toggleFullScreen();
     void enableImageActions(bool state);
     void normalSize();
     void adjustScrollBar(QScrollBar *scrollBar, double factor, double positionFactor=0.5);
 
     // QWidget interface
 protected:
-    virtual void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     virtual void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
     virtual void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    // QWidget interface
+    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    // QObject interface
+    virtual bool event(QEvent *event) Q_DECL_OVERRIDE;
+
 };
 
 #endif // IMAGEITEMVIEW_H

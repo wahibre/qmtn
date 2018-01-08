@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QScrollBar>
 #include <QWheelEvent>
 #include <QGuiApplication>
+#include <QLayout>
 //#include <QDebug>
 
 #include "imageitemview.h"
@@ -32,13 +33,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /******************************************************************************************************/
 ImageItemView::ImageItemView(QWidget *parent):
     QScrollArea(parent),
+    dockParentWidget(parent),
     imageLabel(new QLabel),
     scaleFactor(1.0),
     fitImageToWindow(true),
     dragEnabled(false)
 
 {
-    zoomFitAct = new QAction(IconProvider::zoomFit(), tr("Zoom to &Fit Window"), parent);
+    zoomFullScreenAct = new QAction(IconProvider::fullScreen(), tr("Toggle &Fullscreen"), parent);
+    zoomFullScreenAct->setShortcut(QKeySequence::FullScreen);
+    zoomFullScreenAct->setEnabled(false);
+    connect(zoomFullScreenAct, &QAction::triggered, this, &ImageItemView::toggleFullScreen);
+
+    zoomFitAct = new QAction(IconProvider::zoomFit(), tr("Zoom to Fit &Window"), parent);
     zoomFitAct->setEnabled(false);
     connect(zoomFitAct, &QAction::triggered, this, &ImageItemView::zoomToFitWindow);
 
@@ -68,6 +75,7 @@ void ImageItemView::setModel(QItemSelectionModel *model)
     imageLabel->setScaledContents(true);
     imageLabel->setContextMenuPolicy(Qt::ActionsContextMenu);
     imageLabel->setAlignment(Qt::AlignCenter);
+    imageLabel->addAction(zoomFullScreenAct);
     imageLabel->addAction(zoomFitAct);
     imageLabel->addAction(zoomInAct);
     imageLabel->addAction(zoomOutAct);
@@ -146,8 +154,29 @@ void ImageItemView::zoomToFitWindow()
     fitImageToWindow = true;
 }
 /******************************************************************************************************/
+void ImageItemView::toggleFullScreen()
+{
+    Q_ASSERT(imageLabel->pixmap());
+
+    if(this->isFullScreen())
+    {
+        setParent(dockParentWidget);
+        dockParentWidget->layout()->addWidget(this);
+        setGeometry(dockGeometry);
+        showNormal();
+    }
+    else
+    {
+        dockGeometry = geometry();
+        setParent(Q_NULLPTR);
+        fitImageToWindow = true;
+        showFullScreen();
+    }
+}
+/******************************************************************************************************/
 void ImageItemView::enableImageActions(bool state)
 {
+    zoomFullScreenAct->setEnabled(state);
     showImgAct->setEnabled(state);
     zoomInAct->setEnabled(state);
     zoomOutAct->setEnabled(state);
@@ -198,13 +227,22 @@ void ImageItemView::on_contextMenuRequest(bool /*checked*/)
     QDesktopServices::openUrl(QUrl::fromLocalFile(imagePath()));
 }
 /******************************************************************************************************/
-void ImageItemView::resizeEvent(QResizeEvent */*event*/)
+void ImageItemView::resizeEvent(QResizeEvent *event)
 {
     if(fitImageToWindow && imageLabel->pixmap())
+    {
         zoomToFitWindow();
+        return;
+    }
     else
+    {
         if(!imageLabel->text().isNull())
+        {
             imageLabel->adjustSize();
+            return;
+        }
+    }
+    QScrollArea::resizeEvent(event);
 }
 /******************************************************************************************************/
 void ImageItemView::wheelEvent(QWheelEvent *event)
@@ -236,6 +274,32 @@ void ImageItemView::mouseDoubleClickEvent(QMouseEvent */*event*/)
         else
             zoomToFitWindow();
     }
+}
+/******************************************************************************************************/
+void ImageItemView::keyReleaseEvent(QKeyEvent *event)
+{
+    if(isFullScreen() && event->key() == Qt::Key_Escape)
+    {
+        toggleFullScreen();
+        event->accept();
+        return;
+    }
+
+    event->ignore();
+}
+/******************************************************************************************************/
+bool ImageItemView::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::Close:
+        toggleFullScreen();
+        event->accept();
+        break;
+    default:
+        return QScrollArea::event(event);
+        break;
+    }
+    return true;
 }
 /******************************************************************************************************/
 void ImageItemView::mousePressEvent(QMouseEvent *event)

@@ -156,7 +156,7 @@ void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
 /******************************************************************************************************/
 void MainWindow::processUrls(QList<QUrl> urls)
 {
-    //TODO merge multiple files
+    //TODO merge multiple files in the same directory in one node
 
     QStandardItem *iDir;
 

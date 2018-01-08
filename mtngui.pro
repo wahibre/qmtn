@@ -9,7 +9,7 @@ CONFIG +=c++11
 use_git_version {
     DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 } else {
-    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.2\\\"
+    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.3\\\"
 }
 
 target.path = /usr/bin
@@ -55,3 +55,6 @@ RC_ICONS = icons/qmtn.ico
 
 OTHER_FILES += \
     README
+
+DISTFILES += \
+    buildrpm/qmtn.spec
