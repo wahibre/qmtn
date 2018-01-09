@@ -15,11 +15,12 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppPublisher}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-AllowNoIcons=true
+;AllowNoIcons=true
 OutputDir=.
 OutputBaseFilename=qmtn_setup_{#MyAppVersion}
 SourceDir=release
 SetupIconFile=qmtn.ico
+UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
 SolidCompression=true
 
