@@ -36,7 +36,8 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Mon Jan 8 2018 wahibre  <wahibre@gmx.com> - 0.3
+* Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3
+- merge toplevel directory of dropped files in treeview
 - show image in fullscreen
 - inserting/removing profiles
 - filesize only in human readable format (MiB, GiB)
