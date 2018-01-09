@@ -32,8 +32,6 @@ class ImageItemView : public QScrollArea
 {
     QWidget *dockParentWidget;
     QRect dockGeometry;
-
-
     QItemSelectionModel *m_model;
     QString imagepath;    
     QPixmap pix;

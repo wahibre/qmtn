@@ -57,4 +57,5 @@ OTHER_FILES += \
     README
 
 DISTFILES += \
-    buildrpm/qmtn.spec
+    buildrpm/qmtn.spec \
+    assets/qmtn_create_setup.iss

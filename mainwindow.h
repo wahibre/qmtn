@@ -43,7 +43,8 @@ class MainWindow : public QMainWindow
     QStringList videoExtensions;
     QMutex gardian;
     int processingItems;
-    ProfileModel *profileModel=Q_NULLPTR;
+    ProfileModel *profileModel=Q_NULLPTR;        
+    QMap<QString,QStandardItem*> processingDirs;    // directories in last drop
 
     /* statusbar widgets */
     QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;
@@ -81,7 +82,7 @@ private:
     virtual void keyPressEvent(QKeyEvent *event) override;
 
     /* Own */
-    QStandardItem *dir2DirItem(QDir dir, int recursion_depth);
+    QStandardItem *dir2DirItem(QDir dir, int recursion_depth, bool topLevel);
     QStandardItem *fileInfo2DirItem(QFileInfo file);
     bool fileInfo2FileItem(QFileInfo file, QStandardItem *parent);
     bool isVideoFile(QFileInfo file);

@@ -156,29 +156,35 @@ void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
 /******************************************************************************************************/
 void MainWindow::processUrls(QList<QUrl> urls)
 {
-    //TODO merge multiple files in the same directory in one node
-
     QStandardItem *iDir;
 
+    /* all dropped files */
     foreach (QUrl files, urls)
     {
         iDir=NULL;
         QFileInfo fi(files.toLocalFile());
 
         if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth);
+            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth, true);
         else
             if(fi.isFile())
                 iDir = fileInfo2DirItem(fi);
-            else
-                continue;
+    }
 
-        if(iDir && iDir->hasChildren())
-        {
-            datamodel->appendRow(iDir);
-            ui->placeholderLabel->hide();
-            ui->treeView->show();
-        }
+    /* all unique directories in tree */
+    foreach (QStandardItem *d, processingDirs) {
+       if(d->hasChildren())
+           datamodel->appendRow(iDir);
+    }
+
+    /* all dropped files processed */
+    processingDirs.clear();
+
+    /* show tree if dropped video files */
+    if(datamodel->rowCount()>0)
+    {
+        ui->placeholderLabel->hide();
+        ui->treeView->show();
     }
 }
 /******************************************************************************************************/
@@ -305,19 +311,27 @@ void MainWindow::dropEvent(QDropEvent *event)
     processUrls(event->mimeData()->urls());
 }
 /******************************************************************************************************/
-QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth)
+QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth, bool topLevel)
 {
     QStandardItem *iChildDir, *iDir=nullptr;
     QList<QStandardItem*> iChildren;
 
     if(recursion_depth > 0)
     {
-        iDir = new QStandardItem(IconProvider::folder(), dir.dirName()); iDir->setEditable(false);
-
+        //Merge toplevel directories
+        if(topLevel && processingDirs.contains(dir.absolutePath()))
+            iDir = processingDirs[dir.absolutePath()];
+        else
+        {
+            iDir = new QStandardItem(IconProvider::folder(), dir.dirName());
+            iDir->setEditable(false);
+            if(topLevel)
+                processingDirs[dir.absolutePath()] = iDir;
+        }
         //Folders
         foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
         {
-            iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()), recursion_depth-1);
+            iChildDir = dir2DirItem(QDir(fi.absoluteFilePath()), recursion_depth-1, false);
             if(iChildDir)
                 iChildren.append(iChildDir);
         }
@@ -340,8 +354,16 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth)
 QStandardItem* MainWindow::fileInfo2DirItem(QFileInfo file)
 {
     QStandardItem *iDir;
+    QString absDirPath = file.dir().absolutePath();
 
-    iDir = new QStandardItem(IconProvider::folder(), file.dir().dirName()); iDir->setEditable(false);
+    if(processingDirs.contains(absDirPath))
+        iDir = processingDirs[absDirPath];
+    else
+    {
+        iDir = new QStandardItem(IconProvider::folder(), file.dir().dirName());
+        iDir->setEditable(false);
+        processingDirs[absDirPath] = iDir;
+    }
     fileInfo2FileItem(file, iDir);
 
     return iDir;
