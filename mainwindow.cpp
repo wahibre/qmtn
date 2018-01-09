@@ -287,6 +287,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     s.setValue("mainform/state", saveState());
     s.setValue("mainform/splitter", ui->splitter->saveState());
 
+    if(ui->imageViewer->isFullScreen())
+        ui->imageViewer->close();
+
     QMainWindow::closeEvent(event);
 }
 /******************************************************************************************************/
