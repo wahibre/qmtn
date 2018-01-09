@@ -19,7 +19,7 @@ AllowNoIcons=true
 OutputDir=.
 OutputBaseFilename=qmtn_setup_{#MyAppVersion}
 SourceDir=release
-SetupIconFile=qmtn_128.ico
+SetupIconFile=qmtn.ico
 Compression=lzma
 SolidCompression=true
 

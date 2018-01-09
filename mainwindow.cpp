@@ -156,7 +156,7 @@ void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
 /******************************************************************************************************/
 void MainWindow::processUrls(QList<QUrl> urls)
 {
-    QStandardItem *iDir;
+    QStandardItem *iDir = Q_NULLPTR;
 
     /* all dropped files */
     foreach (QUrl files, urls)

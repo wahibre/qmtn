@@ -31,7 +31,7 @@ build_script:
 
     mv assets\qmtn_create_setup.iss .
 
-    cp icons\qmtn_128.ico release
+    cp icons\qmtn.ico release
 
     "%INNO%" qmtn_create_setup.iss
 
