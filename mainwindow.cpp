@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFileDialog>
 #if QT_VERSION>=0x050600
 #include <QVersionNumber>
+#include <QDebug>
 #endif
 #include "mainwindow.h"
 #include "settingsdialog.h"
@@ -156,25 +157,25 @@ void MainWindow::treeItemDoubleClicked(const QModelIndex &selIndex)
 /******************************************************************************************************/
 void MainWindow::processUrls(QList<QUrl> urls)
 {
-    QStandardItem *iDir = Q_NULLPTR;
 
     /* all dropped files */
     foreach (QUrl files, urls)
     {
-        iDir=NULL;
+        qDebug() << "Processing URL: "<< files;
         QFileInfo fi(files.toLocalFile());
 
         if(fi.isDir())
-            iDir = dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth, true);
+            dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth, true);
         else
             if(fi.isFile())
-                iDir = fileInfo2DirItem(fi);
+                fileInfo2DirItem(fi);
     }
 
+    qDebug() << "processingDirs: "<<processingDirs;
     /* all unique directories in tree */
     foreach (QStandardItem *d, processingDirs) {
        if(d->hasChildren())
-           datamodel->appendRow(iDir);
+           datamodel->appendRow(d);
     }
 
     /* all dropped files processed */
@@ -318,6 +319,7 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth, bool topLe
 
     if(recursion_depth > 0)
     {
+        qDebug() << "Processing directory:" << dir.absolutePath();
         //Merge toplevel directories
         if(topLevel && processingDirs.contains(dir.absolutePath()))
             iDir = processingDirs[dir.absolutePath()];
@@ -376,6 +378,7 @@ bool MainWindow::fileInfo2FileItem(QFileInfo file, QStandardItem *parent)
 {
     QStandardItem *iFile, *iAbsFile, *iLog, *iOutputFile;
 
+    qDebug() << "Processing file: "<<file.filePath();
     if(isVideoFile(file))
     {
         iFile = new QStandardItem(file.fileName());                 iFile->setEditable(false);
