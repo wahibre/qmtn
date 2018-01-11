@@ -10,9 +10,9 @@ Features:
 - Recursive search for movie files
 - Instant image making in background
 - Image and output log preview
-- Open image in external image viewer
+- Open image in Fullscreen or and external image viewer
 - Recreate image with new settings
-- Settings for managing mtn switches
+- Managing mtn switches
 - Settings profiles
 
 
@@ -21,7 +21,7 @@ Dependencies
 Ubuntu 17.10
 
     sudo apt-get install qt5-default qtbase5-dev
-Fedora 25
+Fedora 25+
 
     dnf install qt5-qtbase-devel
 
@@ -33,7 +33,7 @@ Get source
 
 Build
 =====
-Fedora 25    
+Fedora 25+
 
     qmake-qt5 QtMtn/mtngui.pro
 Ubuntu 17.4 
@@ -44,7 +44,7 @@ Ubuntu 17.4
 
 Install
 =======
-Fedora 25   
+Fedora 25+
 
     su -c 'make install'
 Ubuntu 17.4  

@@ -36,13 +36,13 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3
+* Thu Jan 11 2018 wahibre  <wahibre@gmx.com> - 0.3
 - merge toplevel directory of dropped files in treeview
 - show image in fullscreen
 - inserting/removing profiles
 - filesize only in human readable format (MiB, GiB)
 - changed log icon
-- removed group separator in numbers (affect -B, -E mtn's switches)
+- removed group separator in numbers (affects -B and -E mtn's switches)
 
 * Fri Nov 24 2017 wahibre  <wahibre@gmx.com> - 0.2
 - location of mtn
