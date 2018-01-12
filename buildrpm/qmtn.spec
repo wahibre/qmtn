@@ -5,9 +5,8 @@ Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
 License:	GPLv3
-URL:		http://gitlab.com/movie_thumbnailer/qmtn/
-#Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
-Source0:	%{name}.tar
+URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
+Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 
 BuildRequires:	gcc-c++ qt5-qtbase-devel
 Requires:	mtn qt5-qtbase
@@ -17,10 +16,13 @@ Movie thumbnail generator written in Qt5
 
 %prep
 #wget -O %{name}.%{version}.tar.gz https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
+rm -rf ./*
 tar -xf %SOURCE0
+mv qmtn*/* ./
 
 %build
 qmake-qt5 INSTALL_ROOT=%{buildroot} mtngui.pro
+
 %make_build
 
 %install
@@ -36,13 +38,13 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Thu Jan 11 2018 wahibre  <wahibre@gmx.com> - 0.3
+* Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3
 - merge toplevel directory of dropped files in treeview
 - show image in fullscreen
 - inserting/removing profiles
 - filesize only in human readable format (MiB, GiB)
 - changed log icon
-- removed group separator in numbers (affects -B and -E mtn's switches)
+- removed group separator in numbers (affect -B, -E mtn's switches)
 
 * Fri Nov 24 2017 wahibre  <wahibre@gmx.com> - 0.2
 - location of mtn

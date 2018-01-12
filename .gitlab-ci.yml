@@ -7,12 +7,12 @@ stages:
     - master
     - devel
     script:
-    - dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     - dnf -y install gcc-c++ qt5-qtbase-devel rpm-build
-    - tar cf qmtn.tar *
+    - tar czf archive.tar.gz * --transform="s%^%qmtn-ci/%"
     - mkdir -p buildroot/SOURCES
-    - mv qmtn.tar buildroot/SOURCES/
+    - mv archive.tar.gz buildroot/SOURCES/
     - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
+    - mv buildroot/RPMS/x86_64/*.rpm .
 
 fc26:
     image: fedora:26
@@ -22,7 +22,8 @@ fc26:
         name: qmtn-fc26
         expire_in: 30 week
         paths:
-        - buildroot/RPMS/x86_64/*.rpm
+        - ./*.rpm
+
 fc27:
     image: fedora:27
     <<: *fedora
@@ -31,4 +32,4 @@ fc27:
         name: qmtn-fc27
         expire_in: 30 week
         paths:
-        - buildroot/RPMS/x86_64/*.rpm
+        - ./*.rpm
