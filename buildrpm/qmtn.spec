@@ -9,7 +9,7 @@ URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
 Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 
 BuildRequires:	gcc-c++ qt5-qtbase-devel
-Requires:	mtn qt5-qtbase
+Requires:	mtn qt5-qtbase qt5-qtsvg
 
 %description
 Movie thumbnail generator written in Qt5
