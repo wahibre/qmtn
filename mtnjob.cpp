@@ -63,23 +63,27 @@ void MtnJob::run()
 
     if(mtn.waitForStarted(WAIT_STARTTIMEOUT))
     {
+        QString outlog;
+
+        outlog =  timeString("*** Calling ****\n\n");
+        outlog += mtn.program() + "   ";
+        outlog += mtn.arguments().join(' ')+ " \n\n";
+        outlog += timeString("*** Result ****\n\n");
+
         if(mtn.waitForFinished(WAIT_FINISHTIMEOUT))
         {
-            QString vypis, vystup(mtn.readAll());
-
-            vypis =  timeString("*** Calling ****\n\n");
-            vypis += mtn.program() + "   ";
-            vypis += mtn.arguments().join(' ')+ " \n\n";
-            vypis += timeString("*** Result ****\n\n");
-            vypis += vystup.trimmed();
+            outlog += QString(mtn.readAll()).trimmed();
 
             success = (mtn.exitCode() == 0);
-            result_log = vypis;
+            result_log = outlog;
             result_file = m_outputfilename;
 
         }
         else
-            result_log = QString("Error: %1").arg(mtn.errorString());
+        {
+            outlog += QString("Error: %1").arg(mtn.errorString());
+            result_log = outlog;
+        }
     }
     else
         result_log = QString("Error startig: %1").arg(mtn.errorString());
