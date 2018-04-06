@@ -7,7 +7,7 @@ stages:
     - master
     - devel
     script:
-    - dnf -y install gcc-c++ qt5-qtbase-devel rpm-build
+    - dnf -y install gcc-c++ qt5-qtbase-devel rpm-build make
     - tar czf archive.tar.gz * --transform="s%^%qmtn-ci/%"
     - mkdir -p buildroot/SOURCES
     - mv archive.tar.gz buildroot/SOURCES/
