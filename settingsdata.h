@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define REG_SKIPEND             "skip_end"
 #define REG_STEP                "time_step"
 #define REG_MINHEIGHT           "min_height"
+#define REG_SHADOW_RADIUS       "shadow_radius"
 #define REG_VERBOSE             "verbose"
 #define REG_FOREGROUND          "foregound"
 #define REG_BACKGROUND          "background"
@@ -79,7 +80,7 @@ struct SettingsData
     /* mnt */
     QString output_directory, suffix, title, fontInfotext, fontTimestamp;
     int columns,rows,width, edge_detect, quality, gap, fontInfoSize, fontTimeSize,
-        fontInfoLocation, fontTimeLocation, step, minHeight;
+        fontInfoLocation, fontTimeLocation, step, minHeight, shadowRadius;
     double blank_skip, skip_begin, skip_end;
     bool overwrite, infotext, timestamp, verbose;
     QColor foreground, background, timecolor, timeshadow;

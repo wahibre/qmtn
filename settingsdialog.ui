@@ -393,37 +393,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="overwriteLabel">
-                  <property name="text">
-                   <string>&amp;Overwrite:</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>overwriteCheckBox</cstring>
-                  </property>
-                 </widget>
-                </item>
                 <item row="6" column="1">
-                 <widget class="QCheckBox" name="overwriteCheckBox">
-                  <property name="toolTip">
-                   <string>-W : dont overwrite existing files, i.e. update mode</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="lblDepth">
-                  <property name="text">
-                   <string>&amp;Depth:</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>sbDepth</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
                  <widget class="QSpinBox" name="sbDepth">
                   <property name="toolTip">
                    <string>Directory search recursion. 0: Selected videofiles only</string>
@@ -433,6 +403,36 @@
                   </property>
                   <property name="value">
                    <number>999</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="lblDepth">
+                  <property name="text">
+                   <string>&amp;Depth:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>sbDepth</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="overwriteLabel">
+                  <property name="text">
+                   <string>&amp;Overwrite:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>overwriteCheckBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QCheckBox" name="overwriteCheckBox">
+                  <property name="toolTip">
+                   <string>-W : dont overwrite existing files, i.e. update mode</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -602,7 +602,14 @@
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0">
+                <item row="8" column="1">
+                 <widget class="QCheckBox" name="verboseCheckBox">
+                  <property name="toolTip">
+                   <string>-v : verbose mode (debug)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0">
                  <widget class="QLabel" name="verboseLabel">
                   <property name="text">
                    <string>&amp;Verbose:</string>
@@ -613,9 +620,28 @@
                  </widget>
                 </item>
                 <item row="7" column="1">
-                 <widget class="QCheckBox" name="verboseCheckBox">
+                 <widget class="QSpinBox" name="sbShadow">
                   <property name="toolTip">
-                   <string>-v : verbose mode (debug)</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--shadow=N&lt;/p&gt;&lt;p&gt;draws hadows beneath thumbnails with radius N pixels if N&amp;gt;0;&lt;/p&gt;&lt;p&gt;Radius is computed if N=0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="suffix">
+                   <string>px</string>
+                  </property>
+                  <property name="minimum">
+                   <number>-1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>99999</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="shadowLabel">
+                  <property name="text">
+                   <string>S&amp;hadow:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>sbShadow</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1332,14 +1358,12 @@ QPushButton#btnTimeShadow
   <tabstop>sbGap</tabstop>
   <tabstop>eSuffix</tabstop>
   <tabstop>sbStep</tabstop>
-  <tabstop>overwriteCheckBox</tabstop>
   <tabstop>sbEdgeDetect</tabstop>
   <tabstop>sbBlankSkip</tabstop>
   <tabstop>sbQuality</tabstop>
   <tabstop>sbSkipBegin</tabstop>
   <tabstop>sbSkipEnd</tabstop>
   <tabstop>sbHeight</tabstop>
-  <tabstop>verboseCheckBox</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
   <tabstop>eTitle</tabstop>

@@ -14,16 +14,6 @@ stages:
     - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
     - mv buildroot/RPMS/x86_64/*.rpm .
 
-fc26:
-    image: fedora:26
-    <<: *fedora
-#    when: manual
-    artifacts:
-        name: qmtn-fc26
-        expire_in: 30 week
-        paths:
-        - ./*.rpm
-
 fc27:
     image: fedora:27
     <<: *fedora
@@ -33,3 +23,14 @@ fc27:
         expire_in: 30 week
         paths:
         - ./*.rpm
+
+fc28:
+    image: fedora:28
+    <<: *fedora
+#    when: manual
+    artifacts:
+        name: qmtn-fc28
+        expire_in: 30 week
+        paths:
+        - ./*.rpm
+

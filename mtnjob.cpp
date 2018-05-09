@@ -196,6 +196,9 @@ QStringList MtnJob::createArguments()
                                                     //    -z : always use seek mode
                                                     //    -Z : always use non-seek mode -- slower but more accurate timing
 
+    if(m_sett.shadowRadius!=-1)                     //    --shadow=N   draw shadows beneath thumbnails with radius N pixels if N >0; Radius is computed if N=0
+        args << QString("--shadow=%1").arg(m_sett.shadowRadius);
+
     return args;
 }
 /******************************************************************************************************/

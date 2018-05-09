@@ -45,6 +45,7 @@ SettingsData::SettingsData(QJsonObject obj)
     skip_end            = obj[REG_SKIPEND           ].toDouble(0.0);
     step                = obj[REG_STEP              ].toInt(0);
     minHeight           = obj[REG_MINHEIGHT         ].toInt(0);
+    shadowRadius        = obj[REG_SHADOW_RADIUS     ].toInt(0);
     verbose             = obj[REG_VERBOSE           ].toBool(false);
 
     title               = obj[REG_TITLE             ].toString();
@@ -93,6 +94,7 @@ QJsonObject SettingsData::toJsonObject()
         {REG_SKIPEND,           skip_end        },
         {REG_STEP,              step            },
         {REG_MINHEIGHT,         minHeight       },
+        {REG_SHADOW_RADIUS,     shadowRadius    },
         {REG_VERBOSE,           verbose         },
 
         {REG_TITLE,             title           },

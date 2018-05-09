@@ -76,6 +76,7 @@ SettingsData SettingsDialog::settingsData()
     data.suffix           = ui->eSuffix->text();
     data.step             = ui->sbStep->value();
     data.minHeight        = ui->sbHeight->value();
+    data.shadowRadius     = ui->sbShadow->value();
     data.verbose          = ui->verboseCheckBox->isChecked();
 
     data.title            = ui->eTitle->text();
@@ -121,6 +122,7 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->eSuffix->setText(       data.suffix);
     ui->sbStep->setValue(       data.step);
     ui->sbHeight->setValue(     data.minHeight);
+    ui->sbShadow->setValue(     data.shadowRadius);
     ui->verboseCheckBox->setChecked(data.verbose);
 
     ui->eTitle->setText(        data.title);
