@@ -6,7 +6,7 @@ build_script:
 - cmd: >-
     set PROJ_DIR=%CD%
 
-    set QTBIN=c:\qt\5.8\mingw53_32\bin
+    set QTBIN=c:\qt\5.10\mingw53_32\bin
 
     set MAKE=c:\MinGW\bin\mingw32-make.exe
 
