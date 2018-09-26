@@ -66,6 +66,8 @@ Source: translations\qt_pl.qm; DestDir: {app}\translations\
 Source: translations\qt_ru.qm; DestDir: {app}\translations\
 Source: translations\qt_sk.qm; DestDir: {app}\translations\
 Source: translations\qt_uk.qm; DestDir: {app}\translations\
+;since Qt5.10
+Source: styles\qwindowsvistastyle.dll; DestDir: {app}\styles\
 
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}
@@ -80,3 +82,4 @@ Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; F
 Name: {app}\platforms
 Name: {app}\imageformats
 Name: {app}\translations
+Name: {app}\styles
