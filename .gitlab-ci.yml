@@ -8,9 +8,9 @@ stages:
     - devel
     script:
     - dnf -y install gcc-c++ qt5-qtbase-devel rpm-build make
-    - tar czf archive.tar.gz * --transform="s%^%qmtn-ci/%"
+    - tar czf qmtn.tar.gz * --transform="s%^%qmtn-ci/%"
     - mkdir -p buildroot/SOURCES
-    - mv archive.tar.gz buildroot/SOURCES/
+    - mv qmtn.tar.gz buildroot/SOURCES/
     - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
     - mv buildroot/RPMS/x86_64/*.rpm .
 
@@ -27,10 +27,18 @@ fc27:
 fc28:
     image: fedora:28
     <<: *fedora
-#    when: manual
     artifacts:
         name: qmtn-fc28
         expire_in: 30 week
         paths:
         - ./*.rpm
 
+
+fc29:
+    image: fedora:29
+    <<: *fedora
+    artifacts:
+        name: qmtn-fc29
+        expire_in: 30 week
+        paths:
+        - ./*.rpm

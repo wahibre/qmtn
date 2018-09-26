@@ -1,5 +1,5 @@
 #define MyAppName "Qt Movie Thumbnailer"
-#define MyAppVersion "0.3"
+#define MyAppVersion "0.3.1"
 #define MyAppPublisher "Rusty pipe"
 #define MyAppURL "https://gitlab.com/movie_thumbnailer/qmtn/wikis"
 #define MyAppExeName "qmtn.exe"

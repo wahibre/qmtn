@@ -899,7 +899,7 @@ QPushButton#btnTimeShadow
                   </widget>
                  </item>
                  <item>
-                  <widget class="FileSelector" name="wFontInfo" native="true">
+                  <widget class="TTFSelector" name="wFontInfo" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>1</horstretch>
@@ -1114,7 +1114,7 @@ QPushButton#btnTimeShadow
                   </widget>
                  </item>
                  <item>
-                  <widget class="FileSelector" name="wFontTimestamp" native="true">
+                  <widget class="TTFSelector" name="wFontTimestamp" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -1348,6 +1348,12 @@ QPushButton#btnTimeShadow
    <class>FileSelector</class>
    <extends>QWidget</extends>
    <header>fileselector.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TTFSelector</class>
+   <extends>QWidget</extends>
+   <header>ttfselector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

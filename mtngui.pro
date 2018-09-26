@@ -9,7 +9,7 @@ CONFIG +=c++11
 use_git_version {
     DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 } else {
-    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.3\\\"
+    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.3.1\\\"
 }
 
 target.path = /usr/bin
@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     fileselector.cpp \
     iconprovider.cpp \
     settingsdata.cpp \
-    profilemodel.cpp
+    profilemodel.cpp \
+    ttfselector.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     settingsdata.h \
     fileselector.h \
     iconprovider.h \
-    profilemodel.h
+    profilemodel.h \
+    ttfselector.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui

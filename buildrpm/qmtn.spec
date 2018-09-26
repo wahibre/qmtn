@@ -1,12 +1,13 @@
 Name:		qmtn	
-Version: 	0.3
+Version: 	0.3.1
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
 License:	GPLv3
 URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
-Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
+Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/master/qmtn.tar.gz
+#Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 
 BuildRequires:	gcc-c++ qt5-qtbase-devel
 Requires:	mtn qt5-qtbase qt5-qtsvg
@@ -38,6 +39,9 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
+* Thu Sep 26 2018 wahibre  <wahibre@gmx.com> - 0.3.1
+- font dialog changed to ComboBox (windows only)
+
 * Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3
 - merge toplevel directory of dropped files in treeview
 - show image in fullscreen

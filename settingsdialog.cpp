@@ -37,9 +37,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
     ui->setupUi(this);
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
 
-    ui->wFontInfo->setPlaceholderText(tr("Choose font file"));
-    ui->wFontTimestamp->setPlaceholderText(tr("Choose font file"));
-
     QCompleter *completer = new QCompleter(this);
     completer->setModel(new QDirModel(completer));
     ui->eOutputDir->setCompleter(completer);
@@ -51,7 +48,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
     ui->profilesComboBox->setModel(profileModel);
     ui->profilesComboBox->setCurrentIndex(profileModel->getCurrentProfileIdx());
 }
-
+/******************************************************************************************************/
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
