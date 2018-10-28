@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define REG_MINHEIGHT           "min_height"
 #define REG_SHADOW_RADIUS       "shadow_radius"
 #define REG_VERBOSE             "verbose"
+#define REG_TRANSPARENT         "transparent"
 #define REG_FOREGROUND          "foregound"
 #define REG_BACKGROUND          "background"
 #define REG_TIMECOLOR           "timecolor"
@@ -82,7 +83,7 @@ struct SettingsData
     int columns,rows,width, edge_detect, quality, gap, fontInfoSize, fontTimeSize,
         fontInfoLocation, fontTimeLocation, step, minHeight, shadowRadius;
     double blank_skip, skip_begin, skip_end;
-    bool overwrite, infotext, timestamp, verbose;
+    bool overwrite, infotext, timestamp, verbose, transparent;
     QColor foreground, background, timecolor, timeshadow;
 
     /* qmtn extra */

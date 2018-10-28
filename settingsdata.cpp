@@ -47,6 +47,7 @@ SettingsData::SettingsData(QJsonObject obj)
     minHeight           = obj[REG_MINHEIGHT         ].toInt(0);
     shadowRadius        = obj[REG_SHADOW_RADIUS     ].toInt(0);
     verbose             = obj[REG_VERBOSE           ].toBool(false);
+    transparent         = obj[REG_TRANSPARENT       ].toBool(false);
 
     title               = obj[REG_TITLE             ].toString();
     infotext            = obj[REG_INFOTEXT          ].toBool(true);
@@ -96,6 +97,7 @@ QJsonObject SettingsData::toJsonObject()
         {REG_MINHEIGHT,         minHeight       },
         {REG_SHADOW_RADIUS,     shadowRadius    },
         {REG_VERBOSE,           verbose         },
+        {REG_TRANSPARENT,       transparent     },
 
         {REG_TITLE,             title           },
         {REG_INFOTEXT,          infotext        },

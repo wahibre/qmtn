@@ -39,7 +39,9 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Thu Sep 26 2018 wahibre  <wahibre@gmx.com> - 0.3.1
+* Sun Oct 28 2018 wahibre  <wahibre@gmx.com> - 0.3.1
+- supporting mtn's --transparent switch
+- supporting mtn's --shadow switch
 - font dialog changed to ComboBox (windows only)
 
 * Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3

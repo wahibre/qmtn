@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>883</width>
-    <height>447</height>
+    <height>465</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -124,7 +124,7 @@
             <item row="3" column="0">
              <widget class="QLabel" name="lblMtnExe">
               <property name="text">
-               <string>mtn.exe:</string>
+               <string>mtn.e&amp;xe:</string>
               </property>
               <property name="buddy">
                <cstring>eMtnSelector</cstring>
@@ -393,7 +393,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="1">
+                <item row="7" column="1">
                  <widget class="QSpinBox" name="sbDepth">
                   <property name="toolTip">
                    <string>Directory search recursion. 0: Selected videofiles only</string>
@@ -406,7 +406,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="0">
+                <item row="7" column="0">
                  <widget class="QLabel" name="lblDepth">
                   <property name="text">
                    <string>&amp;Depth:</string>
@@ -416,23 +416,29 @@
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="overwriteLabel">
+                <item row="6" column="0">
+                 <widget class="QLabel" name="shadowLabel">
                   <property name="text">
-                   <string>&amp;Overwrite:</string>
+                   <string>S&amp;hadow:</string>
                   </property>
                   <property name="buddy">
-                   <cstring>overwriteCheckBox</cstring>
+                   <cstring>sbShadow</cstring>
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="1">
-                 <widget class="QCheckBox" name="overwriteCheckBox">
+                <item row="6" column="1">
+                 <widget class="QSpinBox" name="sbShadow">
                   <property name="toolTip">
-                   <string>-W : dont overwrite existing files, i.e. update mode</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--shadow=N&lt;/p&gt;&lt;p&gt;draws hadows beneath thumbnails with radius N pixels if N&amp;gt;0;&lt;/p&gt;&lt;p&gt;Radius is computed if N=0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
-                  <property name="checked">
-                   <bool>true</bool>
+                  <property name="suffix">
+                   <string>px</string>
+                  </property>
+                  <property name="minimum">
+                   <number>-1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>99999</number>
                   </property>
                  </widget>
                 </item>
@@ -619,29 +625,40 @@
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="1">
-                 <widget class="QSpinBox" name="sbShadow">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--shadow=N&lt;/p&gt;&lt;p&gt;draws hadows beneath thumbnails with radius N pixels if N&amp;gt;0;&lt;/p&gt;&lt;p&gt;Radius is computed if N=0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <item row="9" column="0">
+                 <widget class="QLabel" name="transparentLabel">
+                  <property name="text">
+                   <string>Tra&amp;nsparent:</string>
                   </property>
-                  <property name="suffix">
-                   <string>px</string>
-                  </property>
-                  <property name="minimum">
-                   <number>-1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>99999</number>
+                  <property name="buddy">
+                   <cstring>transparentCheckBox</cstring>
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="shadowLabel">
+                <item row="9" column="1">
+                 <widget class="QCheckBox" name="transparentCheckBox">
+                  <property name="toolTip">
+                   <string>--transparent: set background color (-k) to transparent; works with PNG image only</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0">
+                 <widget class="QLabel" name="overwriteLabel">
                   <property name="text">
-                   <string>S&amp;hadow:</string>
+                   <string>&amp;Overwrite:</string>
                   </property>
                   <property name="buddy">
-                   <cstring>sbShadow</cstring>
+                   <cstring>overwriteCheckBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="1">
+                 <widget class="QCheckBox" name="overwriteCheckBox">
+                  <property name="toolTip">
+                   <string>-W : dont overwrite existing files, i.e. update mode</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -1358,18 +1375,26 @@ QPushButton#btnTimeShadow
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>profilesComboBox</tabstop>
+  <tabstop>btnAddProfile</tabstop>
+  <tabstop>btnDelProfile</tabstop>
   <tabstop>sbColumns</tabstop>
   <tabstop>sbRows</tabstop>
   <tabstop>sbWidth</tabstop>
   <tabstop>sbGap</tabstop>
   <tabstop>eSuffix</tabstop>
   <tabstop>sbStep</tabstop>
+  <tabstop>sbShadow</tabstop>
+  <tabstop>sbDepth</tabstop>
   <tabstop>sbEdgeDetect</tabstop>
   <tabstop>sbBlankSkip</tabstop>
   <tabstop>sbQuality</tabstop>
   <tabstop>sbSkipBegin</tabstop>
   <tabstop>sbSkipEnd</tabstop>
   <tabstop>sbHeight</tabstop>
+  <tabstop>verboseCheckBox</tabstop>
+  <tabstop>transparentCheckBox</tabstop>
+  <tabstop>overwriteCheckBox</tabstop>
   <tabstop>eOutputDir</tabstop>
   <tabstop>btnOutputDir</tabstop>
   <tabstop>eTitle</tabstop>
@@ -1395,8 +1420,8 @@ QPushButton#btnTimeShadow
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>882</x>
-     <y>545</y>
+     <x>876</x>
+     <y>458</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1411,8 +1436,8 @@ QPushButton#btnTimeShadow
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>882</x>
-     <y>545</y>
+     <x>876</x>
+     <y>458</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

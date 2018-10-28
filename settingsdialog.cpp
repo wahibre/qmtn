@@ -75,6 +75,7 @@ SettingsData SettingsDialog::settingsData()
     data.minHeight        = ui->sbHeight->value();
     data.shadowRadius     = ui->sbShadow->value();
     data.verbose          = ui->verboseCheckBox->isChecked();
+    data.transparent      = ui->transparentCheckBox->isChecked();
 
     data.title            = ui->eTitle->text();
     data.infotext         = ui->groupInfotext->isChecked();
@@ -121,6 +122,7 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->sbHeight->setValue(     data.minHeight);
     ui->sbShadow->setValue(     data.shadowRadius);
     ui->verboseCheckBox->setChecked(data.verbose);
+    ui->transparentCheckBox->setChecked(data.transparent);
 
     ui->eTitle->setText(        data.title);
     ui->groupInfotext->setChecked(      data.infotext);

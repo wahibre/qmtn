@@ -496,7 +496,7 @@ R"(
     </p>
     <p>
     <code>
-            Copyright (C) 2017 &lt;<a href=
+            Copyright (C) 2017-2018 &lt;<a href=
 )"
 
 +QString("\"mailto:wahibre@gmx.com?Subject=%1\"").arg(windowTitle().toHtmlEscaped())+
