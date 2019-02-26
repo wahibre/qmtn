@@ -45,6 +45,11 @@ SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
 
     connect(ui->profilesComboBox, &QComboBox::editTextChanged, this, &SettingsDialog::settingsTextChanged);
 
+    connect(ui->eTitle, &QLineEdit::textEdited, [=](const QString&/*newText*/){
+        if(!ui->groupInfotext->isChecked())
+            ui->groupInfotext->setChecked(true);
+    });
+
     ui->profilesComboBox->setModel(profileModel);
     ui->profilesComboBox->setCurrentIndex(profileModel->getCurrentProfileIdx());
 }
