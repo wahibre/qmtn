@@ -96,9 +96,12 @@ MainWindow::MainWindow(QWidget *parent) :
     restoreGeometry(s.value("mainform/geometry").toByteArray());
     restoreState(s.value("mainform/state").toByteArray());
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
+    recentFiles = s.value("recentFiles").toStringList();
 
 
     createStatusBarWidgets();
+    createRecentFiles();
+    createRecentMenu();
     refreshStatusBar();
 }
 /******************************************************************************************************/
@@ -162,7 +165,9 @@ void MainWindow::processUrls(QList<QUrl> urls)
     foreach (QUrl files, urls)
     {
         qDebug() << "Processing URL: "<< files;
-        QFileInfo fi(files.toLocalFile());
+        QString localFile = files.toLocalFile();
+        QFileInfo fi(localFile);
+        addRecentFile(localFile);
 
         if(fi.isDir())
             dir2DirItem(QDir(fi.absoluteFilePath()), profileModel->getCurrentSettingsData().max_dir_depth, true);
@@ -172,6 +177,9 @@ void MainWindow::processUrls(QList<QUrl> urls)
     }
 
     qDebug() << "processingDirs: "<<processingDirs;
+
+    updateRecentFileActions();
+
     /* all unique directories in tree */
     foreach (QStandardItem *d, processingDirs) {
        if(d->hasChildren())
@@ -293,6 +301,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     s.setValue("mainform/geometry", saveGeometry());
     s.setValue("mainform/state", saveState());
     s.setValue("mainform/splitter", ui->splitter->saveState());
+    s.setValue("recentFiles", recentFiles);
 
     if(ui->imageViewer->isFullScreen())
         ui->imageViewer->close();
@@ -533,5 +542,65 @@ void MainWindow::on_actionOpenDirectory_triggered()
 void MainWindow::on_actionRefreshThumbnail_triggered()
 {
     recreateThumbnail();
+}
+/******************************************************************************************************/
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        processUrls({QUrl::fromLocalFile(action->data().toString())});
+
+}
+/******************************************************************************************************/
+void MainWindow::updateRecentFileActions()
+{
+    int numRecentFiles = qMin(recentFiles.size(), (int)MaxRecentFiles);
+
+    for (int i = 0; i < numRecentFiles; ++i) {
+        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(recentFiles[i]));
+        recentFileActs[i]->setText(text);
+        recentFileActs[i]->setData(recentFiles[i]);
+        recentFileActs[i]->setVisible(true);
+    }
+    for (int j = numRecentFiles; j < MaxRecentFiles; ++j)
+        recentFileActs[j]->setVisible(false);
+
+    separatorAct->setVisible(numRecentFiles > 0);
+}
+/******************************************************************************************************/
+void MainWindow::addRecentFile(QString fileName)
+{
+    recentFiles.removeAll(fileName);
+    recentFiles.prepend(fileName);
+
+    while(recentFiles.size() > MaxRecentFiles)
+        recentFiles.removeLast();
+}
+/******************************************************************************************************/
+void MainWindow::createRecentFiles()
+{
+    for (int i = 0; i < MaxRecentFiles; ++i) {
+        recentFileActs[i] = new QAction(this);
+        recentFileActs[i]->setVisible(false);
+        connect(recentFileActs[i], SIGNAL(triggered()),
+                this, SLOT(openRecentFile()));
+    }
+}
+/******************************************************************************************************/
+void MainWindow::createRecentMenu()
+{
+    ui->menu_File->addSeparator();
+
+    separatorAct = ui->menu_File->addSeparator();
+
+    for (int i = 0; i < MaxRecentFiles; ++i)
+        ui->menu_File->addAction(recentFileActs[i]);
+
+    updateRecentFileActions();
+}
+/******************************************************************************************************/
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
 }
 /******************************************************************************************************/

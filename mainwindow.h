@@ -49,6 +49,12 @@ class MainWindow : public QMainWindow
     /* statusbar widgets */
     QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;
     QCheckBox *sOverwrite;
+
+    enum { MaxRecentFiles = 5 };
+    QAction *recentFileActs[MaxRecentFiles];
+    QStringList recentFiles;
+    QAction *separatorAct;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -64,6 +70,7 @@ private slots:
     void recreateThumbnail();
     void recreateThumbnail(const QModelIndex idx);
     void changedProcessingItemsNumber(int delta);
+    void openRecentFile();
 
     void on_action_Settings_triggered();
     void on_actionAboutQt_triggered();
@@ -87,8 +94,13 @@ private:
     bool fileInfo2FileItem(QFileInfo file, QStandardItem *parent);
     bool isVideoFile(QFileInfo file);
     void createStatusBarWidgets();
+    void createRecentFiles();
+    void createRecentMenu();
+    void updateRecentFileActions();
+    void addRecentFile(QString fileName);
     void refreshStatusBar();
     void processUrls(QList<QUrl> urls);
+    QString strippedName(const QString &fullFileName);
 };
 
 #endif // MAINWINDOW_H
