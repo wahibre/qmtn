@@ -34,7 +34,7 @@ SettingsData::SettingsData(QJsonObject obj)
     columns             = obj[REG_COLUMNS           ].toInt(4);
     rows                = obj[REG_ROWS              ].toInt(8);
     width               = obj[REG_WIDTH             ].toInt(1920);
-    gap                 = obj[REG_GAP               ].toInt(3);
+    gap                 = obj[REG_GAP               ].toInt(11);
     overwrite           = obj[REG_OVERWRITE         ].toBool(true);
     suffix              = obj[REG_SUFFIX            ].toString();
 
