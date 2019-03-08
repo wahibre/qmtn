@@ -6,13 +6,11 @@ stages:
     only:
     - master
     - devel
+    before_script:
+    - dnf -y install gcc-c++ qt5-qtbase-devel make
     script:
-    - dnf -y install gcc-c++ qt5-qtbase-devel rpm-build make
-    - tar czf qmtn.tar.gz * --transform="s%^%qmtn-ci/%"
-    - mkdir -p buildroot/SOURCES
-    - mv qmtn.tar.gz buildroot/SOURCES/
-    - rpmbuild -bb --define "_topdir $(pwd)/buildroot" buildrpm/qmtn.spec
-    - mv buildroot/RPMS/x86_64/*.rpm .
+    - qmake-qt5 mtngui.pro
+    - make
 
 fc27:
     image: fedora:27

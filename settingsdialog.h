@@ -46,6 +46,7 @@ public:
     ~SettingsDialog();
     SettingsData settingsData();
 private slots:
+    void settingsTextChanged(const QString &text);
     void on_btnOutputDir_clicked();
     void on_btnBackground_clicked();
     void on_btnForeground_clicked();
@@ -54,7 +55,8 @@ private slots:
     void on_profilesComboBox_currentIndexChanged(int index);
     void on_btnAddProfile_clicked();
     void on_btnDelProfile_clicked();
-    void settingsTextChanged(const QString &text);
+    void on_btnExport_clicked();
+    void on_btnImport_clicked();
 
 public slots:
     virtual void accept() override;

@@ -40,6 +40,8 @@ rm -rf *
 
 %changelog
 * Sun Oct 28 2018 wahibre  <wahibre@gmx.com> - 0.3.1
+- import/export settings
+- recent files
 - supporting mtn's --transparent switch
 - supporting mtn's --shadow switch
 - font dialog changed to ComboBox (windows only)

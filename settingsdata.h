@@ -93,6 +93,8 @@ struct SettingsData
     SettingsData(void);
     SettingsData(QJsonObject obj);
     QJsonObject toJsonObject();
+    QByteArray toByteArray();
+    static SettingsData SettingsDataFromByteArray(QByteArray bytes, bool &ok, QString &errorText);
 private:
     QString findExecutableMtn();
 };

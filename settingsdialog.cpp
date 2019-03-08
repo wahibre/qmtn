@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QTextStream>
 
 /******************************************************************************************************/
 SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
@@ -257,6 +258,54 @@ void SettingsDialog::on_btnDelProfile_clicked()
         {
                 if(profileModel->removeRow(ui->profilesComboBox->currentIndex()))
                     ui->profilesComboBox->setCurrentIndex(0);
+        }
+    }
+}
+/******************************************************************************************************/
+void SettingsDialog::on_btnExport_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"));
+
+    if(!fileName.isEmpty())
+    {
+        QFile f(fileName);
+
+        if(f.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream ts(&f);
+            ts << settingsData().toByteArray();
+            f.close();
+        }
+    }
+}
+/******************************************************************************************************/
+void SettingsDialog::on_btnImport_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"));
+
+    if(!fileName.isEmpty())
+    {
+        QFile f(fileName);
+
+        if(f.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream ts(&f);
+            SettingsData loadedSettings;
+            QString errorText;
+            bool ok=false;
+
+            QByteArray bytes = ts.readAll().toLatin1();
+
+            f.close();
+
+            loadedSettings = SettingsData::SettingsDataFromByteArray(bytes, ok, errorText);
+            if(ok)
+                setSettingsData(loadedSettings);
+            else
+                QMessageBox::warning(this,
+                         QObject::tr("Error"),
+                         QString("%1\n\n  %2").arg(QObject::tr("Error loading settings!")).arg(errorText)
+                    );
         }
     }
 }

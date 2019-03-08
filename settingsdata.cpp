@@ -122,6 +122,47 @@ QJsonObject SettingsData::toJsonObject()
     return o;
 }
 /******************************************************************************************************/
+QByteArray SettingsData::toByteArray()
+{
+    QJsonDocument doc(toJsonObject());
+
+    return doc.toJson();
+}
+/******************************************************************************************************/
+SettingsData SettingsData::SettingsDataFromByteArray(QByteArray bytes, bool &ok, QString &errorText)
+{
+    SettingsData data;
+    ok=false;
+
+    if(bytes.size() > 0)
+    {
+        QJsonParseError *error = Q_NULLPTR;
+        QJsonDocument doc;
+
+        try
+        {
+            doc = QJsonDocument::fromJson(bytes, error);
+        }
+        catch(...)
+        {
+            errorText = QObject::tr("Unknow error loading settings!");
+            return data;
+        }
+
+        if(!doc.isNull())
+        {
+            data = SettingsData(doc.object());
+            ok = true;
+        }
+        else
+        {
+            if(error)
+                errorText = error->errorString();
+        }
+    }
+    return data;
+}
+/******************************************************************************************************/
 QString SettingsData::findExecutableMtn()
 {
     const QString  mtn_cli=MTN_EXE;
