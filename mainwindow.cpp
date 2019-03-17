@@ -183,7 +183,7 @@ void MainWindow::processUrls(QList<QUrl> urls)
 
     /* all unique directories in tree */
     foreach (QStandardItem *d, processingDirs) {
-       if(d->hasChildren())
+       if(d && d->hasChildren())
            datamodel->appendRow(d);
     }
 
@@ -323,7 +323,7 @@ void MainWindow::dropEvent(QDropEvent *event)
     processUrls(event->mimeData()->urls());
 }
 /******************************************************************************************************/
-QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth, bool topLevel)
+QStandardItem* MainWindow::dir2DirItem(const QDir dir, const int recursion_depth, const bool topLevel)
 {
     QStandardItem *iChildDir, *iDir=nullptr;
     QList<QStandardItem*> iChildren;
@@ -338,8 +338,6 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth, bool topLe
         {
             iDir = new QStandardItem(IconProvider::folder(), dir.dirName());
             iDir->setEditable(false);
-            if(topLevel)
-                processingDirs[dir.absolutePath()] = iDir;
         }
         //Folders
         foreach (QFileInfo fi, dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name))
@@ -348,17 +346,23 @@ QStandardItem* MainWindow::dir2DirItem(QDir dir, int recursion_depth, bool topLe
             if(iChildDir)
                 iChildren.append(iChildDir);
         }
-        iDir->appendRows(iChildren);
+        if(!iChildren.isEmpty())
+            iDir->appendRows(iChildren);
         iChildren.clear();
 
         //Files
         foreach(QFileInfo entry, dir.entryInfoList(QDir::Files, QDir::Name))
             fileInfo2FileItem(entry, iDir);
 
-        if(!iDir->hasChildren())
+        if(iDir->hasChildren())
+        {
+            if(topLevel)
+                processingDirs[dir.absolutePath()] = iDir;
+        }
+        else
         {
             delete iDir;
-            iDir=0;
+            iDir=Q_NULLPTR;
         }
     }
     return iDir;

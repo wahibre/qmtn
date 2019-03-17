@@ -89,7 +89,7 @@ private:
     virtual void keyPressEvent(QKeyEvent *event) override;
 
     /* Own */
-    QStandardItem *dir2DirItem(QDir dir, int recursion_depth, bool topLevel);
+    QStandardItem *dir2DirItem(const QDir dir, int recursion_depth, const bool topLevel);
     QStandardItem *fileInfo2DirItem(QFileInfo file);
     bool fileInfo2FileItem(QFileInfo file, QStandardItem *parent);
     bool isVideoFile(QFileInfo file);
