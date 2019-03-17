@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     restoreState(s.value("mainform/state").toByteArray());
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
     recentFiles = s.value("recentFiles").toStringList();
+    maxRecentFiles = s.value("MaxRecentFiles", 5).toInt();
 
 
     createStatusBarWidgets();
@@ -302,6 +303,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     s.setValue("mainform/state", saveState());
     s.setValue("mainform/splitter", ui->splitter->saveState());
     s.setValue("recentFiles", recentFiles);
+    s.setValue("MaxRecentFiles", maxRecentFiles);
 
     if(ui->imageViewer->isFullScreen())
         ui->imageViewer->close();
@@ -554,7 +556,7 @@ void MainWindow::openRecentFile()
 /******************************************************************************************************/
 void MainWindow::updateRecentFileActions()
 {
-    int numRecentFiles = qMin(recentFiles.size(), (int)MaxRecentFiles);
+    int numRecentFiles = qMin(recentFiles.size(), maxRecentFiles);
 
     for (int i = 0; i < numRecentFiles; ++i) {
         QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(recentFiles[i]));
@@ -562,7 +564,7 @@ void MainWindow::updateRecentFileActions()
         recentFileActs[i]->setData(recentFiles[i]);
         recentFileActs[i]->setVisible(true);
     }
-    for (int j = numRecentFiles; j < MaxRecentFiles; ++j)
+    for (int j = numRecentFiles; j < maxRecentFiles; ++j)
         recentFileActs[j]->setVisible(false);
 
     separatorAct->setVisible(numRecentFiles > 0);
@@ -573,14 +575,14 @@ void MainWindow::addRecentFile(QString fileName)
     recentFiles.removeAll(fileName);
     recentFiles.prepend(fileName);
 
-    while(recentFiles.size() > MaxRecentFiles)
+    while(recentFiles.size() > maxRecentFiles)
         recentFiles.removeLast();
 }
 /******************************************************************************************************/
 void MainWindow::createRecentFiles()
 {
-    for (int i = 0; i < MaxRecentFiles; ++i) {
-        recentFileActs[i] = new QAction(this);
+    for (int i = 0; i < maxRecentFiles; ++i) {
+        recentFileActs.append(new QAction(this));
         recentFileActs[i]->setVisible(false);
         connect(recentFileActs[i], SIGNAL(triggered()),
                 this, SLOT(openRecentFile()));
@@ -593,7 +595,7 @@ void MainWindow::createRecentMenu()
 
     separatorAct = ui->menu_File->addSeparator();
 
-    for (int i = 0; i < MaxRecentFiles; ++i)
+    for (int i = 0; i < maxRecentFiles; ++i)
         ui->menu_File->addAction(recentFileActs[i]);
 
     updateRecentFileActions();

@@ -50,8 +50,8 @@ class MainWindow : public QMainWindow
     QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;
     QCheckBox *sOverwrite;
 
-    enum { MaxRecentFiles = 5 };
-    QAction *recentFileActs[MaxRecentFiles];
+    int maxRecentFiles;
+    QList<QAction*> recentFileActs;
     QStringList recentFiles;
     QAction *separatorAct;
 
