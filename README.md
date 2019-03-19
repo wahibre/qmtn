@@ -18,36 +18,27 @@ Features:
 
 Dependencies
 ============
-Ubuntu 17.10
+Ubuntu
 
     sudo apt-get install qt5-default qtbase5-dev
-Fedora 25+
+Fedora
 
     dnf install qt5-qtbase-devel
 
 Get source
 ==========
 
-    git clone https://gitlab.com/movie_thumbnailer/qmtn.git QtMtn
+    git clone https://gitlab.com/movie_thumbnailer/qmtn.git
 
 
 Build
 =====
-Fedora 25+
-
-    qmake-qt5 QtMtn/mtngui.pro
-Ubuntu 17.4 
-
-    qmake QtMtn/mtngui.pro
+    cd qmtn
+    qmake-qt5 src
     make
 
 
 Install
 =======
-Fedora 25+
-
-    su -c 'make install'
-Ubuntu 17.4  
-
     sudo make install
 

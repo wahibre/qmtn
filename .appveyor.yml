@@ -19,7 +19,7 @@ build_script:
 
     cd "%PROJ_DIR%"
 
-    %QTBIN%\qmake
+    %QTBIN%\qmake src
 
     %MAKE% -j4
 

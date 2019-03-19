@@ -53,12 +53,12 @@ FORMS    += mainwindow.ui \
 RESOURCES += images.qrc
 
 ICON = qmtn.ico
-RC_ICONS = icons/qmtn.ico
+RC_ICONS = ../icons/qmtn.ico
 
 OTHER_FILES += \
-    README
+    ../README.md
 
 DISTFILES += \
-    buildrpm/qmtn.spec \
-    assets/qmtn_create_setup.iss \
-    README.md
+    ../buildrpm/qmtn.spec \
+    ../assets/qmtn_create_setup.iss \
+    ../README.md
