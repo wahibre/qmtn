@@ -22,7 +22,7 @@ tar -xf %SOURCE0
 mv qmtn*/* ./
 
 %build
-qmake-qt5 INSTALL_ROOT=%{buildroot} mtngui.pro
+qmake-qt5 INSTALL_ROOT=%{buildroot} src
 
 %make_build
 
@@ -39,7 +39,7 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Sun Oct 28 2018 wahibre  <wahibre@gmx.com> - 0.3.1
+* Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.3.1
 - import/export settings
 - recent files
 - supporting mtn's --transparent switch
