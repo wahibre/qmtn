@@ -1,5 +1,5 @@
 Name:		qmtn	
-Version: 	0.3.1
+Version: 	0.4
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
@@ -39,7 +39,7 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.3.1
+* Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.4
 - import/export settings
 - recent files
 - supporting mtn's --transparent switch
