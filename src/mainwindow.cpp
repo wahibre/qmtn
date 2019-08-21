@@ -225,7 +225,7 @@ void MainWindow::treeOpenDirectory()
         else
         // Directory Item
         {
-            QFileInfo f(selIndex.child(0,columnItemNames::path).data().toString());
+            QFileInfo f(selIndex.model()->index(0,columnItemNames::path, selIndex).data().toString());
 
             if(f.exists() && f.isFile())
                 QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteDir().absolutePath()));
@@ -254,8 +254,8 @@ void MainWindow::recreateThumbnail(const QModelIndex selIndex)
     {
         int i=0;
 
-        while(selIndex.child(i, 0).isValid())
-            recreateThumbnail(selIndex.child(i++, 0));
+        while(selIndex.model()->hasIndex(i, 0))
+            recreateThumbnail(selIndex.model()->index(i++, 0, selIndex));
     }
 }
 /******************************************************************************************************/
