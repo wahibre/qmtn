@@ -40,6 +40,8 @@ QIcon IconProvider::image()    {return QIcon::fromTheme("image-x-generic",      
 
 QIcon IconProvider::error()    {return QIcon::fromTheme("dialog-error",             QIcon(":/icons/failed.svg"));   }
 
+QIcon IconProvider::warning()  {return QIcon::fromTheme("dialog-warning",           QIcon(":/icons/warning.svg"));  }
+
 QIcon IconProvider::refresh()  {return QIcon::fromTheme("view-refresh",             QIcon(":/icons/refresh.svg"));  }
 
 QIcon IconProvider::help()     {return QIcon::fromTheme("help-about",               QIcon(":/icons/help.svg"));     }
@@ -71,6 +73,8 @@ QIcon IconProvider::video()    {return QIcon(":/icons/video.svg");              
 QIcon IconProvider::image()    {return QIcon(":/icons/image.svg");                   }
 
 QIcon IconProvider::error()    {return QIcon(":/icons/failed.svg");                  }
+
+QIcon IconProvider::warning()  {return QIcon(":/icons/warning.svg");                 }
 
 QIcon IconProvider::refresh()  {return QIcon(":/icons/refresh.svg");                 }
 

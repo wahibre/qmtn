@@ -46,7 +46,7 @@ signals:
     void changedProcessingItemsNumber(int delta);
     void generatingSuccess(QStandardItem*, int);
 public slots:
-    void jobFinished(QStandardItem *parent, int row, bool success, QString logtexttext, QString outFileName);
+    void jobFinished(QStandardItem *parent, int row, int jobResult, QString logtexttext, QString outFileName);
 };
 
 #endif // MTNWORKER_H

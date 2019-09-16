@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define WAIT_STARTTIMEOUT   10000
 #define WAIT_FINISHTIMEOUT  20000
 
+#define FINISH_STATUS_OK      0
+#define FINISH_STATUS_WARNING 1
+
 class MtnJob : public QRunnable
 {
     QObject *m_parent;

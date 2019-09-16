@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
+* Mon Sep 19 2019 wahibre  <wahibre@gmx.com> - 0.5
+- display images even if mtn's result is warning
+
 * Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.4
 - import/export settings
 - recent files

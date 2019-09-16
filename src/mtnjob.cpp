@@ -42,7 +42,7 @@ void MtnJob::run()
     QProcess mtn;
     QStringList args;
     QString result_log, result_file;
-    bool success=false;
+    int mtn_result=-1;
 
     if(m_sett.executable.isEmpty())
     {
@@ -74,7 +74,7 @@ void MtnJob::run()
         {
             outlog += QString(mtn.readAll()).trimmed();
 
-            success = (mtn.exitCode() == 0);
+            mtn_result = mtn.exitCode();
             result_log = outlog;
             result_file = m_outputfilename;
 
@@ -89,7 +89,7 @@ void MtnJob::run()
         result_log = QString("Error startig: %1").arg(mtn.errorString());
 
     Q_ASSERT(m_parent);
-    static_cast<MtnWorker*>(m_parent)->jobFinished(m_stditem, m_row, success, result_log, result_file);
+    static_cast<MtnWorker*>(m_parent)->jobFinished(m_stditem, m_row, mtn_result, result_log, result_file);
 }
 /******************************************************************************************************/
 QStringList MtnJob::createArguments()

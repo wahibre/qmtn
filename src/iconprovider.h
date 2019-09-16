@@ -31,6 +31,7 @@ public:
     static QIcon video();
     static QIcon image();
     static QIcon error();
+    static QIcon warning();
     static QIcon refresh();
     static QIcon help();
     static QIcon settings();

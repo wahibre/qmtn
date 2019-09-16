@@ -9,7 +9,7 @@ CONFIG +=c++11
 use_git_version {
     DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 } else {
-    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.4\\\"
+    DEFINES += VERSION_FROM_GIT_TAG=\\\"0.5\\\"
 }
 
 target.path = /usr/bin

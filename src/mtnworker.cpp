@@ -76,12 +76,12 @@ void MtnWorker::enqueue(QStandardItem* parent, int row)
     }
 }
 /******************************************************************************************************/
-void MtnWorker::jobFinished(QStandardItem* parent, int row, bool success, QString log, QString outFileName=QString())
+void MtnWorker::jobFinished(QStandardItem* parent, int row, int jobResult, QString log, QString outFileName=QString())
 {
     mutex.lock();
-    if(success)
+    if(jobResult == FINISH_STATUS_OK || jobResult == FINISH_STATUS_WARNING)
     {
-        parent->child(row, columnItemNames::filename)->setIcon(IconProvider::video());
+        parent->child(row, columnItemNames::filename)->setIcon((jobResult == FINISH_STATUS_OK)?IconProvider::video() : IconProvider::warning());
         parent->child(row, columnItemNames::logtext)->setText(log);
         parent->child(row, columnItemNames::output)->setText(outFileName);
         emit generatingSuccess(parent, row);
