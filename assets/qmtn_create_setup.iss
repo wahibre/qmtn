@@ -48,6 +48,7 @@ Source: Qt5Core.dll; DestDir: {app}
 Source: Qt5Gui.dll; DestDir: {app}
 Source: Qt5Svg.dll; DestDir: {app}
 Source: Qt5Widgets.dll; DestDir: {app}
+Source: Qt5Network.dll; DestDir: {app}
 Source: platforms\qwindows.dll; DestDir: {app}\platforms\
 Source: imageformats\qico.dll; DestDir: {app}\imageformats\
 Source: imageformats\qjpeg.dll; DestDir: {app}\imageformats\

@@ -5,9 +5,9 @@ fedora_rawhide:
     image: fedora:rawhide
     stage: build
     before_script:
-    - dnf --nogpgcheck -y install gcc-c++ qt5-qtbase-devel make
+    - dnf --nogpgcheck -y install gcc-c++ qt5-qtbase-devel qt5-qtwebengine-devel make
     script:
-    - qmake-qt5 src
+    - qmake-qt5 CONFIG+=use_webengine src
     - make
     artifacts:
         name: qmtn-$CI_JOB_NAME
