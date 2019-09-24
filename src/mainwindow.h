@@ -62,6 +62,8 @@ public:
 public slots:
     void updateItem(QStandardItem *parent, int row);
 private slots:    
+    void toolbarContextMenuRequested(const QPoint &pos);
+    void toggleToolbarLabels();
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
     void treeContextMenuRequest(const QPoint &pos);
     void treeItemDoubleClicked(const QModelIndex &selIndex);
@@ -78,6 +80,7 @@ private slots:
     void on_actionOpenFile_triggered();
     void on_actionOpenDirectory_triggered();
     void on_actionRefreshThumbnail_triggered();
+    void on_actionUploadToImgmi_triggered();
 
 private:
     Ui::MainWindow *ui;

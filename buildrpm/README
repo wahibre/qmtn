@@ -1,6 +1,9 @@
 spec file for building RPM package on Fedora
 
 
+requires:
+    dnf install -y rpm-build
+
 build:
     rpmbuild --undefine=_disable_source_fetch -ba qmtn.spec
 

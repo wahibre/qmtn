@@ -36,6 +36,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
     profileModel(model)
 {
     ui->setupUi(this);
+    resize(QSize());
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
 
     QCompleter *completer = new QCompleter(this);

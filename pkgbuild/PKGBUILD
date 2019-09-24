@@ -1,12 +1,12 @@
 # Maintainer: wahibre <wahibre at gmx dot com>
 pkgname=qmtn-git
-pkgver=0.4
+pkgver=0.5
 pkgrel=1
 pkgdesc="GUI for mtn (Movie Thumbnailer)"
 arch=('x86_64')
 url="https://gitlab.com/movie_thumbnailer/qmtn"
 license=('GPL3')
-depends=('qt5-base')
+depends=('qt5-base', 'qt5-webengine')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -20,7 +20,7 @@ pkgver() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	qmake-qt5 src
+        qmake-qt5 CONFIG+=use_webengine src
 	make
 }
 

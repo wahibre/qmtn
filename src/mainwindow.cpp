@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QToolBar>
 #if QT_VERSION>=0x050600
 #include <QVersionNumber>
 #include <QDebug>
@@ -33,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "settingsdialog.h"
 #include "ui_mainwindow.h"
 #include "iconprovider.h"
-
+#include "imggmi.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->imageViewer->setModel(ui->treeView->selectionModel());
 
-
+    ui->mainToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->action_Settings->setIcon(IconProvider::settings());
     ui->action_Quit->setIcon(IconProvider::exit());
     ui->actionAbout->setIcon(IconProvider::help());
@@ -84,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     << "mpg"  << "swf"    << "ts"    << "vob" << "webm" << "wmv"  << "qt"
                     << "rm"   << "f4v";
 
-
+    connect(ui->mainToolBar, &QToolBar::customContextMenuRequested, this, &MainWindow::toolbarContextMenuRequested);
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
@@ -98,7 +99,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->splitter->restoreState(s.value("mainform/splitter").toByteArray());
     recentFiles = s.value("recentFiles").toStringList();
     maxRecentFiles = s.value("MaxRecentFiles", 5).toInt();
-
+    ui->mainToolBar->setToolButtonStyle(
+                static_cast<Qt::ToolButtonStyle>(s.value("mainform/toolbarlabels", Qt::ToolButtonTextBesideIcon).toInt()));
 
     createStatusBarWidgets();
     createRecentFiles();
@@ -124,6 +126,25 @@ void MainWindow::updateItem(QStandardItem *parent, int row)
     }
 }
 /******************************************************************************************************/
+void MainWindow::toolbarContextMenuRequested(const QPoint &pos)
+{
+    QMenu m;
+
+    QAction *a = m.addAction(tr("Display labels"), this, SLOT(toggleToolbarLabels()));
+    a->setCheckable(true);
+    a->setChecked(ui->mainToolBar->toolButtonStyle() == Qt::ToolButtonTextBesideIcon);
+
+    m.exec(ui->mainToolBar->mapToGlobal(pos));
+}
+/******************************************************************************************************/
+void MainWindow::toggleToolbarLabels()
+{
+    if(ui->mainToolBar->toolButtonStyle() == Qt::ToolButtonTextBesideIcon)
+        ui->mainToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    else
+        ui->mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+}
+/******************************************************************************************************/
 void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex &/*previous*/)
 {
     QString log;
@@ -138,9 +159,10 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 
     treeContextMenu->addAction(IconProvider::folder(),  "Open &Directory",      this, SLOT(treeOpenDirectory()));
     treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),        Qt::Key_F3/*to generate hint*/);
-    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
     treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
     treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
+    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
+    treeContextMenu->addAction(ui->actionUploadToImgmi);
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/
@@ -302,6 +324,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     s.setValue("mainform/geometry", saveGeometry());
     s.setValue("mainform/state", saveState());
     s.setValue("mainform/splitter", ui->splitter->saveState());
+    s.setValue("mainform/toolbarlabels", static_cast<int>(ui->mainToolBar->toolButtonStyle()));
+
     s.setValue("recentFiles", recentFiles);
     s.setValue("MaxRecentFiles", maxRecentFiles);
 
@@ -507,6 +531,7 @@ R"(
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
+            <li>Upload image to Imggmi.com</li>
         </ul>
     </p>
     <p>
@@ -548,6 +573,29 @@ void MainWindow::on_actionOpenDirectory_triggered()
 void MainWindow::on_actionRefreshThumbnail_triggered()
 {
     recreateThumbnail();
+}
+/******************************************************************************************************/
+void MainWindow::on_actionUploadToImgmi_triggered()
+{
+    if(datamodel->rowCount()>0)
+    {
+        auto selectedIndex = ui->treeView->currentIndex();
+
+        QString imageFileName = selectedIndex.sibling(
+                    selectedIndex.row(),
+                    columnItemNames::output
+                    ).data().toString();
+
+        if(!imageFileName.isEmpty())
+        {
+            if(QMessageBox::question(this, tr("Question"), tr("Dou you want to upload '%1' to Imggmi.com?").arg(imageFileName)) == QMessageBox::Yes)
+                (new Imggmi(this, imageFileName))->upload();
+        }
+        else
+            QMessageBox::information(this, tr("Information"), tr("Select a movie item"));
+    }
+    else
+        QMessageBox::information(this, tr("Information"), tr("Nothing to upload"));
 }
 /******************************************************************************************************/
 void MainWindow::openRecentFile()

@@ -41,6 +41,8 @@ Source: libGLESV2.dll; DestDir: {app}
 Source: libstdc++-6.dll; DestDir: {app}
 Source: libwinpthread-1.dll; DestDir: {app}
 Source: opengl32sw.dll; DestDir: {app}
+Source: ssleay32.dll; DestDir: {app}
+Source: libeay32.dll; DestDir: {app}
 Source: qmtn.exe; DestDir: {app}
 Source: Qt5Core.dll; DestDir: {app}
 Source: Qt5Gui.dll; DestDir: {app}

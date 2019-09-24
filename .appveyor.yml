@@ -8,6 +8,8 @@ build_script:
 
     set QTBIN=c:\qt\5.10\mingw53_32\bin
 
+    set SSLDIR=C:\QT\TOOLS\MINGW530_32\OPT\BIN
+
     set MAKE=c:\MinGW\bin\mingw32-make.exe
 
     set CHOCO=c:\ProgramData\chocolatey\bin\choco.exe
@@ -25,7 +27,13 @@ build_script:
 
     %MAKE% clean
 
+    copy /Y %SSLDIR%\ssleay32.dll Release\
+
+    copy /Y %SSLDIR%\libeay32.dll Release\
+
     %QTBIN%\windeployqt.exe --libdir Release Release\qmtn.exe
+
+    tree /f /a Release
 
     %CHOCO% install innosetup
 
@@ -44,6 +52,8 @@ build_script:
 artifacts:
 - path: ./*.exe
   name: qmtn-win32.exe
+- path: Release
+  name: Release
 
 on_failure:
 - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

@@ -23,5 +23,6 @@
         <file>../icons/exp.svg</file>
         <file>../icons/imp.svg</file>
         <file>../icons/warning.svg</file>
+        <file>../icons/imggmi.png</file>
     </qresource>
 </RCC>

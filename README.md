@@ -14,22 +14,32 @@ Features:
 - Recreate image with new settings
 - Managing mtn switches
 - Settings profiles
+- Upload image to Imggmi.com
 
 
 Dependencies
 ============
-Ubuntu
+Debian/Ubuntu/Mint
 
-    sudo apt-get install qt5-default qtbase5-dev
-Fedora
+    sudo apt-get install qt5-default qtbase5-dev qtwebengine5-dev
+Fedora/CentOS
 
-    dnf install qt5-qtbase-devel
+    dnf install qt5-qtbase-devel qt5-qtwebengine-devel
 
 Get source
 ==========
 
     git clone https://gitlab.com/movie_thumbnailer/qmtn.git
 
+
+Configuration
+=============
+Optional Qt configuration:
+
+use_git_version - gets the version number based on git tag
+use_webengine - allows to view the upload image result web page
+
+    CONFIG += use_git_version use_webengine
 
 Build
 =====
@@ -42,3 +52,7 @@ Install
 =======
     sudo make install
 
+Links
+=====
+* [Qmtn homepage](https://gitlab.com/movie_thumbnailer/qmtn/wikis)
+* [Qt versions support](https://en.wikipedia.org/wiki/Qt_version_history)

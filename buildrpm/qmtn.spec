@@ -1,5 +1,5 @@
 Name:		qmtn	
-Version: 	0.4
+Version: 	0.5
 Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
@@ -9,8 +9,8 @@ URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
 Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/master/qmtn.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 
-BuildRequires:	gcc-c++ qt5-qtbase-devel
-Requires:	mtn qt5-qtbase qt5-qtsvg
+BuildRequires:	gcc-c++ qt5-qtbase-devel qt5-qtwebengine-devel
+Requires:	qt5-qtbase qt5-qtsvg qt5-qtwebengine
 
 %description
 Movie thumbnail generator written in Qt5
@@ -22,7 +22,7 @@ tar -xf %SOURCE0
 mv qmtn*/* ./
 
 %build
-qmake-qt5 INSTALL_ROOT=%{buildroot} src
+qmake-qt5 INSTALL_ROOT=%{buildroot} CONFIG+=use_webengine src
 
 %make_build
 
@@ -39,8 +39,9 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Mon Sep 19 2019 wahibre  <wahibre@gmx.com> - 0.5
-- display images even if mtn's result is warning
+* Tue Sep 24 2019 wahibre  <wahibre@gmx.com> - 0.5
+- Upload image to Imggmi.com
+- display images even if mtn's result is Warning
 
 * Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.4
 - import/export settings

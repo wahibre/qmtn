@@ -112,7 +112,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>247</width>
-                <height>241</height>
+                <height>250</height>
                </rect>
               </property>
              </widget>
@@ -165,7 +165,7 @@
      <x>0</x>
      <y>0</y>
      <width>541</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Edit">
@@ -173,6 +173,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="action_Settings"/>
+    <addaction name="actionUploadToImgmi"/>
    </widget>
    <widget class="QMenu" name="menu_File">
     <property name="title">
@@ -209,8 +210,10 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="action_Quit"/>
+   <addaction name="actionOpenFile"/>
+   <addaction name="actionOpenDirectory"/>
    <addaction name="action_Settings"/>
+   <addaction name="action_Quit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Settings">
@@ -273,6 +276,18 @@
    </property>
    <property name="shortcut">
     <string>F5</string>
+   </property>
+  </action>
+  <action name="actionUploadToImgmi">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/imggmi.png</normaloff>:/icons/imggmi.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Imggmi</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload selected image to Imgmi.com</string>
    </property>
   </action>
  </widget>

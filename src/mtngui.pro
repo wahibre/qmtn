@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +10,10 @@ use_git_version {
     DEFINES += VERSION_FROM_GIT_TAG=\\\"$$system(git describe --tags --abbrev=4)\\\"
 } else {
     DEFINES += VERSION_FROM_GIT_TAG=\\\"0.5\\\"
+}
+
+use_webengine {
+    QT += webenginewidgets
 }
 
 target.path = /usr/bin
@@ -24,6 +28,8 @@ desktop.path = /usr/share/applications
 desktop.files = assets/qmtn.desktop
 unix: INSTALLS += ikona desktop
 
+INCLUDEPATH += uploaders
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     mtnworker.cpp \
@@ -34,7 +40,8 @@ SOURCES += main.cpp\
     iconprovider.cpp \
     settingsdata.cpp \
     profilemodel.cpp \
-    ttfselector.cpp
+    ttfselector.cpp \
+    uploaders/imggmi.cpp
 
 HEADERS  += mainwindow.h \
     mtnworker.h \
@@ -45,7 +52,8 @@ HEADERS  += mainwindow.h \
     fileselector.h \
     iconprovider.h \
     profilemodel.h \
-    ttfselector.h
+    ttfselector.h  \
+    uploaders/imggmi.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui
@@ -56,7 +64,8 @@ ICON = qmtn.ico
 RC_ICONS = ../icons/qmtn.ico
 
 OTHER_FILES += \
-    ../README.md
+    ../README.md \
+    ../pkgbuild/PKGBUILD
 
 DISTFILES += \
     ../buildrpm/qmtn.spec \
