@@ -452,6 +452,7 @@ void MainWindow::createStatusBarWidgets()
     auto s = statusBar();
     qApp->setStyleSheet("QStatusBar::item { border-width: 0; }");
 
+    sProfile = new QLabel(s);
     sColumns = new QLabel(s);
     sRows = new QLabel(s);
     sOutput = new QLabel(s);
@@ -465,6 +466,7 @@ void MainWindow::createStatusBarWidgets()
     sOverwrite->setAttribute(Qt::WA_TransparentForMouseEvents);
     sOverwrite->setFocusPolicy(Qt::NoFocus);
 
+    s->addWidget(sProfile);
     s->addWidget(sColumns);
     s->addWidget(sStep);
     s->addWidget(sRows);
@@ -478,6 +480,7 @@ void MainWindow::refreshStatusBar()
 {
     auto d = profileModel->getCurrentSettingsData();
 
+    sProfile->setText(QString("Profile: %1 |").arg(d.settingsName));
     sColumns->setText(QString("Columns: %1 |").arg(d.columns));
 
     sStep->setText(QString("Step: %1s |").arg(d.step));

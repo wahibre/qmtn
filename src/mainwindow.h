@@ -47,7 +47,7 @@ class MainWindow : public QMainWindow
     QMap<QString,QStandardItem*> processingDirs;    // directories in last drop
 
     /* statusbar widgets */
-    QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt;
+    QLabel *sColumns, *sRows, *sOutput, *sStep, *sSuffix, *sItemsCnt, *sProfile;
     QCheckBox *sOverwrite;
 
     int maxRecentFiles;
