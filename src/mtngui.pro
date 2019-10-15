@@ -41,6 +41,8 @@ SOURCES += main.cpp\
     settingsdata.cpp \
     profilemodel.cpp \
     ttfselector.cpp \
+    uploaders/imagevenue.cpp \
+    uploaders/imgup.cpp \
     uploaders/imggmi.cpp
 
 HEADERS  += mainwindow.h \
@@ -53,6 +55,8 @@ HEADERS  += mainwindow.h \
     iconprovider.h \
     profilemodel.h \
     ttfselector.h  \
+    uploaders/imagevenue.h \
+    uploaders/imgup.h \
     uploaders/imggmi.h
 
 FORMS    += mainwindow.ui \

@@ -14,7 +14,7 @@ Features:
 - Recreate image with new settings
 - Managing mtn switches
 - Settings profiles
-- Upload image to Imggmi.com
+- Upload image to Imggmi.com, Imagevenue.com
 
 
 Dependencies

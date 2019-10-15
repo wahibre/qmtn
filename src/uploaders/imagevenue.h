@@ -1,18 +1,18 @@
-#ifndef IMGGMI_H
-#define IMGGMI_H
+#ifndef IMAGEVENUE_H
+#define IMAGEVENUE_H
 
 #include <QObject>
 #include "imgup.h"
 
 namespace imguploader {
-class Imggmi;
+class Imagevenue;
 }
 
-class Imggmi : public ImgUp
+class Imagevenue: public ImgUp
 {
-   Q_OBJECT
+    Q_OBJECT
 public:
-    Imggmi(QWidget *parent, QString filePath=QString());
+    Imagevenue(QWidget *parent, QString filePath=QString());
 
 protected:
     virtual void postUploadRequest() Q_DECL_OVERRIDE;
@@ -22,4 +22,4 @@ private slots:
     void imageUploaded();
 };
 
-#endif // IMGGMI_H
+#endif // IMAGEVENUE_H

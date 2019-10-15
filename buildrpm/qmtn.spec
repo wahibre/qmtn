@@ -39,8 +39,8 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Wed Sep 25 2019 wahibre  <wahibre@gmx.com> - 0.5
-- upload image to Imggmi.com
+* Mon Oct 14 2019 wahibre  <wahibre@gmx.com> - 0.5
+- upload image to Imggmi.com and Imagevenue.com
 - add profile name to status bar
 - display images even if mtn's result is Warning
 

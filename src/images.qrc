@@ -11,6 +11,7 @@
         <file>../icons/qt.png</file>
         <file>../icons/refresh.svg</file>
         <file>../icons/settings.svg</file>
+        <file alias="upload">../icons/upload.svg</file>
         <file>../icons/video.svg</file>
         <file>../icons/zlozka.svg</file>
         <file>../icons/zoomfit.svg</file>
@@ -24,5 +25,6 @@
         <file>../icons/imp.svg</file>
         <file>../icons/warning.svg</file>
         <file>../icons/imggmi.png</file>
+        <file>../icons/imagevenue.png</file>
     </qresource>
 </RCC>

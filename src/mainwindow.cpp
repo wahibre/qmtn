@@ -163,6 +163,7 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
     treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
     treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
     treeContextMenu->addAction(ui->actionUploadToImgmi);
+    treeContextMenu->addAction(ui->actionUploadToImagevenue);
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/
@@ -534,7 +535,7 @@ R"(
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
-            <li>Upload image to Imggmi.com</li>
+            <li>Upload image to Imggmi.com, Imagevenue.com</li>
         </ul>
     </p>
     <p>
@@ -578,7 +579,7 @@ void MainWindow::on_actionRefreshThumbnail_triggered()
     recreateThumbnail();
 }
 /******************************************************************************************************/
-void MainWindow::on_actionUploadToImgmi_triggered()
+void MainWindow::uploadImage(ImgUp *imgUp)
 {
     if(datamodel->rowCount()>0)
     {
@@ -591,14 +592,25 @@ void MainWindow::on_actionUploadToImgmi_triggered()
 
         if(!imageFileName.isEmpty())
         {
-            if(QMessageBox::question(this, tr("Question"), tr("Dou you want to upload '%1' to Imggmi.com?").arg(imageFileName)) == QMessageBox::Yes)
-                (new Imggmi(this, imageFileName))->upload();
+            imgUp->setImagePath(imageFileName);
+            if(QMessageBox::question(this, tr("Question"), tr("Dou you want to upload file '%1' to '%2'?").arg(imageFileName).arg(imgUp->hostName())) == QMessageBox::Yes)
+                imgUp->upload();
         }
         else
             QMessageBox::information(this, tr("Information"), tr("Select a movie item"));
     }
     else
         QMessageBox::information(this, tr("Information"), tr("Nothing to upload"));
+}
+/******************************************************************************************************/
+void MainWindow::on_actionUploadToImgmi_triggered()
+{
+    uploadImage(new Imggmi(this));
+}
+/******************************************************************************************************/
+void MainWindow::on_actionUploadToImagevenue_triggered()
+{
+    uploadImage(new Imagevenue(this));
 }
 /******************************************************************************************************/
 void MainWindow::openRecentFile()

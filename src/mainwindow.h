@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mtnworker.h"
 #include "profilemodel.h"
+#include "imagevenue.h"
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
@@ -81,6 +82,7 @@ private slots:
     void on_actionOpenDirectory_triggered();
     void on_actionRefreshThumbnail_triggered();
     void on_actionUploadToImgmi_triggered();
+    void on_actionUploadToImagevenue_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -104,6 +106,7 @@ private:
     void refreshStatusBar();
     void processUrls(QList<QUrl> urls);
     QString strippedName(const QString &fullFileName);
+    void uploadImage(ImgUp *imgUp);
 };
 
 #endif // MAINWINDOW_H
