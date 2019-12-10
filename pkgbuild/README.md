@@ -3,7 +3,7 @@
 ## Dependencies
 Dependencies for building in docker image
 ```
-pacman -S grep git binutils fakeroot gcc make awk file qt5-base
+pacman -S grep git binutils fakeroot gcc make awk file qt5-base qt5-webengine
 ```
 
 ## Build
