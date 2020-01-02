@@ -36,8 +36,8 @@ Configuration
 =============
 Optional Qt configuration:
 
-use_git_version - gets the version number based on git tag
-use_webengine - allows to view the upload image result web page
+use_git_version - gets the version number based on git tag  
+use_webengine - allows to view the upload image result web page  
 
     CONFIG += use_git_version use_webengine
 
