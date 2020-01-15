@@ -8,21 +8,30 @@ License:	GPLv3
 URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
 Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/master/qmtn.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
+#Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
 
-BuildRequires:	gcc-c++ qt5-qtbase-devel qt5-qtwebengine-devel
-Requires:	qt5-qtbase qt5-qtsvg qt5-qtwebengine
+BuildRequires:	gcc-c++ qt5-qtbase-devel
+Requires:		qt5-qtbase qt5-qtsvg
+
+%{?fedora:BuildRequires: qt5-qtwebengine-devel}
+%{?fedora:Requires:	 	 qt5-qtwebengine}
+
+%if 0%{?fedora}
+%define qmake_opts CONFIG+=use_webengine src
+%else
+%define qmake_opts src
+%endif
 
 %description
 Movie thumbnail generator written in Qt5
 
 %prep
-#wget -O %{name}.%{version}.tar.gz https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
 rm -rf ./*
 tar -xf %SOURCE0
 mv qmtn*/* ./
 
 %build
-qmake-qt5 INSTALL_ROOT=%{buildroot} CONFIG+=use_webengine src
+qmake-qt5 INSTALL_ROOT=%{buildroot} %{qmake_opts}
 
 %make_build
 
@@ -39,7 +48,8 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Mon Oct 14 2019 wahibre  <wahibre@gmx.com> - 0.5
+* Wed Jan 15 2020 wahibre  <wahibre@gmx.com> - 0.5
+- packaging CentOS
 - upload image to Imggmi.com and Imagevenue.com
 - add profile name to status bar
 - display images even if mtn's result is Warning
