@@ -162,6 +162,7 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
     treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
     treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
     treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
+    treeContextMenu->addAction(ui->actionUploadToImgaa);
     treeContextMenu->addAction(ui->actionUploadToImgmi);
     treeContextMenu->addAction(ui->actionUploadToImagevenue);
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
@@ -535,12 +536,12 @@ R"(
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
-            <li>Upload image to Imggmi.com, Imagevenue.com</li>
+            <li>Upload image to Imggmi.com, Imagevenue.com, Imgaa.com</li>
         </ul>
     </p>
     <p>
     <code>
-            Copyright (C) 2017-2019 &lt;<a href=
+            Copyright (C) 2017-2020 &lt;<a href=
 )"
 
 +QString("\"mailto:wahibre@gmx.com?Subject=%1\"").arg(windowTitle().toHtmlEscaped())+
@@ -601,6 +602,11 @@ void MainWindow::uploadImage(ImgUp *imgUp)
     }
     else
         QMessageBox::information(this, tr("Information"), tr("Nothing to upload"));
+}
+/******************************************************************************************************/
+void MainWindow::on_actionUploadToImgaa_triggered()
+{
+    uploadImage(new ImgAa(this));
 }
 /******************************************************************************************************/
 void MainWindow::on_actionUploadToImgmi_triggered()

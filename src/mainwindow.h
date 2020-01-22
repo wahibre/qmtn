@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mtnworker.h"
 #include "profilemodel.h"
 #include "imagevenue.h"
+#include "imgaa.h"
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
@@ -83,6 +84,7 @@ private slots:
     void on_actionRefreshThumbnail_triggered();
     void on_actionUploadToImgmi_triggered();
     void on_actionUploadToImagevenue_triggered();
+    void on_actionUploadToImgaa_triggered();
 
 private:
     Ui::MainWindow *ui;

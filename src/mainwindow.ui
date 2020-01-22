@@ -173,6 +173,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="action_Settings"/>
+    <addaction name="actionUploadToImgaa"/>
     <addaction name="actionUploadToImgmi"/>
     <addaction name="actionUploadToImagevenue"/>
    </widget>
@@ -301,6 +302,18 @@
    </property>
    <property name="toolTip">
     <string>Upload selected image to www.imagevenue.com</string>
+   </property>
+  </action>
+  <action name="actionUploadToImgaa">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/upload</normaloff>:/upload</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Imgaa</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload selected image to www.imgaa.com</string>
    </property>
   </action>
  </widget>

@@ -16,7 +16,7 @@ public:
 
 protected:
     virtual void postUploadRequest() Q_DECL_OVERRIDE;
-    virtual void showUploadPage(QString pagePath) Q_DECL_OVERRIDE;
+    void showUploadPage(QString pagePath);
 
 private slots:
     void imageUploaded();

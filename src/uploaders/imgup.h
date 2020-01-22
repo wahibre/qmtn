@@ -37,7 +37,6 @@ protected:
     QHBoxLayout *layout;
 
     virtual void postUploadRequest(){}
-    virtual void showUploadPage(QString){}
     void showErr(QString msg);
 public:
     ImgUp(QWidget *parent, QString filePath=QString());

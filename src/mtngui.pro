@@ -42,6 +42,7 @@ SOURCES += main.cpp\
     profilemodel.cpp \
     ttfselector.cpp \
     uploaders/imagevenue.cpp \
+    uploaders/imgaa.cpp \
     uploaders/imgup.cpp \
     uploaders/imggmi.cpp
 
@@ -56,6 +57,7 @@ HEADERS  += mainwindow.h \
     profilemodel.h \
     ttfselector.h  \
     uploaders/imagevenue.h \
+    uploaders/imgaa.h \
     uploaders/imgup.h \
     uploaders/imggmi.h
 
