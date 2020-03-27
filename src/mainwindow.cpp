@@ -102,6 +102,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainToolBar->setToolButtonStyle(
                 static_cast<Qt::ToolButtonStyle>(s.value("mainform/toolbarlabels", Qt::ToolButtonTextBesideIcon).toInt()));
 
+
+    ui->actionUploadToImgmi->setVisible(false); // protected by cloudflare
+
     createStatusBarWidgets();
     createRecentFiles();
     createRecentMenu();
@@ -162,9 +165,13 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
     treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
     treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
     treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
-    treeContextMenu->addAction(ui->actionUploadToImgaa);
-    treeContextMenu->addAction(ui->actionUploadToImgmi);
-    treeContextMenu->addAction(ui->actionUploadToImagevenue);
+    if(ui->actionUploadToImgaa->isVisible())
+        treeContextMenu->addAction(ui->actionUploadToImgaa);
+    if(ui->actionUploadToImgmi->isVisible())
+        treeContextMenu->addAction(ui->actionUploadToImgmi);
+    if(ui->actionUploadToImagevenue->isVisible())
+        treeContextMenu->addAction(ui->actionUploadToImagevenue);
+
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
 /******************************************************************************************************/

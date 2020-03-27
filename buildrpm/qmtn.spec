@@ -50,7 +50,7 @@ rm -rf *
 %changelog
 * Wed Jan 22 2020 wahibre  <wahibre@gmx.com> - 0.5
 - packaging CentOS
-- upload image to Imggmi.com, Imagevenue.com and Imgaa.com
+- upload image to Imagevenue.com and Imgaa.com
 - add profile name to status bar
 - display images even if mtn's result is Warning
 
