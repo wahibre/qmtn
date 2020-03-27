@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mtnworker.h"
 
-#define WAIT_STARTTIMEOUT   10000
+#define WAIT_STARTTIMEOUT   -1
 #define WAIT_FINISHTIMEOUT  20000
 
 #define FINISH_STATUS_OK      0
