@@ -172,11 +172,11 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="action_Settings"/>
     <addaction name="actionUploadToImgaa"/>
     <addaction name="actionUploadToImgmi"/>
     <addaction name="actionUploadToImagevenue"/>
     <addaction name="actionUploadToKlikr"/>
+    <addaction name="action_Settings"/>
    </widget>
    <widget class="QMenu" name="menu_File">
     <property name="title">
@@ -184,6 +184,7 @@
     </property>
     <addaction name="actionOpenFile"/>
     <addaction name="actionOpenDirectory"/>
+    <addaction name="actionRefreshThumbnail"/>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menu_About">
@@ -215,6 +216,7 @@
    </attribute>
    <addaction name="actionOpenFile"/>
    <addaction name="actionOpenDirectory"/>
+   <addaction name="actionRefreshThumbnail"/>
    <addaction name="action_Settings"/>
    <addaction name="action_Quit"/>
   </widget>
@@ -267,7 +269,7 @@
     <string>Open Directory ...</string>
    </property>
    <property name="toolTip">
-    <string>Open Directory containing video files</string>
+    <string>Open Directory containing Video Files</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
@@ -275,7 +277,10 @@
   </action>
   <action name="actionRefreshThumbnail">
    <property name="text">
-    <string>__</string>
+    <string>&amp;Recreate Thumbnail</string>
+   </property>
+   <property name="toolTip">
+    <string>Recreate Thumbnail</string>
    </property>
    <property name="shortcut">
     <string>F5</string>

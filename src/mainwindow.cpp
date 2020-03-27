@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->TabOutput->setTabIcon(1, IconProvider::text());
     ui->actionOpenDirectory->setIcon(IconProvider::folder());
     ui->actionOpenFile->setIcon(IconProvider::video());
+    ui->actionRefreshThumbnail->setIcon(IconProvider::refresh());
 
     videoExtensions << "3gp"  << "3g2"    << "asf"   << "avi" << "avs"  << "dat"  << "divx"
                     << "dsm"  << "evo"    << "flv"   << "m1v" << "m2ts" << "m2v"  << "m4a"
