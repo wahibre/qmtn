@@ -176,6 +176,7 @@
     <addaction name="actionUploadToImgaa"/>
     <addaction name="actionUploadToImgmi"/>
     <addaction name="actionUploadToImagevenue"/>
+    <addaction name="actionUploadToKlikr"/>
    </widget>
    <widget class="QMenu" name="menu_File">
     <property name="title">
@@ -314,6 +315,18 @@
    </property>
    <property name="toolTip">
     <string>Upload selected image to www.imgaa.com</string>
+   </property>
+  </action>
+  <action name="actionUploadToKlikr">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/upload</normaloff>:/upload</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Klikr</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload selected image to www.klikr.org</string>
    </property>
   </action>
  </widget>

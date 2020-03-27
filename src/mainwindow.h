@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "profilemodel.h"
 #include "imagevenue.h"
 #include "imgaa.h"
+#include "imggmi.h"
+#include "klikr.h"
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
@@ -85,6 +87,7 @@ private slots:
     void on_actionUploadToImgmi_triggered();
     void on_actionUploadToImagevenue_triggered();
     void on_actionUploadToImgaa_triggered();
+    void on_actionUploadToKlikr_triggered();
 
 private:
     Ui::MainWindow *ui;

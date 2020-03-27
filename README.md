@@ -14,7 +14,7 @@ Features:
 - Recreate image with new settings
 - Managing mtn switches
 - Settings profiles
-- Upload image to Imagevenue.com, Imgaa.com
+- Upload image to Imagevenue.com, Imgaa.com, Klikr.org
 
 
 Dependencies

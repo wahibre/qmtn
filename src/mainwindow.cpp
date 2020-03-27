@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "settingsdialog.h"
 #include "ui_mainwindow.h"
 #include "iconprovider.h"
-#include "imggmi.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -171,6 +170,8 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
         treeContextMenu->addAction(ui->actionUploadToImgmi);
     if(ui->actionUploadToImagevenue->isVisible())
         treeContextMenu->addAction(ui->actionUploadToImagevenue);
+    if(ui->actionUploadToKlikr->isVisible())
+        treeContextMenu->addAction(ui->actionUploadToKlikr);
 
     treeContextMenu->exec(ui->treeView->mapToGlobal(pos));
 }
@@ -543,12 +544,12 @@ R"(
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
-            <li>Upload image to Imggmi.com, Imagevenue.com, Imgaa.com</li>
+            <li>Upload image to Imagevenue.com, Imgaa.com, Klikr.org</li>
         </ul>
     </p>
     <p>
     <code>
-            Copyright (C) 2017-2020 &lt;<a href=
+            Copyleft (C) 2017-2020 &lt;<a href=
 )"
 
 +QString("\"mailto:wahibre@gmx.com?Subject=%1\"").arg(windowTitle().toHtmlEscaped())+
@@ -619,6 +620,11 @@ void MainWindow::on_actionUploadToImgaa_triggered()
 void MainWindow::on_actionUploadToImgmi_triggered()
 {
     uploadImage(new Imggmi(this));
+}
+/******************************************************************************************************/
+void MainWindow::on_actionUploadToKlikr_triggered()
+{
+    uploadImage(new Klikr(this));
 }
 /******************************************************************************************************/
 void MainWindow::on_actionUploadToImagevenue_triggered()

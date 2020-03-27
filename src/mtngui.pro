@@ -44,6 +44,7 @@ SOURCES += main.cpp\
     uploaders/imagevenue.cpp \
     uploaders/imgaa.cpp \
     uploaders/imgup.cpp \
+    uploaders/klikr.cpp \
     uploaders/imggmi.cpp
 
 HEADERS  += mainwindow.h \
@@ -59,6 +60,7 @@ HEADERS  += mainwindow.h \
     uploaders/imagevenue.h \
     uploaders/imgaa.h \
     uploaders/imgup.h \
+    uploaders/klikr.h \
     uploaders/imggmi.h
 
 FORMS    += mainwindow.ui \
