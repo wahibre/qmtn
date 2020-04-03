@@ -22,9 +22,14 @@ Dependencies
 Debian/Ubuntu/Mint
 
     sudo apt-get install qt5-default qtbase5-dev qtwebengine5-dev
+
 Fedora/CentOS
 
     dnf install qt5-qtbase-devel qt5-qtwebengine-devel
+
+Mageia
+
+    sudo dnf install lib64qt5webengine-devel
 
 Get source
 ==========

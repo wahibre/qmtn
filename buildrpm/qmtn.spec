@@ -10,13 +10,20 @@ Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/master/qmtn.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
 
-BuildRequires:	gcc-c++ qt5-qtbase-devel
+BuildRequires:	gcc-c++ make
+
+%if 0%{?mageia}
+BuildRequires:	lib64qt5webengine-devel
+Requires:		lib64qt5webengine5 lib64qt5svg5
+%else
+BuildRequires:	qt5-qtbase-devel
 Requires:		qt5-qtbase qt5-qtsvg
+%endif
 
 %{?fedora:BuildRequires: qt5-qtwebengine-devel}
 %{?fedora:Requires:	 	 qt5-qtwebengine}
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?mageia}
 %define qmake_opts CONFIG+=use_webengine src
 %else
 %define qmake_opts src
@@ -48,38 +55,6 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Wed Jan 22 2020 wahibre  <wahibre@gmx.com> - 0.5
+* Fri Apr 03 2020 wahibre  <wahibre@gmx.com> - 0.5
+- packaging Mageia
 - packaging CentOS
-- upload image to Imagevenue.com, Imgaa.com and Klikr.org
-- add profile name to status bar
-- display images even if mtn's result is Warning
-
-* Thu Mar 21 2019 wahibre  <wahibre@gmx.com> - 0.4
-- import/export settings
-- recent files
-- supporting mtn's --transparent switch
-- supporting mtn's --shadow switch
-- font dialog changed to ComboBox (windows only)
-
-* Tue Jan 9 2018 wahibre  <wahibre@gmx.com> - 0.3
-- merge toplevel directory of dropped files in treeview
-- show image in fullscreen
-- inserting/removing profiles
-- filesize only in human readable format (MiB, GiB)
-- changed log icon
-- removed group separator in numbers (affect -B, -E mtn's switches)
-
-* Fri Nov 24 2017 wahibre  <wahibre@gmx.com> - 0.2
-- location of mtn
-- max. recursion depth
-- settings profile
-- recreating thumbnail
-- context menu item "Open Movie"
-- collapseAll/expandAll context menu items
-- fix: autorefresh created image/log
-- fix: floating numbers respects locale settings
-
-* Mon Aug 21 2017 wahibre  <wahibre@gmx.com> - 0.1.9
-- option to locate mtn binary
-- option to specify recursion depth
-- icons for Windows version
