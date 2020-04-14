@@ -37,6 +37,7 @@ SettingsData::SettingsData(QJsonObject obj)
     gap                 = obj[REG_GAP               ].toInt(11);
     overwrite           = obj[REG_OVERWRITE         ].toBool(true);
     suffix              = obj[REG_SUFFIX            ].toString();
+    cover               = obj[REG_COVER             ].toString();
 
     edge_detect         = obj[REG_EDGE              ].toInt(12);
     blank_skip          = obj[REG_BLANK             ].toDouble(0.80);
@@ -65,6 +66,8 @@ SettingsData::SettingsData(QJsonObject obj)
     fontInfoLocation    = obj[REG_FONTTEXTLOCATION  ].toInt(-1);
     fontTimeLocation    = obj[REG_FONTTIMELOCATION  ].toInt(-1);
 
+    additional          = obj[REG_ADDITIONAL        ].toString();
+
     /// qmtn settings
     max_dir_depth       = obj[REG_MAXDIRDEPTH       ].toInt(10);
     executable          = obj[REG_MTN               ].toString(findExecutableMtn()); //mtn not searched if exists in file and is empty
@@ -87,6 +90,7 @@ QJsonObject SettingsData::toJsonObject()
         {REG_GAP,               gap             },
         {REG_OVERWRITE,         overwrite       },
         {REG_SUFFIX,            suffix          },
+        {REG_COVER,             cover           },
 
         {REG_EDGE,              edge_detect     },
         {REG_BLANK,             blank_skip      },
@@ -114,6 +118,8 @@ QJsonObject SettingsData::toJsonObject()
         {REG_FONTTIMESIZE,      fontTimeSize    },
         {REG_FONTTEXTLOCATION,  fontInfoLocation},
         {REG_FONTTIMELOCATION,  fontTimeLocation},
+
+        {REG_ADDITIONAL,        additional      },
 
         {REG_MTN,               executable      },
         {REG_MAXDIRDEPTH,       max_dir_depth   }

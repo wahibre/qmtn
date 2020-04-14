@@ -103,8 +103,10 @@ QStringList MtnJob::createArguments()
          << "-H"                                    //    -H : filesize only in human readable format (MiB, GiB). Default shows size in bytes to
          << "-c" << QString::number(m_sett.columns) //    -c 3 : # of column
          << "-r" << QString::number(m_sett.rows)    //    -r 0 : # of rows; >0:override -s
-         << "-w" << QString::number(m_sett.width)   //    -w 1024 : width of output image; 0:column * movie width
-         << "-g" << QString::number(m_sett.gap);    //    -g 0 : gap between each shot
+         << "-w" << QString::number(m_sett.width);  //    -w 1024 : width of output image; 0:column * movie width
+
+    if(m_sett.gap>0)                                //    -g 0 : gap between each shot
+        args << "-g" << QString::number(m_sett.gap);
                                                     //    -a aspect_ratio : override input file's display aspect ratio
     if(qAbs(m_sett.blank_skip-0.8)>0.001)           //    -b 0.80 : skip if % blank is higher; 0:skip all 1:skip really blank >1:off
         args << "-b" << locale.toString(m_sett.blank_skip, 'f', 2);
@@ -196,11 +198,17 @@ QStringList MtnJob::createArguments()
                                                     //    -z : always use seek mode
                                                     //    -Z : always use non-seek mode -- slower but more accurate timing
 
-    if(m_sett.shadowRadius>=0)                     //    --shadow=N   draw shadows beneath thumbnails with radius N pixels if N >0; Radius is computed if N=0
+    if(m_sett.shadowRadius>=0)                      //    --shadow=N   draw shadows beneath thumbnails with radius N pixels if N >0; Radius is computed if N=0
         args << QString("--shadow=%1").arg(m_sett.shadowRadius);
 
     if(m_sett.transparent)                          //    --transparent: set background color (-k) to transparent; works with PNG image only
         args << "--transparent";
+
+    if(!m_sett.cover.isEmpty())                     //    --cover: extract album art
+        args << QString("--cover=%1").arg(m_sett.cover);
+
+    if(!m_sett.additional.isEmpty())                // custom switches not covered with GUI
+        args << m_sett.additional.split(' ');
 
     return args;
 }

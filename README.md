@@ -14,6 +14,7 @@ Features:
 - Recreate image with new settings
 - Managing mtn switches
 - Settings profiles
+- Extracting album art
 - Upload image to Imagevenue.com, Imgaa.com, Klikr.org
 
 

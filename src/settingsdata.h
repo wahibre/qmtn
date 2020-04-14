@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define REG_BLANK               "blank_skip"
 #define REG_QUALITY             "quality"
 #define REG_SUFFIX              "suffix"
+#define REG_COVER               "cover"
 #define REG_TITLE               "title"
 #define REG_GAP                 "gap"
 #define REG_OVERWRITE           "overwrite"
@@ -56,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define REG_FONTTIMESIZE        "font_time_stamp_size"
 #define REG_FONTTEXTLOCATION    "font_info_text_location"
 #define REG_FONTTIMELOCATION    "font_time_stamp_location"
+#define REG_ADDITIONAL          "additional"
 
 #define REG_MTN                 "mtn"
 #define REG_MAXDIRDEPTH         "max_dir_depth"
@@ -79,12 +81,13 @@ enum columnItemNames {
 struct SettingsData
 {
     /* mnt */
-    QString output_directory, suffix, title, fontInfotext, fontTimestamp;
+    QString output_directory, suffix, cover, title, fontInfotext, fontTimestamp;
     int columns,rows,width, edge_detect, quality, gap, fontInfoSize, fontTimeSize,
         fontInfoLocation, fontTimeLocation, step, minHeight, shadowRadius;
     double blank_skip, skip_begin, skip_end;
     bool overwrite, infotext, timestamp, verbose, transparent;
     QColor foreground, background, timecolor, timeshadow;
+    QString additional;
 
     /* qmtn extra */
     QString settingsName, executable;

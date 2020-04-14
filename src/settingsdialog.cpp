@@ -78,6 +78,7 @@ SettingsData SettingsDialog::settingsData()
     data.skip_begin       = ui->sbSkipBegin->value();
     data.skip_end         = ui->sbSkipEnd->value();
     data.suffix           = ui->eSuffix->text();
+    data.cover            = ui->coverLineEdit->text();
     data.step             = ui->sbStep->value();
     data.minHeight        = ui->sbHeight->value();
     data.shadowRadius     = ui->sbShadow->value();
@@ -100,6 +101,8 @@ SettingsData SettingsDialog::settingsData()
     data.fontTimeSize       = ui->sbFontTimestampSize->value();
     data.fontInfoLocation   = ui->cbFontInfoLocation->currentIndex();
     data.fontTimeLocation   = ui->cbFontTimestampLocation->currentIndex();
+
+    data.additional         = ui->eAdditional->text();
 
     data.executable       = ui->eMtnSelector->text();
     data.max_dir_depth    = ui->sbDepth->value();
@@ -125,6 +128,7 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->sbSkipBegin->setValue(  data.skip_begin);
     ui->sbSkipEnd->setValue(    data.skip_end);
     ui->eSuffix->setText(       data.suffix);
+    ui->coverLineEdit->setText( data.cover);
     ui->sbStep->setValue(       data.step);
     ui->sbHeight->setValue(     data.minHeight);
     ui->sbShadow->setValue(     data.shadowRadius);
@@ -146,6 +150,8 @@ void SettingsDialog::setSettingsData(SettingsData data)
     ui->sbFontTimestampSize->setValue(              data.fontTimeSize);
     ui->cbFontInfoLocation->setCurrentIndex(        data.fontInfoLocation);
     ui->cbFontTimestampLocation->setCurrentIndex(   data.fontTimeLocation);
+
+    ui->eAdditional->setText(   data.additional);
 
     ui->eMtnSelector->setText(data.executable);
     ui->sbDepth->setValue(data.max_dir_depth);

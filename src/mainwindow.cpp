@@ -545,6 +545,7 @@ R"(
             <li>Open image in external image viewer</li>
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
+            <li>Extracting album art</li>
             <li>Upload image to Imagevenue.com, Imgaa.com, Klikr.org</li>
         </ul>
     </p>
