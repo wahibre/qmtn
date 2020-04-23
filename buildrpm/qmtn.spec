@@ -1,12 +1,13 @@
 Name:		qmtn	
-Version: 	0.5
-Release:	1%{?dist}
+Version: 	0.4
+Release:	2%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
 License:	GPLv3
 URL:		http://gitlab.com/movie_thumbnailer/qmtn/wikis/
 Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/master/qmtn.tar.gz
+#Source0:	https://gitlab.com/movie_thumbnailer/qmtn/-/archive/%{version}/qmtn.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/%{version}/archive.tar.gz
 #Source0:	https://gitlab.com/movie_thumbnailer/qmtn/repository/archive.tar.gz?ref=%{version}
 
