@@ -93,14 +93,24 @@ void ImageItemView::setModel(QItemSelectionModel *model)
         connect(m_model, &QItemSelectionModel::currentChanged, this, &ImageItemView::currentChanged);
     }
 }/******************************************************************************************************/
-void ImageItemView::scaleImage(double factor, QPoint pointAt)
+void ImageItemView::scaleImage(double factor, QPointF pointAt)
 {
-    Q_ASSERT(imageLabel->pixmap());
     double factorX, factorY;
+    QSize imageSize;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    Q_ASSERT(!imageLabel->pixmap(Qt::ReturnByValue).isNull());
+    imageSize = imageLabel->pixmap(Qt::ReturnByValue).size();
+#else
+    Q_ASSERT(imageLabel->pixmap());
+    imageSize = imageLabel->pixmap()->size();
+#endif
+
+
     scaleFactor *= factor;
 
     QGuiApplication::setOverrideCursor(Qt::WaitCursor);
-    imageLabel->resize(scaleFactor * imageLabel->pixmap()->size());
+    imageLabel->resize(scaleFactor * imageSize);
     fitImageToWindow = false;
 
     /** mouse scroll pointing at some place in image */
@@ -145,18 +155,31 @@ void ImageItemView::normalSize()
 /******************************************************************************************************/
 void ImageItemView::zoomToFitWindow()
 {
+    QSize imageSize;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    Q_ASSERT(!imageLabel->pixmap(Qt::ReturnByValue).isNull());
+
+    imageSize = imageLabel->pixmap(Qt::ReturnByValue).size();
+#else
     Q_ASSERT(imageLabel->pixmap());
 
-    auto imgSize = imageLabel->pixmap()->size();
-    imgSize.scale(width()-2, height()-2, Qt::KeepAspectRatio);
-    imageLabel->resize(imgSize);
-    scaleFactor = ((double)imgSize.height() / (double)imageLabel->pixmap()->size().height());
+    imageSize = imageLabel->pixmap()->size();
+#endif
+
+    imageSize.scale(width()-2, height()-2, Qt::KeepAspectRatio);
+    imageLabel->resize(imageSize);
+    scaleFactor = ((double)imageSize.height() / (double)imageSize.height());
     fitImageToWindow = true;
 }
 /******************************************************************************************************/
 void ImageItemView::toggleFullScreen()
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    Q_ASSERT(!imageLabel->pixmap(Qt::ReturnByValue).isNull());
+#else
     Q_ASSERT(imageLabel->pixmap());
+#endif
 
     if(this->isFullScreen())
     {
@@ -229,7 +252,16 @@ void ImageItemView::on_contextMenuRequest(bool /*checked*/)
 /******************************************************************************************************/
 void ImageItemView::resizeEvent(QResizeEvent *event)
 {
-    if(fitImageToWindow && imageLabel->pixmap())
+    bool hasPixmap;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    hasPixmap = !imageLabel->pixmap(Qt::ReturnByValue).isNull();
+#else
+    hasPixmap = imageLabel->pixmap() != nullptr;
+#endif
+
+
+    if(fitImageToWindow && hasPixmap)
     {
         zoomToFitWindow();
         return;
@@ -249,6 +281,14 @@ void ImageItemView::wheelEvent(QWheelEvent *event)
 {
     auto steps = event->angleDelta()/8/15;
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    auto ev_pos = event->position();
+#else
+    auto ev_pos = event->pos();
+#endif
+
+
+
     if(steps.isNull())
     {
         event->ignore();
@@ -257,17 +297,21 @@ void ImageItemView::wheelEvent(QWheelEvent *event)
 
     /* checking action state is not the best solution - improove! */
     if(steps.y() > 0 && zoomInAct->isEnabled())
-        scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_IN_STEP, event->pos());
+        scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_IN_STEP, ev_pos);
     else
         if(steps.y() < 0 && zoomOutAct->isEnabled())
-            scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_OUT_STEP, event->pos());
+            scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_OUT_STEP, ev_pos);
 
     event->accept();
 }
 /******************************************************************************************************/
 void ImageItemView::mouseDoubleClickEvent(QMouseEvent */*event*/)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    if(!imageLabel->pixmap(Qt::ReturnByValue).isNull())
+#else
     if(imageLabel->pixmap())
+#endif
     {
         if(fitImageToWindow)
             normalSize();
@@ -304,8 +348,16 @@ bool ImageItemView::event(QEvent *event)
 /******************************************************************************************************/
 void ImageItemView::mousePressEvent(QMouseEvent *event)
 {
+    bool imageHasPixmap;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    imageHasPixmap = !imageLabel->pixmap(Qt::ReturnByValue).isNull();
+#else
+    imageHasPixmap = imageLabel->pixmap() != nullptr;
+#endif
+
     if(event->buttons() | Qt::LeftButton
-            && imageLabel->pixmap()
+            && imageHasPixmap
             && !fitImageToWindow)
     {
         mouseEventInitPos = event->pos();

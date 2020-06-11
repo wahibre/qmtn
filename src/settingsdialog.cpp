@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QFileSystemModel>
 
 /******************************************************************************************************/
 SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
@@ -40,7 +41,13 @@ SettingsDialog::SettingsDialog(QWidget *parent, ProfileModel *model) :
     setWindowFlags(~(~windowFlags()|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint));
 
     QCompleter *completer = new QCompleter(this);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    completer->setModel(new QFileSystemModel(completer));
+#else
     completer->setModel(new QDirModel(completer));
+#endif
+
     ui->eOutputDir->setCompleter(completer);
 
     ui->lblMtnExe->setText(QString(MTN_EXE)+":");

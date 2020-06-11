@@ -54,7 +54,7 @@ public slots:
     void currentChanged(const QModelIndex &current, const QModelIndex &);
     void on_contextMenuRequest(bool);
 private:
-    void scaleImage(double factor, QPoint pointAt=QPoint());
+    void scaleImage(double factor, QPointF pointAt=QPointF());
     void zoomIn();
     void zoomOut();
     void zoomToFitWindow();
