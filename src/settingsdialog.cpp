@@ -278,7 +278,11 @@ void SettingsDialog::on_btnDelProfile_clicked()
 /******************************************************************************************************/
 void SettingsDialog::on_btnExport_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"));
+    auto currentSettings = settingsData();
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save File"),
+                                                    QString("%1.json").arg(currentSettings.settingsName),
+                                                    tr("JSON (*.json)"));
 
     if(!fileName.isEmpty())
     {
@@ -295,7 +299,9 @@ void SettingsDialog::on_btnExport_clicked()
 /******************************************************************************************************/
 void SettingsDialog::on_btnImport_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    QString(), //dir
+                                                    tr("JSON (*.json)"));
 
     if(!fileName.isEmpty())
     {
