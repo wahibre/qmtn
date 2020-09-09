@@ -1,6 +1,6 @@
 Name:		qmtn	
 Version: 	0.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
@@ -56,6 +56,16 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Fri Apr 03 2020 wahibre  <wahibre@gmx.com> - 0.5
+* Wed Sep 09 2020 wahibre  <wahibre@gmx.com> - 0.5
 - packaging Mageia
 - packaging CentOS
+- update to new version
+    Changelog:
+    * display images even when mtn returns warning
+    * add profile name to the statusbar
+    * add item "Refresh Thumbnail" to the menu and toolbar
+    * removed timeout for starting mtn
+    * add --cover option and custom arguments
+    * increased allowed value for disabling `Blank skip`
+    * add .json extension to export/import settings FileDialog
+    * fix decimal separator
