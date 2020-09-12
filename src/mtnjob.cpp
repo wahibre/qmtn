@@ -95,7 +95,7 @@ void MtnJob::run()
 QStringList MtnJob::createArguments()
 {
     QStringList args;
-    QLocale locale(QLocale::C);
+    QLocale locale;
     locale.setNumberOptions(locale.numberOptions() |= QLocale::OmitGroupSeparator);
 
     args                                            //         http://moviethumbnail.sourceforge.net/
