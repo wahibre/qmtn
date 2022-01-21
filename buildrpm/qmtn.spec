@@ -1,6 +1,6 @@
 Name:		qmtn	
 Version: 	0.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
@@ -31,7 +31,7 @@ Requires:		qt5-qtbase qt5-qtsvg
 %endif
 
 %description
-Movie thumbnail generator written in Qt5
+Movie thumbnail generator written in Qt5. It is a GUI frontend for mtn.
 
 %prep
 rm -rf ./*
@@ -56,11 +56,13 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Wed Sep 09 2020 wahibre  <wahibre@gmx.com> - 0.5
+* Fri Jan 21 2022 wahibre  <wahibre@gmx.com> - 0.5
 - packaging Mageia
 - packaging CentOS
 - update to new version
     Changelog:
+    * new menu item for removing items from sidebar
+    * multiselect enabled for removing and refreshing items
     * display images even when mtn returns warning
     * add profile name to the statusbar
     * add item "Refresh Thumbnail" to the menu and toolbar

@@ -49,6 +49,9 @@
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
           <property name="animated">
            <bool>true</bool>
           </property>
@@ -112,7 +115,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>247</width>
-                <height>250</height>
+                <height>253</height>
                </rect>
               </property>
              </widget>
@@ -165,7 +168,7 @@
      <x>0</x>
      <y>0</y>
      <width>541</width>
-     <height>19</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Edit">
@@ -184,6 +187,7 @@
     </property>
     <addaction name="actionOpenFile"/>
     <addaction name="actionOpenDirectory"/>
+    <addaction name="actionRemoveItemfromSidebar"/>
     <addaction name="actionRefreshThumbnail"/>
     <addaction name="action_Quit"/>
    </widget>
@@ -216,6 +220,7 @@
    </attribute>
    <addaction name="actionOpenFile"/>
    <addaction name="actionOpenDirectory"/>
+   <addaction name="actionRemoveItemfromSidebar"/>
    <addaction name="actionRefreshThumbnail"/>
    <addaction name="action_Settings"/>
    <addaction name="action_Quit"/>
@@ -255,7 +260,7 @@
   </action>
   <action name="actionOpenFile">
    <property name="text">
-    <string>Open File ...</string>
+    <string>Open &amp;File ...</string>
    </property>
    <property name="toolTip">
     <string>Open Video File</string>
@@ -266,7 +271,7 @@
   </action>
   <action name="actionOpenDirectory">
    <property name="text">
-    <string>Open Directory ...</string>
+    <string>Open &amp;Directory ...</string>
    </property>
    <property name="toolTip">
     <string>Open Directory containing Video Files</string>
@@ -332,6 +337,14 @@
    </property>
    <property name="toolTip">
     <string>Upload selected image to www.klikr.org</string>
+   </property>
+  </action>
+  <action name="actionRemoveItemfromSidebar">
+   <property name="text">
+    <string>Remove &amp;Item</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Item from Sidebar</string>
    </property>
   </action>
  </widget>

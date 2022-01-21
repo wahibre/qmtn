@@ -1,7 +1,5 @@
 /* Qt Movie Thumbnailer - movie screencast generator
 
-Copyright (C) 2017 wahibre <wahibre@gmx.com>
-
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -69,12 +67,12 @@ private slots:
     void toolbarContextMenuRequested(const QPoint &pos);
     void toggleToolbarLabels();
     void currentRowChanged(const QModelIndex &current, const QModelIndex &);
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void treeContextMenuRequest(const QPoint &pos);
     void treeItemDoubleClicked(const QModelIndex &selIndex);
     void treeOpenDirectory();
     void treeOpenMovie();
     void recreateThumbnail();
-    void recreateThumbnail(const QModelIndex idx);
     void changedProcessingItemsNumber(int delta);
     void openRecentFile();
 
@@ -88,6 +86,7 @@ private slots:
     void on_actionUploadToImagevenue_triggered();
     void on_actionUploadToImgaa_triggered();
     void on_actionUploadToKlikr_triggered();
+    void on_actionRemoveItemfromSidebar_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -112,6 +111,7 @@ private:
     void processUrls(QList<QUrl> urls);
     QString strippedName(const QString &fullFileName);
     void uploadImage(ImgUp *imgUp);
+    void updateActionState();
 };
 
 #endif // MAINWINDOW_H

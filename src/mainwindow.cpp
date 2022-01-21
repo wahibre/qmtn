@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionOpenDirectory->setIcon(IconProvider::folder());
     ui->actionOpenFile->setIcon(IconProvider::video());
     ui->actionRefreshThumbnail->setIcon(IconProvider::refresh());
+    ui->actionRemoveItemfromSidebar->setIcon(IconProvider::remove());
 
     videoExtensions << "3gp"  << "3g2"    << "asf"   << "avi" << "avs"  << "dat"  << "divx"
                     << "dsm"  << "evo"    << "flv"   << "m1v" << "m2ts" << "m2v"  << "m4a"
@@ -88,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->mainToolBar, &QToolBar::customContextMenuRequested, this, &MainWindow::toolbarContextMenuRequested);
     connect(ui->action_Quit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::currentRowChanged);
+    connect(ui->treeView->selectionModel(), &QItemSelectionModel::selectionChanged,  this, &MainWindow::selectionChanged);
     connect(ui->treeView, &QTreeView::customContextMenuRequested, this, &MainWindow::treeContextMenuRequest);
     connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::treeItemDoubleClicked);
     connect(worker, &MtnWorker::changedProcessingItemsNumber, this, &MainWindow::changedProcessingItemsNumber);
@@ -109,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createRecentFiles();
     createRecentMenu();
     refreshStatusBar();
+    updateActionState();
 }
 /******************************************************************************************************/
 MainWindow::~MainWindow()
@@ -156,12 +159,18 @@ void MainWindow::currentRowChanged(const QModelIndex &current, const QModelIndex
     ui->logText->setPlainText(log);
 }
 /******************************************************************************************************/
+void MainWindow::selectionChanged(const QItemSelection&, const QItemSelection&)
+{
+    updateActionState();
+}
+/******************************************************************************************************/
 void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
     treeContextMenu->addAction(IconProvider::folder(),  "Open &Directory",      this, SLOT(treeOpenDirectory()));
     treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),        Qt::Key_F3/*to generate hint*/);
+    treeContextMenu->addAction(ui->actionRemoveItemfromSidebar);
     treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
     treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
     treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
@@ -272,26 +281,6 @@ void MainWindow::treeOpenMovie()
         treeItemDoubleClicked(ui->treeView->currentIndex());
 }
 /******************************************************************************************************/
-void MainWindow::recreateThumbnail(const QModelIndex selIndex)
-{
-    QModelIndex pathCell = selIndex.sibling(
-                selIndex.row(),
-                columnItemNames::path       /* empty for directories */
-                );
-
-    // File Item
-    if(!pathCell.data().toString().isEmpty())
-        worker->enqueue(datamodel->itemFromIndex(selIndex.parent()), selIndex.row());
-    else
-    // Directory Item
-    {
-        int i=0;
-
-        while(selIndex.model()->hasIndex(i, 0))
-            recreateThumbnail(selIndex.model()->index(i++, 0, selIndex));
-    }
-}
-/******************************************************************************************************/
 void MainWindow::changedProcessingItemsNumber(int delta)
 {
     gardian.lock();
@@ -299,12 +288,45 @@ void MainWindow::changedProcessingItemsNumber(int delta)
     gardian.unlock();
 
     refreshStatusBar();
+    updateActionState();
 }
 /******************************************************************************************************/
 void MainWindow::recreateThumbnail()
 {
-    if(datamodel->rowCount()>0)
-        recreateThumbnail(ui->treeView->currentIndex());
+    auto selIdx = ui->treeView->selectionModel()->selectedRows();
+    QList<QModelIndex> refreshList;
+
+    foreach (auto ix, selIdx)
+    {
+        if(ix.parent().isValid())
+            refreshList.append(ix);
+        else
+        {
+            int i=0;
+            QModelIndex fileIx;
+
+            while( (fileIx = ix.model()->index(i++, 0, ix)).isValid())
+            {
+                if( !refreshList.contains(fileIx))
+                    refreshList.append(fileIx);
+            }
+        }
+    }
+
+    QModelIndex pathCell;
+
+    foreach(auto refreshIx, refreshList)
+    {
+        pathCell = refreshIx.sibling(
+                    refreshIx.row(),
+                    columnItemNames::path
+                    );
+
+        if(!pathCell.data().toString().isEmpty())
+            worker->enqueue(
+                        datamodel->itemFromIndex(refreshIx.parent()),
+                        refreshIx.row());
+    }
 }
 /******************************************************************************************************/
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -551,7 +573,7 @@ R"(
     </p>
     <p>
     <code>
-            Copyleft (C) 2017-2020 &lt;<a href=
+            2017-2022 &lt;<a href=
 )"
 
 +QString("\"mailto:wahibre@gmx.com?Subject=%1\"").arg(windowTitle().toHtmlEscaped())+
@@ -589,6 +611,21 @@ void MainWindow::on_actionRefreshThumbnail_triggered()
 {
     recreateThumbnail();
 }
+/*****************************************************************************************************/
+void MainWindow::on_actionRemoveItemfromSidebar_triggered()
+{
+    auto treeModel = ui->treeView->model();
+    auto selRows = ui->treeView->selectionModel()->selectedRows();
+    QList<QModelIndex>::reverse_iterator sel;
+
+    for (sel = selRows.rbegin(); sel != selRows.rend(); sel++)
+    {
+        treeModel->removeRow(sel->row(), sel->parent());
+
+        if(sel->parent().isValid() && !treeModel->index(0, 0, sel->parent()).isValid())
+            treeModel->removeRow(sel->parent().row());
+    }
+}
 /******************************************************************************************************/
 void MainWindow::uploadImage(ImgUp *imgUp)
 {
@@ -604,7 +641,7 @@ void MainWindow::uploadImage(ImgUp *imgUp)
         if(!imageFileName.isEmpty())
         {
             imgUp->setImagePath(imageFileName);
-            if(QMessageBox::question(this, tr("Question"), tr("Dou you want to upload file '%1' to '%2'?").arg(imageFileName).arg(imgUp->hostName())) == QMessageBox::Yes)
+            if(QMessageBox::question(this, tr("Question"), tr("Dou you want to upload file '%1' to '%2'?").arg(imageFileName, imgUp->hostName())) == QMessageBox::Yes)
                 imgUp->upload();
         }
         else
@@ -612,6 +649,19 @@ void MainWindow::uploadImage(ImgUp *imgUp)
     }
     else
         QMessageBox::information(this, tr("Information"), tr("Nothing to upload"));
+}
+
+/******************************************************************************************************/
+void MainWindow::updateActionState()
+{
+    bool allowed = (
+        ui->treeView->selectionModel()->selectedIndexes().count() > 0
+        &&
+        processingItems == 0
+    );
+
+    ui->actionRemoveItemfromSidebar->setEnabled(allowed);
+    ui->actionRefreshThumbnail->setEnabled(allowed);
 }
 /******************************************************************************************************/
 void MainWindow::on_actionUploadToImgaa_triggered()
