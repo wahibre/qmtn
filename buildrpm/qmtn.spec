@@ -1,6 +1,6 @@
 Name:		qmtn	
 Version: 	0.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
@@ -71,3 +71,4 @@ rm -rf *
     * increased allowed value for disabling `Blank skip`
     * add .json extension to export/import settings FileDialog
     * fix decimal separator
+    * fix timestamp location

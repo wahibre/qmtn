@@ -165,10 +165,12 @@ QStringList MtnJob::createArguments()
     args << "-k" << color2hex(m_sett.background);   //    -k RRGGBB : background color (in hex)
 
 
-    if(m_sett.fontInfoLocation >= 0)                //    -L info_location[:time_location] : location of text
-    {                                               //       1=lower left, 2=lower right, 3=upper right, 4=upper left
-        QString location;
-        location = QString::number(m_sett.fontInfoLocation+1);
+    if(m_sett.fontInfoLocation >= 0 || m_sett.fontTimeLocation >= 0)
+    {                                               //    -L info_location[:time_location] : location of text
+        QString location;                           //       1=lower left, 2=lower right, 3=upper right, 4=upper left
+        const int L_DEFAULT_INFOTEXT = 4;
+
+        location = QString::number(m_sett.fontInfoLocation >= 0 ? m_sett.fontInfoLocation+1 : L_DEFAULT_INFOTEXT);
 
         if(m_sett.fontTimeLocation >= 0)
             location += ":"+QString::number(m_sett.fontTimeLocation+1);
@@ -178,11 +180,11 @@ QStringList MtnJob::createArguments()
                                                     //    -N info_suffix : save info text to a file with suffix
 
     if(!m_sett.suffix.isEmpty())
-        args << "-o" << m_sett.suffix;                                      //    -o _s.jpg : output suffix
+        args << "-o" << m_sett.suffix;              //    -o _s.jpg : output suffix
     if(!m_sett.output_directory.isEmpty())
-        args << "-O" << m_sett.output_directory;     //    -O directory : save output files in the specified directory
+        args << "-O" << m_sett.output_directory;    //    -O directory : save output files in the specified directory
 
-    if(m_sett.step>0)                                                       //    -s 120 : time step between each shot
+    if(m_sett.step>0)                               //    -s 120 : time step between each shot
         args << "-s" << QString::number(m_sett.step);
 
     if(!m_sett.timestamp)                           //    -t : time stamp off
