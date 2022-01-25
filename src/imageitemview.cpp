@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWheelEvent>
 #include <QGuiApplication>
 #include <QLayout>
-//#include <QDebug>
 
 #include "imageitemview.h"
 #include "iconprovider.h"
@@ -106,8 +105,9 @@ void ImageItemView::scaleImage(double factor, QPointF pointAt)
     imageSize = imageLabel->pixmap()->size();
 #endif
 
-
     scaleFactor *= factor;
+    scaleFactor = qMin(scaleFactor, MAXIMUM_ZOOM_FACTOR);
+    scaleFactor = qMax(scaleFactor, MINIMUM_ZOOM_FACTOR);
 
     QGuiApplication::setOverrideCursor(Qt::WaitCursor);
     imageLabel->resize(scaleFactor * imageSize);
@@ -120,14 +120,15 @@ void ImageItemView::scaleImage(double factor, QPointF pointAt)
         factorY = (double)pointAt.y() / (double)height();
     }
     else
-    /** middle of the image */
+        /** middle of the image */
         factorX=factorY=0.5;
 
     adjustScrollBar(horizontalScrollBar(), factor, factorX);
     adjustScrollBar(verticalScrollBar(), factor, factorY);
 
-    zoomInAct->setEnabled(scaleFactor < 3.0);
-    zoomOutAct->setEnabled(scaleFactor > 0.2);
+    zoomInAct->setEnabled(scaleFactor < MAXIMUM_ZOOM_FACTOR);
+    zoomOutAct->setEnabled(scaleFactor > MINIMUM_ZOOM_FACTOR);
+
     QGuiApplication::restoreOverrideCursor();
 }
 /******************************************************************************************************/
@@ -287,15 +288,13 @@ void ImageItemView::wheelEvent(QWheelEvent *event)
     auto ev_pos = event->pos();
 #endif
 
-
-
     if(steps.isNull())
     {
         event->ignore();
         return;
     }
 
-    /* checking action state is not the best solution - improove! */
+    /* checking action state is not the best solution - improve! */
     if(steps.y() > 0 && zoomInAct->isEnabled())
         scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_IN_STEP, ev_pos);
     else

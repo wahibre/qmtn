@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 rm -rf *
 
 %changelog
-* Fri Jan 21 2022 wahibre  <wahibre@gmx.com> - 0.5
+* Tue Jan 25 2022 wahibre  <wahibre@gmx.com> - 0.5
 - packaging Mageia
 - packaging CentOS
 - update to new version
@@ -72,3 +72,4 @@ rm -rf *
     * add .json extension to export/import settings FileDialog
     * fix decimal separator
     * fix timestamp location
+    * fix error while zooming out
