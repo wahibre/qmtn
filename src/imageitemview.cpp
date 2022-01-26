@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWheelEvent>
 #include <QGuiApplication>
 #include <QLayout>
+#include <QtMath>
 
 #include "imageitemview.h"
 #include "iconprovider.h"
@@ -105,11 +106,12 @@ void ImageItemView::scaleImage(double factor, QPointF pointAt)
     imageSize = imageLabel->pixmap()->size();
 #endif
 
+    double oldScaleFactor = scaleFactor;
+
     scaleFactor *= factor;
     scaleFactor = qMin(scaleFactor, MAXIMUM_ZOOM_FACTOR);
     scaleFactor = qMax(scaleFactor, MINIMUM_ZOOM_FACTOR);
 
-    QGuiApplication::setOverrideCursor(Qt::WaitCursor);
     imageLabel->resize(scaleFactor * imageSize);
     fitImageToWindow = false;
 
@@ -123,13 +125,11 @@ void ImageItemView::scaleImage(double factor, QPointF pointAt)
         /** middle of the image */
         factorX=factorY=0.5;
 
-    adjustScrollBar(horizontalScrollBar(), factor, factorX);
-    adjustScrollBar(verticalScrollBar(), factor, factorY);
+    adjustScrollBar(horizontalScrollBar(), scaleFactor/oldScaleFactor, factorX);
+    adjustScrollBar(verticalScrollBar(), scaleFactor/oldScaleFactor, factorY);
 
     zoomInAct->setEnabled(scaleFactor < MAXIMUM_ZOOM_FACTOR);
     zoomOutAct->setEnabled(scaleFactor > MINIMUM_ZOOM_FACTOR);
-
-    QGuiApplication::restoreOverrideCursor();
 }
 /******************************************************************************************************/
 QString ImageItemView::imagePath() const
@@ -139,12 +139,12 @@ QString ImageItemView::imagePath() const
 /******************************************************************************************************/
 void ImageItemView::zoomIn()
 {
-    scaleImage(DEFAULT_ZOOM_IN_STEP);
+    scaleImage(DEFAULT_ZOOM_IN_FACTOR);
 }
 /******************************************************************************************************/
 void ImageItemView::zoomOut()
 {
-    scaleImage(DEFAULT_ZOOM_OUT_STEP);
+    scaleImage(DEFAULT_ZOOM_OUT_FACTOR);
 }
 /******************************************************************************************************/
 void ImageItemView::normalSize()
@@ -168,9 +168,11 @@ void ImageItemView::zoomToFitWindow()
     imageSize = imageLabel->pixmap()->size();
 #endif
 
+    int oldWidth = imageSize.width();
+
     imageSize.scale(width()-2, height()-2, Qt::KeepAspectRatio);
     imageLabel->resize(imageSize);
-    scaleFactor = ((double)imageSize.height() / (double)imageSize.height());
+    scaleFactor = ((double)imageSize.width() / (double)oldWidth);
     fitImageToWindow = true;
 }
 /******************************************************************************************************/
@@ -231,7 +233,6 @@ void ImageItemView::currentChanged(const QModelIndex &current, const QModelIndex
         {
             imageLabel->setPixmap(pix);
             zoomToFitWindow();
-            fitImageToWindow = true;
         }
         else
         {
@@ -295,11 +296,11 @@ void ImageItemView::wheelEvent(QWheelEvent *event)
     }
 
     /* checking action state is not the best solution - improve! */
-    if(steps.y() > 0 && zoomInAct->isEnabled())
-        scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_IN_STEP, ev_pos);
+    if(steps.y() > 0)
+        scaleImage(qPow(DEFAULT_ZOOM_IN_FACTOR, qAbs(steps.y())), ev_pos);
     else
-        if(steps.y() < 0 && zoomOutAct->isEnabled())
-            scaleImage(qAbs(steps.y()) * DEFAULT_ZOOM_OUT_STEP, ev_pos);
+        if(steps.y() < 0)
+            scaleImage(qPow(DEFAULT_ZOOM_OUT_FACTOR, qAbs(steps.y())), ev_pos);
 
     event->accept();
 }

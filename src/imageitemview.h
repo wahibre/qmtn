@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTreeView>
 #include <QScrollArea>
 
-#define DEFAULT_ZOOM_IN_STEP  1.25
-#define DEFAULT_ZOOM_OUT_STEP 0.8
+#define DEFAULT_ZOOM_IN_FACTOR  1.25
+#define DEFAULT_ZOOM_OUT_FACTOR 0.8
 #define MAXIMUM_ZOOM_FACTOR 3.0
 #define MINIMUM_ZOOM_FACTOR 0.2
 
