@@ -59,6 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define REG_MTN                 "mtn"
 #define REG_MAXDIRDEPTH         "max_dir_depth"
+#define REG_TIMEOUT             "timeout"
 #define REG_SETTINGSNAME        "settings_name"
 
 #ifdef Q_OS_WIN
@@ -89,6 +90,7 @@ struct SettingsData
 
     /* qmtn extra */
     QString settingsName, executable;
+    int timeout;
     int max_dir_depth;
 
     SettingsData(void);

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>883</width>
-    <height>468</height>
+    <height>469</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -87,7 +87,7 @@
             <string notr="true"/>
            </property>
            <property name="title">
-            <string>Setting</string>
+            <string>Settings</string>
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <property name="leftMargin">
@@ -105,22 +105,6 @@
             <property name="spacing">
              <number>5</number>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="lblProfile">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Profile:</string>
-              </property>
-              <property name="buddy">
-               <cstring>profilesComboBox</cstring>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="lblMtnExe">
               <property name="text">
@@ -130,9 +114,6 @@
                <cstring>eMtnSelector</cstring>
               </property>
              </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="FileSelector" name="eMtnSelector" native="true"/>
             </item>
             <item row="0" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,0,0">
@@ -211,6 +192,57 @@
                </widget>
               </item>
              </layout>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="lblProfile">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Profile:</string>
+              </property>
+              <property name="buddy">
+               <cstring>profilesComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="FileSelector" name="eMtnSelector" native="true"/>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSpinBox" name="sbTimeout">
+              <property name="toolTip">
+               <string>Timeout for executing mtn.exe (0 to disable timeout)</string>
+              </property>
+              <property name="specialValueText">
+               <string>off</string>
+              </property>
+              <property name="showGroupSeparator" stdset="0">
+               <bool>true</bool>
+              </property>
+              <property name="suffix">
+               <string>s</string>
+              </property>
+              <property name="maximum">
+               <number>999999999</number>
+              </property>
+              <property name="value">
+               <number>60</number>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="lblTimeout">
+              <property name="text">
+               <string>Timeout:</string>
+              </property>
+              <property name="buddy">
+               <cstring>sbTimeout</cstring>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -335,6 +367,9 @@
                  <widget class="QSpinBox" name="sbGap">
                   <property name="toolTip">
                    <string>-g 0 : gap between each shot</string>
+                  </property>
+                  <property name="specialValueText">
+                   <string>off</string>
                   </property>
                   <property name="suffix">
                    <string>px</string>
@@ -485,7 +520,10 @@
                 <item row="1" column="1">
                  <widget class="QSpinBox" name="sbEdgeDetect">
                   <property name="toolTip">
-                   <string>-D 12 : edge detection; 0:off &gt;0:on; higher detects more; try -D4 -D6 or -D8</string>
+                   <string>-D 12 : edge detection; 0:off &gt;0:on; higher detects more; try 4 6 or 8</string>
+                  </property>
+                  <property name="specialValueText">
+                   <string>off</string>
                   </property>
                   <property name="maximum">
                    <number>12</number>
@@ -1469,6 +1507,7 @@ QPushButton#btnTimeShadow
   <tabstop>profilesComboBox</tabstop>
   <tabstop>btnAddProfile</tabstop>
   <tabstop>btnDelProfile</tabstop>
+  <tabstop>sbTimeout</tabstop>
   <tabstop>sbColumns</tabstop>
   <tabstop>sbRows</tabstop>
   <tabstop>sbWidth</tabstop>
@@ -1515,8 +1554,8 @@ QPushButton#btnTimeShadow
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>876</x>
-     <y>458</y>
+     <x>875</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1531,8 +1570,8 @@ QPushButton#btnTimeShadow
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>876</x>
-     <y>458</y>
+     <x>875</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

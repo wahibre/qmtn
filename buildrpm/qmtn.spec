@@ -62,14 +62,16 @@ rm -rf *
 - update to new version
     Changelog:
     * new menu item for removing items from sidebar
+    * new menu item "Refresh Thumbnail"
+    * added --cover option in settings dialog
+    * added timeout option in settings dialog
+    * added custom MTN arguments in settings dialog
+    * added .json extension to export/import settings FileDialog
     * multiselect enabled for removing and refreshing items
     * display images even when mtn returns warning
-    * add profile name to the statusbar
-    * add item "Refresh Thumbnail" to the menu and toolbar
+    * profile name has been added to the statusbar
     * removed timeout for starting mtn
-    * add --cover option and custom arguments
     * increased allowed value for disabling `Blank skip`
-    * add .json extension to export/import settings FileDialog
     * fix decimal separator
     * fix timestamp location
-    * fix error while zooming out
+    * fix zooming out image

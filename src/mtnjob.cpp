@@ -70,7 +70,9 @@ void MtnJob::run()
         outlog += mtn.arguments().join(' ')+ " \n\n";
         outlog += timeString("*** Result ****\n\n");
 
-        if(mtn.waitForFinished(WAIT_FINISHTIMEOUT))
+        int mtnTimeout = m_sett.timeout > 0 ? m_sett.timeout * 1000 : -1;
+
+        if(mtn.waitForFinished(mtnTimeout))
         {
             outlog += QString(mtn.readAll()).trimmed();
 

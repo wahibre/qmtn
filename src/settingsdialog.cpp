@@ -96,7 +96,7 @@ SettingsData SettingsDialog::settingsData()
     data.infotext         = ui->groupInfotext->isChecked();
     data.timestamp        = ui->groupTimestamp->isChecked();
 
-    // color are set in pushbuttons callback metods
+    // color is set in pushbuttons callback metods
     data.background       = m_data.background;
     data.foreground       = m_data.foreground;
     data.timecolor        = m_data.timecolor;
@@ -111,8 +111,9 @@ SettingsData SettingsDialog::settingsData()
 
     data.additional         = ui->eAdditional->text();
 
-    data.executable       = ui->eMtnSelector->text();
-    data.max_dir_depth    = ui->sbDepth->value();
+    data.executable         = ui->eMtnSelector->text();
+    data.max_dir_depth      = ui->sbDepth->value();
+    data.timeout            = ui->sbTimeout->value();
     data.settingsName       = ui->profilesComboBox->currentText();
 
     return data;
@@ -162,6 +163,7 @@ void SettingsDialog::setSettingsData(SettingsData data)
 
     ui->eMtnSelector->setText(data.executable);
     ui->sbDepth->setValue(data.max_dir_depth);
+    ui->sbTimeout->setValue(data.timeout);
 }
 /******************************************************************************************************/
 void SettingsDialog::on_btnOutputDir_clicked()

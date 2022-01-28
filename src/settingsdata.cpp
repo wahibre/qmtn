@@ -70,6 +70,7 @@ SettingsData::SettingsData(QJsonObject obj)
 
     /// qmtn settings
     max_dir_depth       = obj[REG_MAXDIRDEPTH       ].toInt(10);
+    timeout             = obj[REG_TIMEOUT           ].toInt(60);
     executable          = obj[REG_MTN               ].toString(findExecutableMtn()); //mtn not searched if exists in file and is empty
 
     if(executable.isEmpty()) //empty in file
@@ -122,7 +123,8 @@ QJsonObject SettingsData::toJsonObject()
         {REG_ADDITIONAL,        additional      },
 
         {REG_MTN,               executable      },
-        {REG_MAXDIRDEPTH,       max_dir_depth   }
+        {REG_MAXDIRDEPTH,       max_dir_depth   },
+        {REG_TIMEOUT,           timeout         }
     };
 
     return o;
