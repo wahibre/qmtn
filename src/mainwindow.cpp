@@ -105,7 +105,25 @@ MainWindow::MainWindow(QWidget *parent) :
                 static_cast<Qt::ToolButtonStyle>(s.value("mainform/toolbarlabels", Qt::ToolButtonTextBesideIcon).toInt()));
 
 
-    ui->actionUploadToImgmi->setVisible(false); // protected by cloudflare
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+
+    bool envIsSet = false;
+    int envImgUpload = 0;
+
+    envImgUpload = qEnvironmentVariableIntValue("QMTN_ENABLE_IMG_UPLOAD", &envIsSet);
+
+    bool imgUploadEnabled = (envIsSet && envImgUpload == 1);
+#else
+    bool imgUploadEnabled = false;
+#endif
+
+    if(imgUploadEnabled)
+    {
+        ui->actionUploadToImagevenue->setVisible(true);
+        ui->actionUploadToImgaa->setVisible(true);
+        ui->actionUploadToKlikr->setVisible(true);
+        //ui->actionUploadToImgmi->setVisible(false); // protected by cloudflare
+    }
 
     createStatusBarWidgets();
     createRecentFiles();
@@ -568,7 +586,6 @@ R"(
             <li>Recreate image with new settings</li>
             <li>Settings for managing mtn switches</li>
             <li>Extracting album art</li>
-            <li>Upload image to Imagevenue.com, Imgaa.com, Klikr.org</li>
         </ul>
     </p>
     <p>

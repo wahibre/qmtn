@@ -302,6 +302,9 @@
    <property name="toolTip">
     <string>Upload selected image to www.imgmi.com</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionUploadToImagevenue">
    <property name="icon">
@@ -313,6 +316,9 @@
    </property>
    <property name="toolTip">
     <string>Upload selected image to www.imagevenue.com</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionUploadToImgaa">
@@ -326,6 +332,9 @@
    <property name="toolTip">
     <string>Upload selected image to www.imgaa.com</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionUploadToKlikr">
    <property name="icon">
@@ -337,6 +346,9 @@
    </property>
    <property name="toolTip">
     <string>Upload selected image to www.klikr.org</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionRemoveItemfromSidebar">

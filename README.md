@@ -15,7 +15,6 @@ Features:
 - Managing mtn switches
 - Settings profiles
 - Extracting album art
-- Upload image to Imagevenue.com, Imgaa.com, Klikr.org
 
 
 Dependencies
