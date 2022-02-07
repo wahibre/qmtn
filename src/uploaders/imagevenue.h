@@ -25,6 +25,7 @@ namespace imguploader {
 class Imagevenue;
 }
 
+/* OBSOLETE */
 class Imagevenue: public ImgUp
 {
     Q_OBJECT

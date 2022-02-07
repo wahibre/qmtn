@@ -34,7 +34,7 @@ FileSelector::FileSelector(QWidget *parent):QWidget(parent)
     edit->setReadOnly(true);    
 
     button->setMaximumWidth(32);
-    button->setToolTip(tr(OPENFILETOOLTIP));
+    button->setToolTip(tr("Open File"));
 
     l->addWidget(edit);
     l->addWidget(button);
@@ -44,7 +44,7 @@ FileSelector::FileSelector(QWidget *parent):QWidget(parent)
 
 void FileSelector::buttonClicked(bool /*checked*/)
 {
-    QString novyText = QFileDialog::getOpenFileName(this, tr(OPENFILETOOLTIP), text());
+    QString novyText = QFileDialog::getOpenFileName(this, tr("Open File"), text());
 
     if(!novyText.isEmpty())
     {

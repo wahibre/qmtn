@@ -58,7 +58,7 @@ QString ProfileModel::getSettingsFileName()
         return settfileinfo.absoluteFilePath();
     }
     else
-        qCritical() << QObject::tr("Cannot find DataLocation and thus store settigns!");
+        qCritical() << QObject::tr("Cannot find DataLocation and thus store settings!");
 
     return QString();
 }

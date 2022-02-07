@@ -186,12 +186,12 @@ void MainWindow::treeContextMenuRequest(const QPoint &pos)
 {
     auto treeContextMenu = new QMenu(this);
 
-    treeContextMenu->addAction(IconProvider::folder(),  "Open &Directory",      this, SLOT(treeOpenDirectory()));
-    treeContextMenu->addAction(IconProvider::video(),   "Open &Movie",          this, SLOT(treeOpenMovie()),        Qt::Key_F3/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::folder(),  tr("Open &Directory"),      this, SLOT(treeOpenDirectory()));
+    treeContextMenu->addAction(IconProvider::video(),   tr("Open &Movie"),          this, SLOT(treeOpenMovie()),        Qt::Key_F3/*to generate hint*/);
     treeContextMenu->addAction(ui->actionRemoveItemfromSidebar);
-    treeContextMenu->addAction(IconProvider::zoomIn(),  "&Expand all",          ui->treeView, SLOT(expandAll())     );
-    treeContextMenu->addAction(IconProvider::zoomOut(), "&Collapse all",        ui->treeView, SLOT(collapseAll())   );
-    treeContextMenu->addAction(IconProvider::refresh(), "&Recreate Thumbnail",  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
+    treeContextMenu->addAction(IconProvider::zoomIn(),  tr("&Expand all"),          ui->treeView, SLOT(expandAll())     );
+    treeContextMenu->addAction(IconProvider::zoomOut(), tr("&Collapse all"),        ui->treeView, SLOT(collapseAll())   );
+    treeContextMenu->addAction(IconProvider::refresh(), tr("&Recreate Thumbnail"),  this, SLOT(recreateThumbnail()),    Qt::Key_F5/*to generate hint*/);
     if(ui->actionUploadToImgaa->isVisible())
         treeContextMenu->addAction(ui->actionUploadToImgaa);
     if(ui->actionUploadToImgmi->isVisible())
@@ -512,7 +512,7 @@ void MainWindow::createStatusBarWidgets()
 
     sItemsCnt = new QLabel(s);
 
-    sOverwrite = new QCheckBox("Overwrite:", s);
+    sOverwrite = new QCheckBox(QString("%1:").arg(tr("Overwrite")), s);
     sOverwrite->setLayoutDirection(Qt::RightToLeft);
     sOverwrite->setAttribute(Qt::WA_TransparentForMouseEvents);
     sOverwrite->setFocusPolicy(Qt::NoFocus);
@@ -531,19 +531,19 @@ void MainWindow::refreshStatusBar()
 {
     auto d = profileModel->getCurrentSettingsData();
 
-    sProfile->setText(QString("Profile: %1 |").arg(d.settingsName));
-    sColumns->setText(QString("Columns: %1 |").arg(d.columns));
+    sProfile->setText(QString("%1: %2 |").arg(tr("Profile"),d.settingsName));
+    sColumns->setText(QString("%1: %2 |").arg(tr("Columns"), QString::number(d.columns)));
 
-    sStep->setText(QString("Step: %1s |").arg(d.step));
+    sStep->setText(QString("%1: %2s |").arg(tr("Step")).arg(QString::number(d.step)));
     sStep->setVisible(d.rows<=0);
 
-    sRows->setText(QString("Rows: %1 |").arg(d.rows));
+    sRows->setText(QString("%1: %2 |").arg(tr("Rows")).arg(d.rows));
     sRows->setVisible(d.rows>0);
 
-    sOutput->setText(QString("Output: %1 |").arg(d.output_directory));
+    sOutput->setText(QString("%1: %2 |").arg(tr("Output"), d.output_directory));
     sOutput->setHidden(d.output_directory.isEmpty());
 
-    sSuffix->setText(QString("Suffix: %1 |").arg(d.suffix));
+    sSuffix->setText(QString("%1: %2 |").arg(tr("Suffix"), d.suffix));
     sSuffix->setHidden(d.suffix.isEmpty());
 
     sOverwrite->setChecked(d.overwrite);
@@ -551,7 +551,7 @@ void MainWindow::refreshStatusBar()
     if(processingItems == 0)
         sItemsCnt->clear();
     else
-        sItemsCnt->setText(tr("Processing items: %1").arg(processingItems));
+        sItemsCnt->setText(QString("%1: %2").arg(tr("Processing items")).arg(processingItems));
 }
 /******************************************************************************************************/
 void MainWindow::on_action_Settings_triggered()
@@ -566,12 +566,12 @@ void MainWindow::on_action_Settings_triggered()
 /******************************************************************************************************/
 void MainWindow::on_actionAboutQt_triggered()
 {
-    QMessageBox::aboutQt(this, "About Qt");
+    QMessageBox::aboutQt(this, tr("About Qt"));
 }
 /******************************************************************************************************/
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "About...",
+    QMessageBox::about(this, tr("About..."),
 R"(
 <html>
     <p>Movie Thumbnailer for creating thumbnails is frontend of CLI <a href="https://gitlab.com/movie_thumbnailer/mtn/wikis/home/">mtn</a>.</p>
@@ -714,7 +714,7 @@ void MainWindow::updateRecentFileActions()
     int numRecentFiles = qMin(recentFiles.size(), maxRecentFiles);
 
     for (int i = 0; i < numRecentFiles; ++i) {
-        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(recentFiles[i]));
+        QString text = QString("&%1 %2").arg(i + 1).arg(strippedName(recentFiles[i]));
         recentFileActs[i]->setText(text);
         recentFileActs[i]->setData(recentFiles[i]);
         recentFileActs[i]->setVisible(true);

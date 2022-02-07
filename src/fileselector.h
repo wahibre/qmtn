@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLineEdit>
 #include <QPushButton>
 
-#define OPENFILETOOLTIP "Open File"
-
 class FileSelector : public QWidget
 {
     Q_OBJECT

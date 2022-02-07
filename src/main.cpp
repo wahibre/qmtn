@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSettings>
 #include <QDateTime>
 #include <iostream>
+#include <QTranslator>
 
 void stdoutMessageOutput(QtMsgType type, const QMessageLogContext &/*context*/, const QString &msg)
 {
@@ -58,6 +59,14 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Qt Movie Thumbnailer");
 //    QCoreApplication::setApplicationVersion(VERZIA);
     QCoreApplication::setQuitLockEnabled(true);
+
+    auto lang = QLocale::system().name();
+    if(lang.left(2) == "sk")
+    {
+        auto trans = new QTranslator();
+        if(trans->load(":lang/sk.qm"))
+            a.installTranslator(trans);
+    }
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
 

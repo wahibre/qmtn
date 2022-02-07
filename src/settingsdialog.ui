@@ -464,7 +464,10 @@
                 <item row="8" column="1">
                  <widget class="QSpinBox" name="sbShadow">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--shadow=N&lt;/p&gt;&lt;p&gt;draws hadows beneath thumbnails with radius N pixels if N&amp;gt;0;&lt;/p&gt;&lt;p&gt;Radius is computed if N=0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;--shadow=N&lt;/p&gt;&lt;p&gt;draws shadows beneath thumbnails with radius N pixels if N&amp;gt;0;&lt;/p&gt;&lt;p&gt;Radius is computed if N=0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="specialValueText">
+                   <string>off</string>
                   </property>
                   <property name="suffix">
                    <string>px</string>
@@ -481,6 +484,9 @@
                  <widget class="QLineEdit" name="coverLineEdit">
                   <property name="toolTip">
                    <string>--cover: Extract album art</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>_cover.jpg</string>
                   </property>
                   <property name="clearButtonEnabled">
                    <bool>true</bool>

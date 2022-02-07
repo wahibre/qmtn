@@ -26,5 +26,6 @@
         <file>../icons/warning.svg</file>
         <file>../icons/imggmi.png</file>
         <file>../icons/imagevenue.png</file>
+        <file>../lang/sk.qm</file>
     </qresource>
 </RCC>
