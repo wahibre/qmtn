@@ -6,6 +6,7 @@ GUI Thumbnail Generator Using CLI [mtn](https://gitlab.com/movie_thumbnailer/mtn
 Aplication focuses on quick thumbnails-grid creating using drag&drop.
 
 Features:
+
 - Drag&drop files and folders
 - Recursive search for movie files
 - Instant image making in background

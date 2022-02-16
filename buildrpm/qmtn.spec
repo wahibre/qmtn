@@ -1,6 +1,6 @@
 Name:		qmtn	
-Version: 	0.4
-Release:	5%{?dist}
+Version: 	0.5
+Release:	1%{?dist}
 Summary:	Qt Movie thumbnailer
 
 Group:		Amusements/Graphics
@@ -59,7 +59,7 @@ rm -rf *
 * Tue Jan 25 2022 wahibre  <wahibre@gmx.com> - 0.5
 - packaging Mageia
 - packaging CentOS
-- update to new version
+- update to version 0.5
     Changelog:
     * new menu item for removing items from sidebar
     * new menu item "Refresh Thumbnail"
@@ -72,6 +72,5 @@ rm -rf *
     * profile name has been added to the statusbar
     * removed timeout for starting mtn
     * increased allowed value for disabling `Blank skip`
-    * fix decimal separator
     * fix timestamp location
     * fix zooming out image

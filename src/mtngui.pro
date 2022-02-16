@@ -78,6 +78,7 @@ OTHER_FILES += \
 DISTFILES += \
     ../buildrpm/qmtn.spec \
     ../assets/qmtn_create_setup.iss \
-    ../README.md
+    ../README.md \
+    ../debian/changelog
 
 TRANSLATIONS = ../lang/sk.ts
